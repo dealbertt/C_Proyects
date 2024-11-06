@@ -1,0 +1,7 @@
+Welcome to a repo with a bunch of different C Proyects!
+The aim of this repo is to improve my skills and explore different fields
+
+List of Proyects:
+
+1- Json Parser 
+    -Needs to be optimized and implement the array struct
