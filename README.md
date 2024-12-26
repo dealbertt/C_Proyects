@@ -1,6 +1,6 @@
 Welcome to a repo with a bunch of different C Proyects!
 The aim of this repo is to improve my skills and explore different fields
-
+(This repo has been abandonded, although i plan to come back in the future and improve (or finish) the projects that are in this repo, but i dont promise anything)
 List of Proyects:
 1- Json Parser 
     -Needs to be optimized and implement the array struct
