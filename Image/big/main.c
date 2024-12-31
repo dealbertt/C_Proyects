@@ -5,17 +5,59 @@
 #define WIDTH 1920
 #define HEIGHT 1080
 #define MAX_COLOR 255
+#define clear() printf("\033[H\033[J")
+
+//Read all the files in the folder
+//input the user to introduce the name for the file they want to create
 
 
 void paintFlag(FILE *ptr);
 void printHeader(FILE *ptr);
 void grayScale();
+int Menu();
 
 int main(){
     FILE *ptr = fopen(NAME,"w");
-    paintFlag(ptr);
-    grayScale();
+    int option = 0;
+    while(option != 4){
+        option = Menu();
+        switch (option) {
+            case 1: 
+                clear();
+                //Create a new image
+                //paintFlag(ptr);
+                break;
+
+            case 2:
+                clear();
+                //Apply Gray Scale
+                grayScale();
+                break;
+
+            case 3:
+                clear();
+                //Invert Colors
+                break;
+        }
+    }
     return 0;
+}
+int Menu(){
+    int option = 4;
+    printf("-------------\n");
+    printf("Welcome to an Image Processor CLI\n");
+    printf("1. Create new image (Spanish flag by default)\n");
+    printf("2. Apply Gray Scale to an existing image\n");
+    printf("3. Invert Colors\n");
+    printf("4. Exit\n");
+    printf("-------------\n");
+    do{
+        printf("Please introduce a number between 1 and 4\n");
+        scanf("%d",&option);
+
+    }while(option > 4 || option < 1);
+
+    return option;
 }
 void paintFlag(FILE *ptr){
     int color[3] = {255,0,0};
