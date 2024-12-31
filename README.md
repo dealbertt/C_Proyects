@@ -5,3 +5,8 @@ List of Proyects:
 
 1- Json Parser 
     -Needs to be optimized and implement the array struct
+
+2- Image Proccessor
+    -List the files in the working directory
+    -Let the user choose the name of the file
+        -Maybe work around sanitizing the inputs
