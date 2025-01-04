@@ -1,8 +1,11 @@
 #include "paint.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <dirent.h>
+
 #define clear() printf("\033[H\033[J")
-#define MAX_SIZE 50
+#define MAX_SIZE 50 //max size for the name of the file
 int paintMenu(){
     int option = 3;
     printf("------------\n");
@@ -18,9 +21,11 @@ int paintMenu(){
 
 void paintFlag(int width,int heigth,int max_color){
     int color[3] = {255,0,0};
-    clear();
     char file_name[15];
-    char *name = getFileName();
+    char *name;
+    if((name = getFileName()) == NULL){
+        return;
+    }
     FILE *ptr_new = fopen(name,"w");
     printHeader(ptr_new,width,heigth,max_color);
     for(int i = 0; i < width; i ++){
@@ -32,9 +37,9 @@ void paintFlag(int width,int heigth,int max_color){
             }
             fprintf(ptr_new,"%d %d %d    ",color[0],color[1],color[2]);
         }
-
         fprintf(ptr_new,"\n");
     }
+    printf("File with name %s has been created succesfully\n",name);
     return;
 }
 
@@ -48,5 +53,31 @@ char *getFileName(){
     char *name = (char *) malloc(MAX_SIZE * sizeof(char));
     printf("Please introduce the name of the file(without .ppm at the end):");
     scanf("%s",name);
+    char file_extension[4] = ".ppm";
+    char *p = strstr(name,file_extension);
+    if(!p){
+        strcat(name,file_extension);
+        printf("File name:%s",name);
+    }
+    if(isNameTaken(name) == 1){
+        return NULL;
+    }
+    
     return name;
+}
+
+int isNameTaken(char *fileName){
+    struct dirent *de;
+    DIR *dir = opendir(".");
+    if(dir == NULL){
+        printf("Could open the directory\n");
+    }
+    while ((de = readdir(dir)) != NULL){
+        char *listedFile = de->d_name;
+        if(strcmp(listedFile,fileName) == 0){
+            printf("Another file with the same name already exists\n");
+            return 1;
+        }
+    }
+    return 0;
 }

@@ -9,5 +9,6 @@ int paintMenu();
 
 char *getFileName();
 
+int isNameTaken(char *fileName);
 
 #endif 

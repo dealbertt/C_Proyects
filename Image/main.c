@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "paint.h"
-#define NAME "image.ppm"
+
+
+//DEFINE SECTION 
+//this includes the standar image size and the max rgb color (for the header section)
 #define WIDTH 1920
 #define HEIGHT 1080
 #define MAX_COLOR 255
+#define NAME "image.ppm"
 #define clear() printf("\033[H\033[J")
 
 //Read all the files in the folder
@@ -54,7 +58,7 @@ int Menu(){
     printf("Welcome to an Image Processor CLI\n");
     printf("1. Create new image (Spanish flag by default)\n");
     printf("2. Apply Gray Scale to an existing image\n");
-    printf("3. Invert Colors\n");
+    printf("3. Resize an existing image\n");
     printf("4. Exit\n");
     printf("-------------\n");
     do{
