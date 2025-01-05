@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "paint.h"
+#include "grayscale.h"
 
 
 //DEFINE SECTION 
@@ -15,7 +16,6 @@
 //input the user to introduce the name for the file they want to create
 
 
-void grayScale();
 int Menu();
 
 int main(){
@@ -40,7 +40,7 @@ int main(){
             case 2:
                 clear();
                 //Apply Gray Scale
-                grayScale();
+                grayMenu();
                 break;
 
             case 3:
@@ -70,22 +70,4 @@ int Menu(){
     return option;
 }
 
-void grayScale(){
-    FILE *ptr = fopen(NAME,"r");
-    FILE *ptr_grayscale = fopen("grayscale_image.ppm","w");
-    char header[3];
-    fscanf(ptr,"%s\n",header);
-    int sizes[3];
-    int pixel[3];
-    printHeader(ptr_grayscale,WIDTH,HEIGHT,MAX_COLOR);
-    fscanf(ptr,"%d %d %d\n",&sizes[0],&sizes[1],&sizes[2]);
-    for(int i = 0; i < WIDTH; i ++){
-        for(int j = 0; j < WIDTH; j++){
-            fscanf(ptr,"%d %d %d    ",&pixel[0],&pixel[1],&pixel[2]);
-            int gray =(0.299 * pixel[0]) + (0.587 * pixel[1]) + (0.114 * pixel[2]);
-            fprintf(ptr_grayscale,"%d %d %d   ",gray,gray,gray);
-        }
-        fprintf(ptr_grayscale,"\n");
-    }
-    return;
-}
+

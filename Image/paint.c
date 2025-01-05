@@ -75,7 +75,7 @@ int isNameTaken(char *fileName){
     while ((de = readdir(dir)) != NULL){
         char *listedFile = de->d_name;
         if(strcmp(listedFile,fileName) == 0){
-            printf("Another file with the same name already exists\n");
+            printf("Another file with the same name already exists\n Please choose a different name\n");
             return 1;
         }
     }

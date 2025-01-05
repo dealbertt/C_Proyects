@@ -9,7 +9,4 @@ List of Proyects:
         -With the use of structs to act like java classes typeshit
 
 2- Image Proccessor
-    -List the files in the working directory
-    -Choosing the name done
-        -Check if the name is taken and add .ppm if not there
         -Maybe work around sanitizing the inputs
