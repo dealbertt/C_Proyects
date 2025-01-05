@@ -8,5 +8,7 @@ List of Proyects:
     -Maybe implement the CSV from DIS and transform it into json?
         -With the use of structs to act like java classes typeshit
 
+
 2- Image Proccessor
+    -Create a file.h wwith functions like getHeader or printHeader in such so i can be used across many other files
         -Maybe work around sanitizing the inputs
