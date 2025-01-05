@@ -12,3 +12,5 @@ List of Proyects:
 2- Image Proccessor
     -Create a file.h wwith functions like getHeader or printHeader in such so i can be used across many other files
         -Maybe work around sanitizing the inputs
+    
+    -Implement another option that transform an existing image into ASCII
