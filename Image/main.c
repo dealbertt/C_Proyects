@@ -2,25 +2,14 @@
 #include <stdlib.h>
 #include "paint.h"
 #include "grayscale.h"
+#include "utils.h"
 
 
 //DEFINE SECTION 
 //this includes the standar image size and the max rgb color (for the header section)
-#define WIDTH 1920
-#define HEIGHT 1080
-#define MAX_COLOR 255
-#define NAME "image.ppm"
-#define clear() printf("\033[H\033[J")
-#define red() printf("\033[31m")
-#define blue() printf("\033[34m")
-#define green() printf("\033[32m")
-#define yellow() printf("\033[33m")
-#define white() printf("\033[0m")
-
 //Read all the files in the folder
 //input the user to introduce the name for the file they want to create
 int Menu();
-
 
 int main(){
 
@@ -32,7 +21,7 @@ int main(){
         switch (option) {
             case 1: 
                 clear();
-                //Create a new image
+                //Create an image
                 int option = 0;
                 while(option != 3){
 
@@ -47,8 +36,8 @@ int main(){
                 break;
 
             case 2:
-                clear();
                 //Apply Gray Scale
+                clear();
                 grayMenu();
                 break;
 

@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -I.  # Include current directory for header files
 
 # Source and object files
-SRC = main.c grayscale.c paint.c
+SRC = main.c grayscale.c paint.c utils.c
 OBJ = $(SRC:.c=.o)
 TARGET = image_processor
 

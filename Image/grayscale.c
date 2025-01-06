@@ -4,10 +4,9 @@
 #include "paint.h"
 #include <dirent.h>
 #include <stdlib.h>
+#include "utils.h"
 
 
-#define MAX_SIZE 50
-#define clear() printf("\033[H\033[J")
 
 void grayMenu(){
 
@@ -16,6 +15,7 @@ void grayMenu(){
     printf("List of all the available image:\n");
     listImages();
     printf("Type the file you want to grayscale (a new file will be created):\n");
+    printf("0. Exit\n");
 
     char *chosedFile = (char *) malloc(MAX_SIZE * sizeof(char));
     scanf("%s",chosedFile);
@@ -60,53 +60,13 @@ void grayScale(char *fileName){ //i can get the size and max_color by scanning t
 
     }
 
+    green();
     printf("Gray Scale applied succesfully to image %s\n",fileName);
-    return;
+    white();
+    fclose(ptr);
+    fclose(ptr_grayscale);
 }
-void listImages(){
 
-    struct dirent *de;
-    DIR *dir = opendir(".");
 
-    if(dir == NULL){
 
-        printf("Could open the directory\n");
-
-    }
-    while ((de = readdir(dir)) != NULL){
-
-        char *listedFile = de->d_name;
-        if(strstr(listedFile,".ppm")!= NULL){
-
-            printf("%s\n",listedFile);
-
-        }
-
-    }
-}
-int isFileAvailable(char *fileName){
-
-    struct dirent *de;
-    DIR *dir = opendir(".");
-
-    if(dir == NULL){
-
-        printf("Could open the directory\n");
-
-    }
-
-    while ((de = readdir(dir)) != NULL){
-
-        char *listedFile = de->d_name;
-        if(strcmp(listedFile,fileName) == 0){
-
-            printf("File is available to apply grayscale\n");
-
-            return 0;
-        }
-    }
-
-    printf("No file with tha name available\n");
-    return 1;
-}
 
