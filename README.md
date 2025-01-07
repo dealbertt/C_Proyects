@@ -12,6 +12,6 @@ List of Proyects:
 2- Image Proccessor
     -Create a file.h wwith functions like getHeader or printHeader in such so i can be used across many other files
         -Maybe work around sanitizing the inputs
-    -See how to get the bclc.ppm image to work correctly (maybe change the way it scans the file)
+    -Support both P3 and P6 ppm image format
     -Implement another option that transform an existing image into ASCII
         -How to extract brightness out of rgb: 0.2126*R + 0.7152*G + 0.0722*B

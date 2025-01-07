@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "paint.h"
-#include "grayscale.h"
-#include "utils.h"
+#include "header/paint.h"
+#include "header/grayscale.h"
+#include "header/utils.h"
+#include "header/ascii.h"
 
 
 //DEFINE SECTION 
@@ -13,6 +14,8 @@ int Menu();
 
 int main(){
 
+    int color[3] = {255,255,255};
+    printf("brightness: %d\n",getPixelBrigtness(color[0],color[1],color[2]));
     int option = 0;
     while(option != 4){
 
@@ -44,6 +47,7 @@ int main(){
             case 3:
                 clear();
                 //Invert Colors
+                applyAscii();
                 break;
         }
     }
@@ -62,7 +66,7 @@ int Menu(){
     blue();
     printf("2. Apply Gray Scale to an existing image\n");
     yellow();
-    printf("3. Resize an existing image\n");
+    printf("3. Transform an image into ASCII\n");
     white(); 
     printf("4. Exit\n");
     printf("-------------\n");

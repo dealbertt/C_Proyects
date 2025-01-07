@@ -1,10 +1,10 @@
-#include "grayscale.h"
+#include "header/grayscale.h"
 #include <stdio.h>
 #include <string.h>
-#include "paint.h"
 #include <dirent.h>
 #include <stdlib.h>
-#include "utils.h"
+#include <unistd.h>
+#include "header/utils.h"
 
 
 
@@ -15,7 +15,6 @@ void grayMenu(){
     printf("List of all the available image:\n");
     listImages();
     printf("Type the file you want to grayscale (a new file will be created):\n");
-    printf("0. Exit\n");
 
     char *chosedFile = (char *) malloc(MAX_SIZE * sizeof(char));
     scanf("%s",chosedFile);
@@ -26,7 +25,6 @@ void grayMenu(){
         grayScale(chosedFile);
 
     }else{
-
         return;
 
     }
@@ -62,9 +60,11 @@ void grayScale(char *fileName){ //i can get the size and max_color by scanning t
 
     green();
     printf("Gray Scale applied succesfully to image %s\n",fileName);
+    sleep(1);
     white();
     fclose(ptr);
     fclose(ptr_grayscale);
+    free(fileName);
 }
 
 

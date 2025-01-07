@@ -1,9 +1,10 @@
-#include "paint.h"
+#include "header/paint.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
-#include "utils.h"
+#include "header/utils.h"
+#include "header/ascii.h"
 
 int paintMenu(){
 
@@ -41,7 +42,7 @@ void paintFlag(int width,int heigth,int max_color){
 
         for(int j = 0; j < heigth; j++){
 
-            if(i > 640&& i < 1280){
+                if(i > WIDTH / 3&& i < (WIDTH - WIDTH/3)){
 
                 color[1] = 255;
 

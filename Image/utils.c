@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "header/utils.h"
 #include <stdio.h>
 #include <string.h>
 #include <dirent.h>
@@ -77,7 +77,7 @@ int isNameTaken(char *fileName){
     return 0;
 }
 void printHeader(FILE *ptr,int width,int height,int max_color){
-    char header[3] = "P6";
+    char header[3] = "P3";
     fprintf(ptr,"%s\n",header);
     fprintf(ptr,"%d %d %d\n",width,height,max_color);
 
@@ -106,3 +106,4 @@ char *getFileName(){
     }
     return name;
 }
+
