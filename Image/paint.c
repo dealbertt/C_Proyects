@@ -6,6 +6,8 @@
 #include "header/utils.h"
 #include "header/ascii.h"
 
+#define FILE_NAME "spanish.ppm"
+
 int paintMenu(){
 
     int option = 3;
@@ -23,24 +25,24 @@ int paintMenu(){
 
     return option;
 }
+int paintArg(char *preset){
+    if(strcmp("-spanish",preset) == 0){
+        paintFlag();
+    }else{
+        printf("Argument for painting not received\n");
+    }
+    return 0;
+}
 
-void paintFlag(int width,int heigth,int max_color){
+void paintFlag(){
 
     int color[3] = {255,0,0};
-    char *name;
+    FILE *ptr_new = fopen(FILE_NAME,"w");
+    printHeader(ptr_new,WIDTH,HEIGHT,MAX_COLOR);
 
-    if((name = getFileName()) == NULL){
+    for(int i = 0; i < WIDTH; i ++){
 
-        return;
-
-    }
-
-    FILE *ptr_new = fopen(name,"w");
-    printHeader(ptr_new,width,heigth,max_color);
-
-    for(int i = 0; i < width; i ++){
-
-        for(int j = 0; j < heigth; j++){
+        for(int j = 0; j < HEIGHT; j++){
 
                 if(i > WIDTH / 3&& i < (WIDTH - WIDTH/3)){
 
@@ -59,10 +61,9 @@ void paintFlag(int width,int heigth,int max_color){
     }
 
     green();
-    printf("File with name %s has been created succesfully\n",name);
+    printf("File with name %s has been created succesfully\n",FILE_NAME);
     white();
     fclose(ptr_new);
-    free(name);
     return;
 }
 

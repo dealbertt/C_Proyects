@@ -6,4 +6,5 @@ void grayScale(char *name);
 void grayMenu();
 void listImages();
 int isFileAvailable(char *fileName);
+int grayArgs(char *fileName);
 #endif
