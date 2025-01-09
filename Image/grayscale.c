@@ -6,7 +6,12 @@
 #include <unistd.h>
 #include "header/utils.h"
 
-
+int grayArgs(char *fileName){
+   if(isFileAvailable(fileName)== 0){
+       grayScale(fileName);
+   } 
+   return 0;
+}
 
 void grayMenu(){
 
@@ -64,7 +69,8 @@ void grayScale(char *fileName){ //i can get the size and max_color by scanning t
     white();
     fclose(ptr);
     fclose(ptr_grayscale);
-    free(fileName);
+    system("feh grayscale_image.ppm");
+    return;
 }
 
 
