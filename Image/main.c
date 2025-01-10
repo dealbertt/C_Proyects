@@ -20,6 +20,7 @@ int main(int argc, char **argv){
 
     printf("Argument provided: %s\n",argv[1]);
     printf("Second Argument provided: %s\n",argv[2]);
+
     checkArgument(argv);
     return 0;
 
