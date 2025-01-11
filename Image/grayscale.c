@@ -20,10 +20,7 @@ int grayArgs(char *fileName){
 
 
 void grayScale(char *fileName,PPMImage *image){ //i can get the size and max_color by scanning the header
-    
-
-
-
+                                                
     unsigned char r,g,b;
     for(int i = 0; i < image->width; i++){
         for(int j = 0; j < image->height; j++){

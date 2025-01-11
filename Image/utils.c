@@ -152,10 +152,8 @@ PPMImage *readFile(char *fileName){
 }
 int writeFile(PPMImage *old_image,char *newFile){
     FILE *new_ptr = fopen(newFile,"wb");
-    printHeader(new_ptr,old_image->width,old_image->height,old_image->max_color);
 
     unsigned char r,g,b;
-    fprintf(new_ptr,"P6\n");
     printHeader(new_ptr,old_image->width,old_image->height,old_image->max_color);
     for(int i = 0; i < old_image->width; i++){
         for(int j = 0; j < old_image->height; j++){
@@ -170,9 +168,6 @@ int writeFile(PPMImage *old_image,char *newFile){
             fwrite(&b,sizeof(unsigned char),1,new_ptr);
         }
     } 
-
-
-
     fclose(new_ptr);
     return 0;
 

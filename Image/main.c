@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "header/paint.h"
 #include "header/grayscale.h"
+#include "header/resize.h"
 #include "header/utils.h"
-#include "header/ascii.h"
+#include "header/resize.h"
 
 
 //DEFINE SECTION 
@@ -53,12 +53,17 @@ int checkArgument(char **argv){
 
         grayArgs(argv[2]);
 
-    }else if(strcmp("-paint",argv[1]) == 0){
-
-        paintArg(argv[2]);
-
     }else if(strcmp("-ascii",argv[1]) == 0){
 
+    }else if(strcmp("-resize",argv[1]) == 0){
+        printf("Before\n");
+        PPMImage *old_image = readFile(argv[2]);
+        int w = atoi(argv[3]);
+        int h = atoi(argv[4]);
+        PPMImage *new_image = resize(old_image, w, h);
+        printf("Outside the function\n");
+        writeFile(new_image,"resized.ppm");
+       
     }else{
         printf("Please provide a valid argument\n");
     }
