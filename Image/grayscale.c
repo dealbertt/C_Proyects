@@ -8,67 +8,40 @@
 
 int grayArgs(char *fileName){
    if(isFileAvailable(fileName)== 0){
-       grayScale(fileName);
+       PPMImage *image = (PPMImage *) malloc(sizeof(PPMImage));
+       image = readFile(fileName);
+       grayScale(fileName,image);
+       free(image->pixels);
+       free(image);
    } 
    return 0;
 }
 
-void grayMenu(){
 
-    clear();
 
-    printf("List of all the available image:\n");
-    listImages();
-    printf("Type the file you want to grayscale (a new file will be created):\n");
+void grayScale(char *fileName,PPMImage *image){ //i can get the size and max_color by scanning the header
+                                                
+    unsigned char r,g,b;
+    for(int i = 0; i < image->width; i++){
+        for(int j = 0; j < image->height; j++){
+            int index = (j * image->width + i) * 3;
 
-    char *chosedFile = (char *) malloc(MAX_SIZE * sizeof(char));
-    scanf("%s",chosedFile);
-
-    if(isFileAvailable(chosedFile) == 0){
-
-        //apply grayscale
-        grayScale(chosedFile);
-
-    }else{
-        return;
-
-    }
-}
-
-void grayScale(char *fileName){ //i can get the size and max_color by scanning the header
-                                //
-    FILE *ptr = fopen(fileName,"r");
-    FILE *ptr_grayscale = fopen("grayscale_image.ppm","w");
-
-    char header[3];
-    int sizes[3];
-
-    fscanf(ptr,"%s\n",header);
-    fscanf(ptr,"%d %d %d",&sizes[0],&sizes[1],&sizes[2]);
-
-    int pixel[3];
-    printHeader(ptr_grayscale,sizes[0],sizes[1],sizes[2]);
-
-    for(int i = 0; i < sizes[0]; i ++){
-
-        for(int j = 0; j < sizes[1]; j++){
-
-            fscanf(ptr,"%d %d %d    ",&pixel[0],&pixel[1],&pixel[2]);
-            int gray =(0.299 * pixel[0]) + (0.587 * pixel[1]) + (0.114 * pixel[2]);
-            fprintf(ptr_grayscale,"%d %d %d   ",gray,gray,gray);
+            r = image->pixels[index];
+            g = image->pixels[index + 1];
+            b = image->pixels[index + 2];
+            int gray =(0.299 * r) + (0.587 * g) + (0.114 * b);
+            image->pixels[index] = gray;
+            image->pixels[index + 1] = gray;
+            image->pixels[index + 2] = gray;
 
         }
-
-        fprintf(ptr_grayscale,"\n");
-
-    }
+    } 
 
     green();
     printf("Gray Scale applied succesfully to image %s\n",fileName);
     sleep(1);
     white();
-    fclose(ptr);
-    fclose(ptr_grayscale);
+    writeFile(image, "grayscale_image.ppm");
     system("feh grayscale_image.ppm");
     return;
 }

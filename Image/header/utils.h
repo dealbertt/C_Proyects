@@ -14,6 +14,14 @@
 #define NAME "image.ppm"
 
 #include <stdio.h>
+
+typedef struct{
+    int width;
+    int height;
+    int max_color;
+    unsigned char *pixels;
+}PPMImage;
+
 void listImages();
 
 int isFileAvailable(char *fileName);
@@ -21,4 +29,6 @@ int isFileAvailable(char *fileName);
 int isNameTaken(char *fileName);
 char *getFileName();
 void printHeader(FILE *ptr,int width,int height,int max_color);
+PPMImage *readFile(char *fileName);
+int writeFile(PPMImage *old_image,char *newFile);
 #endif
