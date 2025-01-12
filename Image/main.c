@@ -17,10 +17,6 @@ int main(int argc, char **argv){
         printf("Please provide an argument\n");
         return 1;
     }
-
-    printf("Argument provided: %s\n",argv[1]);
-    printf("Second Argument provided: %s\n",argv[2]);
-
     checkArgument(argv);
     return 0;
 
@@ -56,14 +52,15 @@ int checkArgument(char **argv){
     }else if(strcmp("-ascii",argv[1]) == 0){
 
     }else if(strcmp("-resize",argv[1]) == 0){
-        printf("Before\n");
         PPMImage *old_image = readFile(argv[2]);
         int w = atoi(argv[3]);
         int h = atoi(argv[4]);
         PPMImage *new_image = resize(old_image, w, h);
-        printf("Outside the function\n");
         writeFile(new_image,"resized.ppm");
-       
+        free(old_image);
+        free(new_image->pixels);
+        free(new_image);
+        
     }else{
         printf("Please provide a valid argument\n");
     }
