@@ -5,6 +5,13 @@
 #include "header/resize.h"
 #include "header/utils.h"
 #include "header/resize.h"
+#include "header/help.h"
+
+
+
+
+
+
 
 
 //DEFINE SECTION 
@@ -43,7 +50,6 @@ int Menu(){
     return option;
 }
 
-
 int checkArgument(char **argv){
     if(strcmp("-grayscale",argv[1]) == 0){
 
@@ -61,8 +67,11 @@ int checkArgument(char **argv){
         free(new_image->pixels);
         free(new_image);
         
+    }else if(strcmp("-help",argv[1]) == 0){
+        getHelp();
+            
     }else{
-        printf("Please provide a valid argument\n");
+        commandNotFound(argv[1]);
     }
     return 0;
 }

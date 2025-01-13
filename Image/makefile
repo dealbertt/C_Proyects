@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -I.  # Include current directory for header files
 
 LDFLAGS = -lm
 # Source and object files
-SRC = main.c grayscale.c utils.c ascii.c resize.c
+SRC = main.c grayscale.c utils.c ascii.c resize.c help.c
 OBJ = $(SRC:.c=.o)
 TARGET = image_processor
 
