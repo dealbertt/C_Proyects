@@ -58,15 +58,17 @@ int checkArgument(char **argv){
     }else if(strcmp("-ascii",argv[1]) == 0){
 
     }else if(strcmp("-resize",argv[1]) == 0){
-        PPMImage *old_image = readFile(argv[2]);
+        printf("Before reading old file\n");
+        PPMImage old_image = readFile(argv[2]);
+        printf("After reading old file\n");
         int w = atoi(argv[3]);
         int h = atoi(argv[4]);
-        PPMImage *new_image = resize(old_image, w, h);
+        printf("Before resize");
+        PPMImage new_image = resize(old_image, w, h);
         writeFile(new_image,"resized.ppm");
-        free(old_image);
-        free(new_image->pixels);
-        free(new_image);
-        
+        freeImage(&new_image);
+        freeImage(&old_image);
+      
     }else if(strcmp("-help",argv[1]) == 0){
         getHelp();
             

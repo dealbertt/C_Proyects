@@ -110,11 +110,12 @@ char *getFileName(){
 }
 
 
-PPMImage *readFile(char *fileName){
+PPMImage readFile(char *fileName){
     FILE *ptr = fopen(fileName,"rb");
     if(ptr == NULL){
         printf("Unable to open the file\n");
-        return NULL;
+        PPMImage image;
+        return image;
     }
     int width,height,max_color;
     char header[3];
@@ -122,46 +123,41 @@ PPMImage *readFile(char *fileName){
     if(header[1] != '6'){
         printf("Unsupported file format\n");
         fclose(ptr);
-        return NULL;
+        PPMImage image;
+        return image;
     }
     fscanf(ptr,"%d %d %d\n",&width,&height,&max_color);
-    unsigned char *pixels = (unsigned char *) malloc(3 * width * height);
+    PPMImage image;
+    allocatImage(&image, width, height, max_color);
     unsigned char r,g,b;
-    for(int i = 0; i < width; i++){
-        for(int j = 0; j < height; j++){
+    for(int i = 0; i < height; i++){
+        for(int j = 0; j < width; j++){
             fread(&r,sizeof(unsigned char),1,ptr);
             fread(&g,sizeof(unsigned char),1,ptr);
             fread(&b,sizeof(unsigned char),1,ptr);
 
-            int index = (j * width + i) * 3;
-            pixels[index] = r;
-            pixels[index + 1] = g;
-            pixels[index + 2] = b;
+            image.pixels[i][j] = r;
+            image.pixels[i][j + 1] = g;
+            image.pixels[i][j + 2] = b;
 
         }
     } 
 
-    PPMImage *image = (PPMImage *)malloc(sizeof(PPMImage)) ;
-    image->height = height;
-    image->width= width;
-    image->max_color= max_color;
-    image->pixels = pixels;
     fclose(ptr);
     return image;
 
 }
-int writeFile(PPMImage *old_image,char *newFile){
+int writeFile(PPMImage old_image,char *newFile){
     FILE *new_ptr = fopen(newFile,"wb");
 
     unsigned char r,g,b;
-    printHeader(new_ptr,old_image->width,old_image->height,old_image->max_color);
-    for(int i = 0; i < old_image->width; i++){
-        for(int j = 0; j < old_image->height; j++){
-            int index = (j * old_image->width + i) * 3;
+    printHeader(new_ptr,old_image.width,old_image.height,old_image.max_color);
+    for(int i = 0; i < old_image.height; i++){
+        for(int j = 0; j < old_image.width; j++){
 
-            r = old_image->pixels[index];
-            g = old_image->pixels[index + 1];
-            b = old_image->pixels[index + 2];
+            r = old_image.pixels[i][j];
+            g = old_image.pixels[i][j + 1];
+            b = old_image.pixels[i][j + 2];
 
             fwrite(&r,sizeof(unsigned char),1,new_ptr);
             fwrite(&g,sizeof(unsigned char),1,new_ptr);
@@ -172,4 +168,24 @@ int writeFile(PPMImage *old_image,char *newFile){
     return 0;
 
 
+}
+void allocatImage(PPMImage *image, int width, int height, int maxColor){
+    image->height = height;
+    image->width= width;
+    image->max_color = maxColor;
+    
+
+    image->pixels = malloc(height * sizeof(unsigned char *));
+    for(int i = 0; i < height; i++){
+
+            image->pixels[i] = malloc(width * sizeof(unsigned char));
+    }
+}
+void freeImage(PPMImage *img) {
+    // Free each row
+    for (int i = 0; i < img->height; i++) {
+        free(img->pixels[i]);
+    }
+    // Free the row pointers
+    free(img->pixels);
 }

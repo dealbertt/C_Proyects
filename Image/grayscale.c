@@ -8,31 +8,30 @@
 
 int grayArgs(char *fileName){
    if(isFileAvailable(fileName)== 0){
-       PPMImage *image = (PPMImage *) malloc(sizeof(PPMImage));
-       image = readFile(fileName);
+       PPMImage image = readFile(fileName);
        grayScale(fileName,image);
-       free(image->pixels);
-       free(image);
+       freeImage(&image);
+       
    } 
    return 0;
 }
 
 
 
-void grayScale(char *fileName,PPMImage *image){ //i can get the size and max_color by scanning the header
+void grayScale(char *fileName,PPMImage image){ //i can get the size and max_color by scanning the header
                                                 
     unsigned char r,g,b;
-    for(int i = 0; i < image->width; i++){
-        for(int j = 0; j < image->height; j++){
-            int index = (j * image->width + i) * 3;
+    for(int i = 0; i < image.height; i++){
+        for(int j = 0; j < image.width; j++){
+            int index = (j * image.width + i) * 3;
 
-            r = image->pixels[index];
-            g = image->pixels[index + 1];
-            b = image->pixels[index + 2];
+            r = image.pixels[i][j];
+            g = image.pixels[i][j + 1];
+            b = image.pixels[i][j + 2];
             int gray =(0.299 * r) + (0.587 * g) + (0.114 * b);
-            image->pixels[index] = gray;
-            image->pixels[index + 1] = gray;
-            image->pixels[index + 2] = gray;
+            image.pixels[i][j] = gray;
+            image.pixels[i][j + 1] = gray;
+            image.pixels[i][j + 2] = gray;
 
         }
     } 

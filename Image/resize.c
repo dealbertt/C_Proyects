@@ -5,35 +5,32 @@
 #include <math.h>
 
 
-PPMImage *resize(PPMImage *old_image, int new_width, int new_heigth){
-    unsigned char *pixels = (unsigned char *) malloc(3 * new_width * new_heigth);
-    for(int i = 0; i < new_width; i++){
-        for(int j = 0; j < new_heigth;j++){
+PPMImage resize(PPMImage old_image, int new_width, int new_heigth){
 
-            int width_ratio = (old_image->width / new_width);
-            int heigth_ratio = (old_image->height/ new_heigth);
-            int orig_x = i * width_ratio;
-            int orig_y = j * heigth_ratio;
+    PPMImage new_image;
+    allocatImage(&new_image,  new_width, new_heigth,  old_image.max_color);
 
-            int orig_index = (orig_y * old_image->width + orig_x) * 3;
-            unsigned char r_orig = old_image->pixels[orig_index];
-            unsigned char g_orig = old_image->pixels[orig_index + 1];
-            unsigned char b_orig = old_image->pixels[orig_index + 2];
-            int resized_index = (j * new_width + i) * 3;
+    int widthRatio = old_image.width/ new_width;
+    int heigthRatio = old_image.height/ new_heigth;
+    for(int i = 0; i < new_heigth; i++){
+        for(int j = 0; j < new_width;j++){
+            int x =floor(j * widthRatio);
+            int y =floor(i * heigthRatio);
+
+            unsigned char r = old_image.pixels[y][x];
+            unsigned char g = old_image.pixels[y][x + 1];
+            unsigned char b = old_image.pixels[y][x + 2];
+
+            new_image.pixels[i][j] = r;
+            new_image.pixels[i][j + 1] = g;
+            new_image.pixels[i][j + 2] = b;
+
             
-            pixels[resized_index] = r_orig;
-            pixels[resized_index + 1] = g_orig;
-            pixels[resized_index + 2] = b_orig;
 
         }
     } 
 
     printf("Image resized sucesfully\n");
-    PPMImage *new_image = (PPMImage *) malloc(sizeof(PPMImage));
-    new_image->width = new_width;
-    new_image->height= new_heigth;
-    new_image->max_color = old_image->max_color;
-    new_image->pixels = pixels;
     return new_image;
 }
 
