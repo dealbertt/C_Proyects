@@ -20,6 +20,7 @@ typedef struct{
     int height;
     int max_color;
     unsigned char **pixels;
+
 }PPMImage;
 
 void listImages();

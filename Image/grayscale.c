@@ -23,7 +23,6 @@ void grayScale(char *fileName,PPMImage *image){ //i can get the size and max_col
     unsigned char r,g,b;
     for(int i = 0; i < image->height; i++){
         for(int j = 0; j < image->width; j++){
-            int index = (j * image->width + i) * 3;
 
             r = image->pixels[i][j];
             g = image->pixels[i][j + 1];

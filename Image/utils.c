@@ -169,6 +169,7 @@ int writeFile(PPMImage *old_image,char *newFile){
 
 }
 void allocatImage(PPMImage *image, int width, int height, int maxColor){
+
     image->height = height;
     image->width= width;
     image->max_color = maxColor;
@@ -176,7 +177,6 @@ void allocatImage(PPMImage *image, int width, int height, int maxColor){
 
     image->pixels = malloc(height * sizeof(unsigned char *));
     for(int i = 0; i < height; i++){
-
             image->pixels[i] = malloc(width * sizeof(unsigned char *));
     }
 }

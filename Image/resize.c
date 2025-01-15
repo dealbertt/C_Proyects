@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <math.h>
 
+//This uses the nearest neightbor algorithm, which locates the corresping pixels on the image based on the ration between the old values and new values
+//
+//
 
 PPMImage *resize(PPMImage *old_image, int new_width, int new_heigth){
 

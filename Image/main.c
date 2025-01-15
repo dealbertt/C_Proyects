@@ -7,10 +7,6 @@
 #include "header/resize.h"
 #include "header/help.h"
 
-//DEFINE SECTION 
-//this includes the standar image size and the max rgb color (for the header section)
-//Read all the files in the folder
-//input the user to introduce the name for the file they want to create
 int checkArgument(char **argv);
 int main(int argc, char **argv){
     if(argc == 1){
@@ -51,13 +47,19 @@ int checkArgument(char **argv){
 
     }else if(strcmp("-resize",argv[1]) == 0){
 
+        //Creates and alocates a PPMImage object for the already exising image
         PPMImage *old_image = malloc(sizeof(PPMImage));
         old_image = readFile(argv[2]);
+        //It reads the image and assigns the pixel to the old_image PPMImage object
+        //This parses from char * to int, in order to properly capture the new width and height
         int w = atoi(argv[3]);
         int h = atoi(argv[4]);
-
+        
+        //We now create the new PPMImage object
+        //It could edit the already existing image, but wanted to create a new to keep everything more clear
         PPMImage *new_image = malloc(sizeof(PPMImage));
         new_image = resize(old_image, w, h);
+        //After resizing, save the file and free the alocated memory
         writeFile(new_image,"resized.ppm");
         freeImage(old_image);
         freeImage(new_image);
