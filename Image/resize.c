@@ -17,13 +17,13 @@ PPMImage *resize(PPMImage *old_image, int new_width, int new_heigth){
             int x =floor(j * widthRatio);
             int y =floor(i * heigthRatio);
 
-            unsigned char r = old_image->pixels[y][x];
-            unsigned char g = old_image->pixels[y][x + 1];
-            unsigned char b = old_image->pixels[y][x + 2];
+            unsigned char r = old_image->pixels[y][x * 3];
+            unsigned char g = old_image->pixels[y][x * 3 + 1];
+            unsigned char b = old_image->pixels[y][x * 3 + 2];
 
-            new_image->pixels[i][j] = r;
-            new_image->pixels[i][j + 1] = g;
-            new_image->pixels[i][j + 2] = b;
+            new_image->pixels[i][j * 3] = r;
+            new_image->pixels[i][j * 3 + 1] = g;
+            new_image->pixels[i][j * 3 + 2] = b;
 
             
 

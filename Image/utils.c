@@ -81,7 +81,7 @@ int isNameTaken(char *fileName){
 void printHeader(FILE *ptr,int width,int height,int max_color){
     char header[3] = "P6";
     fprintf(ptr,"%s\n",header);
-    fprintf(ptr,"%d %d %d\n",width,height,max_color);
+    fprintf(ptr,"%d %d\n%d\n",width,height,max_color);
 
     return; 
 
@@ -134,9 +134,9 @@ PPMImage *readFile(char *fileName){
             fread(&g,sizeof(unsigned char),1,ptr);
             fread(&b,sizeof(unsigned char),1,ptr);
 
-            image->pixels[i][j] = r;
-            image->pixels[i][j + 1] = g;
-            image->pixels[i][j + 2] = b;
+            image->pixels[i][j * 3] = r;
+            image->pixels[i][j * 3 + 1] = g;
+            image->pixels[i][j * 3 + 2] = b;
 
         }
     } 
@@ -154,9 +154,9 @@ int writeFile(PPMImage *old_image,char *newFile){
     for(int i = 0; i < old_image->height; i++){
         for(int j = 0; j < old_image->width; j++){
 
-            r = old_image->pixels[i][j];
-            g = old_image->pixels[i][j + 1];
-            b = old_image->pixels[i][j + 2];
+            r = old_image->pixels[i][j * 3];
+            g = old_image->pixels[i][j * 3 + 1];
+            b = old_image->pixels[i][j * 3 + 2];
 
             fwrite(&r,sizeof(unsigned char),1,new_ptr);
             fwrite(&g,sizeof(unsigned char),1,new_ptr);
