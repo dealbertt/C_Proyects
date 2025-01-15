@@ -7,13 +7,6 @@
 #include "header/resize.h"
 #include "header/help.h"
 
-
-
-
-
-
-
-
 //DEFINE SECTION 
 //this includes the standar image size and the max rgb color (for the header section)
 //Read all the files in the folder
@@ -33,8 +26,7 @@ int Menu(){
     int option = 4;
     clear();
 
-    printf("-------------\n");
-    printf("Welcome to an Image Processor CLI\n");
+    printf("-------------\n"); printf("Welcome to an Image Processor CLI\n");
     printf("1. Create new image (Spanish flag by default)\n");
     printf("2. Apply Gray Scale to an existing image\n");
     printf("3. Transform an image into ASCII\n");
@@ -58,16 +50,17 @@ int checkArgument(char **argv){
     }else if(strcmp("-ascii",argv[1]) == 0){
 
     }else if(strcmp("-resize",argv[1]) == 0){
-        printf("Before reading old file\n");
-        PPMImage old_image = readFile(argv[2]);
-        printf("After reading old file\n");
+
+        PPMImage *old_image = malloc(sizeof(PPMImage));
+        old_image = readFile(argv[2]);
         int w = atoi(argv[3]);
         int h = atoi(argv[4]);
-        printf("Before resize");
-        PPMImage new_image = resize(old_image, w, h);
+
+        PPMImage *new_image = malloc(sizeof(PPMImage));
+        new_image = resize(old_image, w, h);
         writeFile(new_image,"resized.ppm");
-        freeImage(&new_image);
-        freeImage(&old_image);
+        freeImage(old_image);
+        freeImage(new_image);
       
     }else if(strcmp("-help",argv[1]) == 0){
         getHelp();
