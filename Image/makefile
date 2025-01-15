@@ -1,10 +1,10 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -I.  # Include current directory for header files
+CFLAGS = -Wall -Wextra -I. # Include current directory for header files
 
-LDFLAGS = -lm
+LDFLAGS = -lm -lSDL2
 # Source and object files
-SRC = main.c grayscale.c utils.c ascii.c resize.c help.c
+SRC = main.c grayscale.c utils.c ascii.c resize.c help.c window.c
 OBJ = $(SRC:.c=.o)
 TARGET = image_processor
 

@@ -6,6 +6,7 @@
 #include "header/utils.h"
 #include "header/resize.h"
 #include "header/help.h"
+#include "header/window.h"
 
 int checkArgument(char **argv);
 int main(int argc, char **argv){
@@ -61,13 +62,19 @@ int checkArgument(char **argv){
         new_image = resize(old_image, w, h);
         //After resizing, save the file and free the alocated memory
         writeFile(new_image,"resized.ppm");
+        displayImage(new_image);
         freeImage(old_image);
         freeImage(new_image);
       
     }else if(strcmp("-help",argv[1]) == 0){
         getHelp();
-            
+    }else if(strcmp("-window",argv[1]) == 0){
+        PPMImage *image = malloc(sizeof(PPMImage));
+        image = readFile(argv[2]);
+        displayImage(image); 
+
     }else{
+
         commandNotFound(argv[1]);
     }
     return 0;
