@@ -26,6 +26,7 @@ void displayImage(PPMImage *image){
     SDL_Delay(5000);
 }
 
+
 unsigned int rgbToHex(unsigned char r, unsigned char g, unsigned char b){
     unsigned char a = 255;
     unsigned int color = (a<<24) | (r << 16) | (g << 8) | b;

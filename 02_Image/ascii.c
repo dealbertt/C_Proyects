@@ -31,9 +31,9 @@ char method_of_conversion(int greyscale){
         return '#';
     }
 }
-void applyAscii(){ //i can get the size and max_color by scanning the header
+void applyAscii(char *fileName){ //i can get the size and max_color by scanning the header
                                 //
-    FILE *ptr = fopen("bclc.ppm","r");
+    FILE *ptr = fopen(fileName,"rb");
     FILE *ascii_ptr = fopen("ascii.txt","w");
 
     char header[3];

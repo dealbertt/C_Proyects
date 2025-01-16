@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "header/ascii.h"
 #include "header/grayscale.h"
 #include "header/resize.h"
 #include "header/utils.h"
@@ -45,6 +46,7 @@ int checkArgument(char **argv){
         grayArgs(argv[2]);
 
     }else if(strcmp("-ascii",argv[1]) == 0){
+        applyAscii(argv[2]);
 
     }else if(strcmp("-resize",argv[1]) == 0){
 
@@ -68,7 +70,8 @@ int checkArgument(char **argv){
       
     }else if(strcmp("-help",argv[1]) == 0){
         getHelp();
-    }else if(strcmp("-window",argv[1]) == 0){
+    }else if(strcmp("-view",argv[1]) == 0){
+
         PPMImage *image = malloc(sizeof(PPMImage));
         image = readFile(argv[2]);
         displayImage(image); 
