@@ -25,7 +25,11 @@ void initGame(){
     SDL_FillRect(surface, &rect, 0x00000000);
     SDL_UpdateWindowSurface(window);
 
-    drawPad(window, surface);
+    //drawPad(window, surface);
+    Uint32 color = 0xffffffff;
+    drawColumn(500, 800 ,window,surface,color);
+    drawLine(500, 800,window,surface,color);
+    drawPad(window,surface);
 
     SDL_Delay(5000);
 
