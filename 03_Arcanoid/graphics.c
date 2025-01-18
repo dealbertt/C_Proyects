@@ -9,7 +9,7 @@
 #define WINDOW_HEIGHT  1000
 #define WINDOW_WIDTH 1000
 #define PAD_RESET WINDOW_WIDTH/2
-#define PAD_Y WINDOW_HEIGHT - BRICK_HEIGHT
+#define PAD_Y WINDOW_HEIGHT - BRICK_HEIGHT *2
 #define PAD_X 500 
 
 
@@ -20,6 +20,14 @@ void drawPad(SDL_Window *window, SDL_Surface *surface){
     Uint32 color = 0xFFFF0000;
 
     drawLine(PAD_X,PAD_Y,window,surface,color);
+
+}
+
+
+void clearPad(SDL_Window *window, SDL_Surface *surface){
+    Uint32 color = 0x00000000;
+    drawLine(PAD_X,PAD_Y,window,surface,color);
+
 
 }
 
@@ -57,3 +65,36 @@ void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 col
     return;
 }
 
+void drawBorders(SDL_Window *window, SDL_Surface *surface){
+    Uint32 color = 0xFF0000FF;
+    int x = 0, y = 0;
+    for(int i = 0; i < 10; i ++){
+        drawColumn(x, y,window, surface, color);
+        y = y + 100;
+    }
+    x = 980;
+    y = 0;
+    for(int i = 0; i < 10; i ++){
+        drawColumn(x, y,window, surface, color);
+        y = y + 100;
+    }
+    x = 0;
+    y = 0;
+    for(int i = 0; i < 10; i ++){
+        drawLine(x, y,window, surface, color);
+        x = x + 100;
+    }
+    x = 0;
+    y = 980;
+    for(int i = 0; i < 10; i ++){
+        drawLine(x, y,window, surface, color);
+        x = x + 100;
+    }
+
+
+
+
+
+
+
+}

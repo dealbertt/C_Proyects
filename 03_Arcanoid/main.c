@@ -30,6 +30,7 @@ void initGame(){
     drawColumn(500, 800 ,window,surface,color);
     drawLine(500, 800,window,surface,color);
     drawPad(window,surface);
+    drawBorders(window, surface);
 
     SDL_Delay(5000);
 
