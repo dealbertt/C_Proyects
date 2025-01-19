@@ -1,3 +1,4 @@
+#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
@@ -5,12 +6,20 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include "graphics.h"
+#include <unistd.h>
+#include <stdbool.h>
+
 
 //lets ignore that ok?
 void initGame();
+void handleKeyboard();
 int main(){
 
     initGame();
+    
+    handleKeyboard();
+   
+    SDL_Quit();
     return 0;
 
 
@@ -31,7 +40,27 @@ void initGame(){
     drawLine(500, 800,window,surface,color);
     drawPad(window,surface);
     drawBorders(window, surface);
-
-    SDL_Delay(5000);
+    simulateBall (window, surface);
+    return;
 
 }   
+
+
+void handleKeyboard(){
+     bool quit = false;
+     SDL_Event event;
+
+     while(!quit){
+         SDL_WaitEvent(&event);
+         switch (event.type) {
+             case SDL_KEYDOWN:
+                 switch (event.key.keysym.sym) {
+                     case SDLK_ESCAPE:
+                         quit = true;
+                         break;
+                 }
+                break;
+         }
+     }
+     return;
+}
