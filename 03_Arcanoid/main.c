@@ -10,57 +10,66 @@
 #include <stdbool.h>
 
 
-//lets ignore that ok?
-void initGame();
-void handleKeyboard();
+SDL_Window *window;
+SDL_Surface *surface;
+void initGame(SDL_Window *window, SDL_Surface *surface);
+bool handleKeyboard(int x,int y);
 int main(){
 
-    initGame();
-    
-    handleKeyboard();
-   
+    //Draw borders and place pad in the default place
+    initGame(window,surface);
+
+    int i = 1;
+    int x = 0;
+    int y = 0;
+    while(handleKeyboard(x,y) != true){
+        clearPad(window, surface, x, y);
+        handleKeyboard(x, y);
+        printf("Outside handling\n");
+        printf("X: %d Y: %d\n",x,y);
+        drawPad(window,surface,x,y);
+    } 
     SDL_Quit();
     return 0;
 
 
 }
 
-void initGame(){
+void initGame(SDL_Window *window, SDL_Surface *surface){
 
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,0);
-    SDL_Surface *surface = SDL_GetWindowSurface(window);
-    SDL_Rect rect = {0,0,1000,1000};
-    SDL_FillRect(surface, &rect, 0x00000000);
-    SDL_UpdateWindowSurface(window);
-
+    window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,0);
+    surface = SDL_GetWindowSurface(window);
     //drawPad(window, surface);
-    Uint32 color = 0xffffffff;
-    drawColumn(500, 800 ,window,surface,color);
-    drawLine(500, 800,window,surface,color);
-    drawPad(window,surface);
+    drawPad(window,surface,500,960);
     drawBorders(window, surface);
-    simulateBall (window, surface);
     return;
 
 }   
 
 
-void handleKeyboard(){
+bool handleKeyboard(int x, int y){
+    printf("Inside handling\n");
      bool quit = false;
-     SDL_Event event;
-
-     while(!quit){
-         SDL_WaitEvent(&event);
-         switch (event.type) {
-             case SDL_KEYDOWN:
+     SDL_Event event = event;
+     SDL_WaitEvent(&event);
+     event.type = SDL_KEYDOWN;
                  switch (event.key.keysym.sym) {
                      case SDLK_ESCAPE:
                          quit = true;
-                         break;
+                         return quit;
+                    case SDLK_d:
+                         //move pad right
+
+                         clearPad(window, surface, 500, 960);
+                         x = x + 50;
+                         printf("D Key pressed\n");
+                         return quit;
+                    case SDLK_a:
+                         //move pad left
+                         x = x - 50;
+                         return quit;
                  }
-                break;
-         }
-     }
-     return;
+         
+     return quit;
 }

@@ -2,7 +2,6 @@
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_video.h>
-#include <stdio.h>
 
 #define BRICK_WIDTH 20
 #define BRICK_HEIGHT  20
@@ -32,16 +31,19 @@ void simulateBall(SDL_Window *window,SDL_Surface *surface){
         y = y + BRICK_HEIGHT;
     }
 
+    return;
 }
-void drawPad(SDL_Window *window, SDL_Surface *surface){
+void drawPad(SDL_Window *window, SDL_Surface *surface,int x,int y){
     Uint32 color = 0xFFFF0000;
-    drawLine(PAD_X,PAD_Y,window,surface,color);
+    drawLine(x,y,window,surface,color);
+    return;
 }
 
 
-void clearPad(SDL_Window *window, SDL_Surface *surface){
+void clearPad(SDL_Window *window, SDL_Surface *surface,int x, int y){
     Uint32 color = 0x00000000;
-    drawLine(PAD_X,PAD_Y,window,surface,color);
+    drawLine(x,y,window,surface,color);
+    return;
 }
 
 void drawBrick(int x,int y,SDL_Surface *surface ,Uint32 color){
@@ -103,11 +105,5 @@ void drawBorders(SDL_Window *window, SDL_Surface *surface){
         drawLine(x, y,window, surface, color);
         x = x + 100;
     }
-
-
-
-
-
-
-
+    return;
 }
