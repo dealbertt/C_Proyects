@@ -9,12 +9,11 @@
 #include "graphics.h"
 #include <unistd.h>
 #include <stdbool.h>
+#include "logic.h"
 
 
 void initGame(SDL_Window **window, SDL_Surface **surface);
-bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,short *timer);
-bool timer(short *timer);
-void resetTimer(short *timer);
+bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y);
 int main(){
     SDL_Window *window = NULL;
     SDL_Surface *surface = NULL;
@@ -26,10 +25,10 @@ int main(){
     int x = 50;
 
     int y = 960;
-    int i = 1;
-    short timer = 5;
-    while(!handleKeyboard(window,surface,&x,&y,&timer)){
-        printf("Timer %d\n",timer);
+    while(!handleKeyboard(window,surface,&x,&y)){
+        printf("timer %hi \n",PAD_TIMER);
+        printf("ball timer %hi \n",BALL_TIMER);
+        printf("X: %d Y: %d\n",x,y);
     } 
     SDL_Quit();
     return 0;
@@ -50,45 +49,37 @@ void initGame(SDL_Window **window, SDL_Surface **surface){
 }   
 
 
-bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,short *time){
-     bool quit = false;
-     SDL_Event event;
-     //SDL_WaitEvent(&event);
-     SDL_PollEvent(&event);
-     if(timer(time)){
-
-         if(event.type == SDL_KEYDOWN){
-             if(event.key.keysym.sym == SDLK_ESCAPE){
-                 quit = true;
-                 return quit;
-             }else if(event.key.keysym.sym == SDLK_d){
-                 clearPad(window, surface, *x, *y);
-                 *x += 50;
-                 drawPad(window,surface,*x,*y);
-
-             }else if(event.key.keysym.sym == SDLK_a){
-                 clearPad(window, surface, *x, *y);
-                 *x -= 50;
-                 drawPad(window,surface,*x,*y);
-             }
-
-             resetTimer(time);
-         }
-     }
-
-     return quit;
-}
-bool timer(short *timer){
-    if(*timer <= 0){
-        printf("TRUE\n");
-        return true;
-    }else{
-        (*timer)--;
+bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y){
+    bool quit = false;
+    if(*y == 960){
+        SDL_Quit();
         return false;
     }
+    if(timer(&PAD_TIMER)){
+        SDL_Event event;
+        //SDL_WaitEvent(&event);
+        SDL_PollEvent(&event);
 
+        if(event.type == SDL_KEYDOWN){
+            if(event.key.keysym.sym == SDLK_ESCAPE){
+                quit = true;
+                return quit;
+            }else if(event.key.keysym.sym == SDLK_d && *x < 880){
+                clearPad(window, surface, *x, *y);
+                *x += 50;
+                drawPad(window,surface,*x,*y);
+
+            }else if(event.key.keysym.sym == SDLK_a && *x > 50){
+                clearPad(window, surface, *x, *y);
+                *x -= 50;
+                drawPad(window,surface,*x,*y);
+            }
+
+            resetTimer(PAD_TIMER_RESET,&PAD_TIMER);
+        }
+        
+
+    }
+     return quit;
 }
-void resetTimer(short *timer){
-    *timer = 5;
-    return;
-}
+
