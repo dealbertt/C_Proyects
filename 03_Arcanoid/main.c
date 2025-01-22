@@ -22,14 +22,14 @@ int main(){
     //Draw borders and place pad in the default place
     initGame(&window,&surface);
 
+   
+
     int x = 50;
 
     int y = 960;
+   
     while(!handleKeyboard(window,surface,&x,&y)){
-        printf("timer %hi \n",PAD_TIMER);
-        printf("ball timer %hi \n",BALL_TIMER);
-        printf("X: %d Y: %d\n",x,y);
-    } 
+   } 
     SDL_Quit();
     return 0;
 
@@ -37,8 +37,7 @@ int main(){
 }
 
 void initGame(SDL_Window **window, SDL_Surface **surface){
-
-    SDL_Init(SDL_INIT_VIDEO);
+      SDL_Init(SDL_INIT_VIDEO);
     *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,0);
     *surface = SDL_GetWindowSurface(*window);
     //drawPad(window, surface);
@@ -50,12 +49,16 @@ void initGame(SDL_Window **window, SDL_Surface **surface){
 
 
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y){
-    bool quit = false;
-    if(*y == 960){
-        SDL_Quit();
-        return false;
+  if(timer(&PAD_TIMER)){
+        printf("timer %hi \n",PAD_TIMER);
+
+    }else{
+        
+        printf(" nop timer %hi \n",PAD_TIMER);
     }
-    if(timer(&PAD_TIMER)){
+
+
+    bool quit = false;
         SDL_Event event;
         //SDL_WaitEvent(&event);
         SDL_PollEvent(&event);
@@ -75,10 +78,7 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y){
                 drawPad(window,surface,*x,*y);
             }
 
-            resetTimer(PAD_TIMER_RESET,&PAD_TIMER);
-        }
         
-
     }
      return quit;
 }
