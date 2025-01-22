@@ -27,9 +27,8 @@ int main(){
     int x = 50;
 
     int y = 960;
-   
-    while(!handleKeyboard(window,surface,&x,&y)){
-   } 
+      handleKeyboard(window,surface,&x,&y);
+    
     SDL_Quit();
     return 0;
 
@@ -49,16 +48,10 @@ void initGame(SDL_Window **window, SDL_Surface **surface){
 
 
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y){
-  if(timer(&PAD_TIMER)){
-        printf("timer %hi \n",PAD_TIMER);
-
-    }else{
-        
-        printf(" nop timer %hi \n",PAD_TIMER);
-    }
-
 
     bool quit = false;
+    if(timer(&PAD_TIMER)){
+
         SDL_Event event;
         //SDL_WaitEvent(&event);
         SDL_PollEvent(&event);
@@ -78,8 +71,12 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y){
                 drawPad(window,surface,*x,*y);
             }
 
+
+        }
         
     }
+
+            printf("pad: %hi\n",PAD_TIMER);
      return quit;
 }
 
