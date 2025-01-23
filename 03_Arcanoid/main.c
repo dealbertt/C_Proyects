@@ -14,6 +14,8 @@
 
 void initGame(SDL_Window **window, SDL_Surface **surface);
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y);
+bool Exit();
+void gameLoop(SDL_Window *window,SDL_Surface *surface);
 int main(){
     SDL_Window *window = NULL;
     SDL_Surface *surface = NULL;
@@ -21,15 +23,8 @@ int main(){
 
     //Draw borders and place pad in the default place
     initGame(&window,&surface);
-
+gameLoop(window,surface);
    
-
-    int x = 50;
-
-    int y = 960;
-      handleKeyboard(window,surface,&x,&y);
-    
-    SDL_Quit();
     return 0;
 
 
@@ -57,10 +52,7 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y){
         SDL_PollEvent(&event);
 
         if(event.type == SDL_KEYDOWN){
-            if(event.key.keysym.sym == SDLK_ESCAPE){
-                quit = true;
-                return quit;
-            }else if(event.key.keysym.sym == SDLK_d && *x < 880){
+            if(event.key.keysym.sym == SDLK_d && *x < 880){
                 clearPad(window, surface, *x, *y);
                 *x += 50;
                 drawPad(window,surface,*x,*y);
@@ -76,7 +68,32 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y){
         
     }
 
-            printf("pad: %hi\n",PAD_TIMER);
      return quit;
 }
+bool Exit(){
+    bool quit = false;
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    if(event.type == SDL_KEYDOWN){
+        if(event.key.keysym.sym == SDLK_ESCAPE){
+            SDL_Quit();
+            printf("QUIT\n");
+            return true;
+        }
+    }
+    return quit;
 
+
+}
+
+void gameLoop(SDL_Window *window,SDL_Surface *surface){
+    int x = 500;
+    int y = 960;
+    while(Exit() == false){
+        timer(&PAD_TIMER);
+        handleKeyboard(window,surface,&x,&y);
+
+    }
+    return;
+ 
+}

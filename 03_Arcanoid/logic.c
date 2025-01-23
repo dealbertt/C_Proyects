@@ -4,7 +4,8 @@ short PAD_TIMER = 50;
 short BALL_TIMER = 50;
 const short PAD_TIMER_RESET = 50;
 bool timer(short *timer){
-    if(*timer == 0){
+        printf("timer %hi\n",PAD_TIMER);
+    if(*timer <= 0){
         printf("TRUE\n");
         return true;
     }else{
