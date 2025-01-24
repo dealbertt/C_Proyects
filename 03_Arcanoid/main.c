@@ -62,31 +62,43 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER
     bool quit = false;
     if(timer2(timer)){
 
-
-
         printf("WORKS\n timer: %hi\n",timer->value);
-        SDL_Event event;
         //SDL_WaitEvent(&event);
+        SDL_Event event;
         SDL_PollEvent(&event);
 
+
+
+
         if(event.type == SDL_KEYDOWN){
-            if(event.key.keysym.sym == SDLK_d && *x < 880){
-                clearPad(window, surface, *x, *y);
-                *x += 25;
-                drawPad(window,surface,*x,*y);
 
-            }else if(event.key.keysym.sym == SDLK_a && *x > 50){
-                clearPad(window, surface, *x, *y);
-                *x -= 25;
-                drawPad(window,surface,*x,*y);
+            switch (event.key.keysym.sym) {
+                case SDLK_ESCAPE:
+                    SDL_Quit();
+                    printf("QUIT\n");
+                    quit = true;
+                    break;
+
+                case SDLK_d:
+                    clearPad(window, surface, *x, *y);
+                    *x += 25;
+                    drawPad(window,surface,*x,*y);
+                    break;
+                case SDLK_a:
+                    clearPad(window, surface, *x, *y);
+                    *x -= 25;
+                    drawPad(window,surface,*x,*y);
+                    break;
+                default:
+                    break;
+
             }
-
-
-
         }
-    }
 
-     return quit;
+    }else{
+        SDL_FlushEvent(SDL_KEYDOWN);
+    }
+    return quit;
 }
 
 bool Exit(){
@@ -111,18 +123,11 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,TIMER *timer,TIMER *ballTi
     int x2 = 500;
     int y2 = 100;
     while(Exit() == false){
-        if(timer2(timer)){
-            sleep(1);
-            drawLine(x, y, window, surface, 0xffffffff);
-            x += 50;
-        }
         if(timer2(ballTimer)){
-            sleep(1);
             drawLine(x2, y2, window, surface, 0xffffffff);
             x2 += 50;
-
         }
-
+        handleKeyboard(window, surface, &x, &y, timer);
     }
     return;
  

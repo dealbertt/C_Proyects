@@ -22,7 +22,6 @@ void resetTimer(const short initialValue,short *actualValue){
 }
 
 bool timer2(TIMER *timer){
-    printf("TIME %hi\n",timer->value);
     if(timer->value <= 0){
         timer->activated = true;
         timer->value = timer->resetValue;
