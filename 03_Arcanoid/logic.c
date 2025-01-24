@@ -1,10 +1,14 @@
+#include "logic.h"
 #include <stdio.h>
 #include <stdbool.h>
-short PAD_TIMER = 50;
-short BALL_TIMER = 50;
-const short PAD_TIMER_RESET = 50;
+#include <time.h>
+
+short PAD_TIMER = 5;        // Declare PAD_TIMER as extern
+short BALL_TIMER = 5;
+const short PAD_TIMER_RESET = 5;
+//i have an idea
 bool timer(short *timer){
-        printf("timer %hi\n",PAD_TIMER);
+
         if(*timer <= 0){
             printf("TRUE\n");
             return true;
@@ -19,4 +23,16 @@ void resetTimer(const short initialValue,short *actualValue){
     return;
 }
 
+bool timer2(TIMER *timer){
+    printf("TIME %hi\n",timer->value);
+    if(timer->value <= 0){
+        timer->activated = true;
+        timer->value = timer->resetValue;
+        return true;
+    }else{
+        timer->value --;
+    }
+
+    return false;
+}
 

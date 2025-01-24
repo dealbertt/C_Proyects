@@ -13,9 +13,9 @@
 
 
 void initGame(SDL_Window **window, SDL_Surface **surface);
-bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y);
+bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer);
 bool Exit();
-void gameLoop(SDL_Window *window,SDL_Surface *surface);
+void gameLoop(SDL_Window *window,SDL_Surface *surface,TIMER *timer);
 int main(){
     SDL_Window *window = NULL;
     SDL_Surface *surface = NULL;
@@ -23,8 +23,15 @@ int main(){
 
     //Draw borders and place pad in the default place
     initGame(&window,&surface);
-gameLoop(window,surface);
-   
+
+    TIMER *padTimer = malloc(sizeof(TIMER));
+    padTimer->value = PAD_TIMER;
+    padTimer->resetValue = PAD_TIMER_RESET;
+
+
+    gameLoop(window,surface,padTimer);
+
+    free(padTimer);
     return 0;
 
 
@@ -42,11 +49,12 @@ void initGame(SDL_Window **window, SDL_Surface **surface){
 }   
 
 
-bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y){
+bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer){
 
     bool quit = false;
-    if(timer(&PAD_TIMER)){
+    if(timer2(timer)){
 
+        printf("WORKS\n timer: %hi\n",timer->value);
         SDL_Event event;
         //SDL_WaitEvent(&event);
         SDL_PollEvent(&event);
@@ -86,14 +94,13 @@ bool Exit(){
 
 }
 
-void gameLoop(SDL_Window *window,SDL_Surface *surface){
+void gameLoop(SDL_Window *window,SDL_Surface *surface,TIMER *timer){
     int x = 500;
     int y = 960;
     while(Exit() == false){
-        timer(&PAD_TIMER);
-        handleKeyboard(window,surface,&x,&y);
-
+            handleKeyboard(window,surface,&x,&y,timer);
     }
     return;
  
 }
+
