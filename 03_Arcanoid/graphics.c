@@ -22,15 +22,16 @@ void drawBall(int x, int y,SDL_Window *window,SDL_Surface *surface,Uint32 color)
     return;
 }
 
-void simulateBall(SDL_Window *window,SDL_Surface *surface){
-    int x = 500, y = 500;
-    for(int i = 0; i < 20; i ++){
-        drawBall(x, y, window, surface, 0xffffffff);;
-        SDL_Delay(75);
-        drawBall(x, y, window, surface, 0x00000000);
-        y = y + BRICK_HEIGHT;
+void simulateBall(SDL_Window *window,SDL_Surface *surface,TIMER *timer){
+    if(timer2(timer)){
+        int x = 500, y = 500;
+        for(int i = 0; i < 20; i ++){
+            drawBall(x, y, window, surface, 0xffffffff);;
+            SDL_Delay(75);
+            drawBall(x, y, window, surface, 0x00000000);
+            y = y + BRICK_HEIGHT;
+        }
     }
-
     return;
 }
 void drawPad(SDL_Window *window, SDL_Surface *surface,int x,int y){

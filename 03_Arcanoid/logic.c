@@ -1,11 +1,9 @@
 #include "logic.h"
 #include <stdio.h>
 #include <stdbool.h>
-#include <time.h>
 
-short PAD_TIMER = 5;        // Declare PAD_TIMER as extern
-short BALL_TIMER = 5;
-const short PAD_TIMER_RESET = 5;
+short BALL_TIMER = 500;
+const short PAD_TIMER_RESET = 2;
 //i have an idea
 bool timer(short *timer){
 
