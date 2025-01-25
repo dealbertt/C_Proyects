@@ -12,6 +12,7 @@
 
 
 //sorry for no audio today, watching the 24 hourse of Daytona :)
+
 void initGame(SDL_Window **window, SDL_Surface **surface);
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer);
 bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer);
@@ -47,9 +48,12 @@ int main(){
 
 void initGame(SDL_Window **window, SDL_Surface **surface){
     SDL_Init(SDL_INIT_VIDEO);
+
     *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,0);
     *surface = SDL_GetWindowSurface(*window);
+
     //drawPad(window, surface);
+    
     drawBorders(*window, *surface);
     drawPad(*window,*surface,500,960);
     return;
@@ -66,27 +70,38 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER
         SDL_Event event;
         SDL_PollEvent(&event);
 
-
-
-
         if(event.type == SDL_KEYDOWN){
 
             switch (event.key.keysym.sym) {
                 case SDLK_ESCAPE:
+
                     SDL_Quit();
                     printf("QUIT\n");
                     quit = true;
+
                     break;
 
                 case SDLK_d:
-                    clearPad(window, surface, *x, *y);
-                    *x += 50;
-                    drawPad(window,surface,*x,*y);
+
+                    if(*x < 875){
+                        clearPad(window, surface, *x, *y);
+                        *x += 25;
+                        drawPad(window,surface,*x,*y);
+                    }else{
+                        drawPad(window, surface, *x, *y);
+                    }
+
                     break;
                 case SDLK_a:
-                    clearPad(window, surface, *x, *y);
-                    *x -= 50;
-                    drawPad(window,surface,*x,*y);
+
+                    if(*x > 25){
+                        clearPad(window, surface, *x, *y);
+                        *x -= 25;
+                        drawPad(window,surface,*x,*y);
+                    }else{
+                        drawPad(window, surface, *x, *y);
+                    }
+
                     break;
                 default:
                     break;
