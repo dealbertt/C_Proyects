@@ -7,11 +7,11 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include "graphics.h"
-#include <unistd.h>
 #include <stdbool.h>
 #include "logic.h"
 
 
+//sorry for no audio today, watching the 24 hourse of Daytona :)
 void initGame(SDL_Window **window, SDL_Surface **surface);
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer);
 bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer);
@@ -46,7 +46,7 @@ int main(){
 }
 
 void initGame(SDL_Window **window, SDL_Surface **surface){
-      SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO);
     *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,0);
     *surface = SDL_GetWindowSurface(*window);
     //drawPad(window, surface);
@@ -62,7 +62,6 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER
     bool quit = false;
     if(timer2(timer)){
 
-        printf("WORKS\n timer: %hi\n",timer->value);
         //SDL_WaitEvent(&event);
         SDL_Event event;
         SDL_PollEvent(&event);
@@ -81,18 +80,21 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER
 
                 case SDLK_d:
                     clearPad(window, surface, *x, *y);
-                    *x += 25;
+                    *x += 50;
                     drawPad(window,surface,*x,*y);
                     break;
                 case SDLK_a:
                     clearPad(window, surface, *x, *y);
-                    *x -= 25;
+                    *x -= 50;
                     drawPad(window,surface,*x,*y);
                     break;
                 default:
                     break;
 
             }
+            system("clear");
+            printf("X: %d Y: %d\n",*x,*y);
+            printf("Timer: %d\n",timer->value);
         }
 
     }else{
@@ -101,33 +103,11 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER
     return quit;
 }
 
-bool Exit(){
-    bool quit = false;
-    SDL_Event event;
-    SDL_PollEvent(&event);
-    if(event.type == SDL_KEYDOWN){
-        if(event.key.keysym.sym == SDLK_ESCAPE){
-            SDL_Quit();
-            printf("QUIT\n");
-            return true;
-        }
-    }
-    return quit;
-
-
-}
-
 void gameLoop(SDL_Window *window,SDL_Surface *surface,TIMER *timer,TIMER *ballTimer){
     int x = 500;
     int y = 960;
-    int x2 = 500;
-    int y2 = 100;
-    while(Exit() == false){
-        if(timer2(ballTimer)){
-            drawLine(x2, y2, window, surface, 0xffffffff);
-            x2 += 50;
-        }
-        handleKeyboard(window, surface, &x, &y, timer);
+    while(!handleKeyboard(window, surface, &x, &y, timer)){
+       
     }
     return;
  

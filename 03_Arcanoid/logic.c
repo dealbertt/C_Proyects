@@ -1,21 +1,7 @@
 #include "logic.h"
-#include <stdio.h>
 #include <stdbool.h>
 
 short BALL_TIMER = 500;
-const short PAD_TIMER_RESET = 2;
-//i have an idea
-bool timer(short *timer){
-
-        if(*timer <= 0){
-            printf("TRUE\n");
-            return true;
-        }else{
-            *timer = *timer - 1;
-            return false;
-        }
-
-}
 void resetTimer(const short initialValue,short *actualValue){
     *actualValue = initialValue;
     return;
