@@ -15,7 +15,7 @@
 
 //great race at Daytona btw :)
 
-void initGame(SDL_Window **window, SDL_Surface **surface, PAD *pad, BALL *ball);
+void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball);
 
 void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball);
 int main(){
@@ -29,12 +29,13 @@ int main(){
     BALL *ball = NULL;
     PAD *pad = NULL;
 
-    initGame(&window,&surface,pad,ball);
+    initGame(&window,&surface,&pad,&ball);
 
     drawPad(window,surface,pad->x,pad->y);
 
     drawBall(ball->x, ball->y, window, surface,0xffffffff);
 
+    printf("Start\n");
     gameLoop(window,surface,pad,ball);
 
     free(ball->timer);
@@ -46,7 +47,7 @@ int main(){
 
 }
 
-void initGame(SDL_Window **window, SDL_Surface **surface, PAD *pad, BALL *ball){
+void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball){
     SDL_Init(SDL_INIT_VIDEO);
 
     *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,0);
@@ -56,21 +57,39 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD *pad, BALL *ball){
     
 
     drawBorders(*window, *surface);
-    pad = malloc(sizeof(PAD));
-    pad->x = 450;
-    pad->y = 960;
-    pad->timer = malloc(sizeof(TIMER));
-    pad->timer->value = PAD_TIMER_RESET;
-    pad->timer->resetValue = PAD_TIMER_RESET;
- 
-    ball = malloc(sizeof(BALL));
-    ball->timer = malloc(sizeof(TIMER));
-    ball->timer->value = BALL_TIMER_RESET;
-    ball->timer->resetValue = BALL_TIMER_RESET;
-    ball->x = 500;
-    ball->y = 940;
+    *pad = malloc(sizeof(PAD));
+     if(*pad == NULL){
+        printf("Error allocating memory for pad\n");
+        return;
+    }
+    (*pad)->x = 450;
+    (*pad)->y = 960;
+    (*pad)->timer = malloc(sizeof(TIMER));
+    if((*pad)->timer == NULL){
+        printf("Error allocating memory for pad timer\n");
+        free(pad);
+        return;
+    }
+    (*pad)->timer->value = PAD_TIMER_RESET;
+    (*pad)->timer->resetValue = PAD_TIMER_RESET;
+    (*pad)->timer->activated = false;
 
-    printf("Game initialized correctly\n");
+    *ball = malloc(sizeof(BALL));
+    if(*ball == NULL){
+        printf("Error allocating memory for ball\n");
+    }
+    (*ball)->timer = malloc(sizeof(TIMER));
+    if((*ball)->timer == NULL){
+        printf("Error allocating memory for ball timer\n");
+        free(ball);
+        return;
+    }
+    (*ball)->timer->value = BALL_TIMER_RESET;
+    (*ball)->timer->resetValue = BALL_TIMER_RESET;
+    (*ball)->timer->activated = false;
+    (*ball)->x = 500;
+    (*ball)->y = 940;
+     printf("Game initialized correctly\n");
 
     return;
 

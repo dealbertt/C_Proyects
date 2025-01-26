@@ -40,7 +40,7 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
 
                     if(pad->x > 25){
                         clearPad(window, surface, pad->x, pad->y);
-                        pad->x += 25;
+                        pad->x -= 25;
                         drawPad(window,surface,pad->x, pad->y);
 
                     }else{
