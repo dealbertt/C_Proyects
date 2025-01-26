@@ -19,6 +19,12 @@ void drawBall(int x, int y,SDL_Window *window,SDL_Surface *surface,Uint32 color)
     SDL_Rect rect = {x,y,BRICK_WIDTH,BRICK_HEIGHT};
     SDL_FillRect(surface,&rect, color);
     SDL_UpdateWindowSurface(window);
+
+    return;
+}
+
+void clearBall(int x, int y,SDL_Window *window,SDL_Surface *surface){
+    drawBall(x,y,window,surface,0x00000000);
     return;
 }
 
