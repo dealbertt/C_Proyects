@@ -10,10 +10,10 @@
 #include <stdbool.h>
 #include "logic.h"
 #include "keyboard.c"
+#include "levels.h"
 
 
 
-//great race at Daytona btw :)
 
 void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball);
 
@@ -36,6 +36,7 @@ int main(){
     drawBall(ball->x, ball->y, window, surface,0xffffffff);
 
     printf("Start\n");
+    MAP *map = loadLevel();
     gameLoop(window,surface,pad,ball);
 
     free(ball->timer);
