@@ -2,7 +2,6 @@ Welcome to a repo with a bunch of different C Proyects!
 The aim of this repo is to improve my skills and explore different fields
 
 List of Proyects:
-
 1- Json Parser 
     -Needs to be optimized and implement the array struct
     -Maybe implement the CSV from DIS and transform it into json?
@@ -14,3 +13,7 @@ List of Proyects:
     -Implement another option that transform an existing image into ASCII
         -How to extract brightness out of rgb: 0.2126*R + 0.7152*G + 0.0722*B
     -Get started with sdl to display image
+
+3- Arcanoid Game
+    This is an implementation of an arkanoid game we did in z80 assembly (which you can find in a repo), following the same structure on how to implement graphics and logic
+    It was done using SDL, my first time using it
