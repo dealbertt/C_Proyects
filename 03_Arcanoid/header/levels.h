@@ -1,7 +1,7 @@
 #ifndef LEVELS_H
 #define LEVELS_H
 
-typedef struct{
+typedef struct MAP{
     char name[15];
     int bricks;
     int destructibleBricks;

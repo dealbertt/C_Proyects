@@ -25,3 +25,36 @@ MAP_t  *loadLevel(){
     printf("Total number of bricks: %d\n",map->bricks);
     return map;
 }
+
+
+stack_t *createStack(){
+    stack_t *stack = malloc(sizeof(stack_t));
+    if(stack == NULL){
+        printf("Error while allocating memory for level list\n");
+        return NULL;
+    }
+
+    return stack;
+}
+
+MAP_t *pop(stack_t *stack){
+    if(stack->top == NULL){
+        return NULL; //not sure why tho
+    }
+    MAP_t *map = stack->top;
+    stack->top = stack->top->next;
+    map->next = NULL;
+    return map;
+}
+
+void push(MAP_t *map,stack_t *stack){
+    map->next = stack->top;
+    stack->top = map;
+}
+void freeStack(stack_t *stack){
+    while(stack->top != NULL){
+        MAP_t *map = pop(stack);
+        free(map);
+    }
+    free(stack);
+}
