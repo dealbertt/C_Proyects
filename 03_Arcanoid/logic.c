@@ -1,4 +1,4 @@
-#include "logic.h"
+#include "header/logic.h"
 #include <stdbool.h>
 
 short BALL_TIMER = 500;

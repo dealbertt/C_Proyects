@@ -6,11 +6,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#include "graphics.h"
+#include "header/graphics.h"
 #include <stdbool.h>
-#include "logic.h"
+#include "header/logic.h"
 #include "keyboard.c"
-#include "levels.h"
+#include "header/levels.h"
 
 
 
@@ -36,7 +36,7 @@ int main(){
     drawBall(ball->x, ball->y, window, surface,0xffffffff);
 
     printf("Start\n");
-    MAP *map = loadLevel();
+    MAP_t *map = loadLevel();
     gameLoop(window,surface,pad,ball);
 
     free(ball->timer);

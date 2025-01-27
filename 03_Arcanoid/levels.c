@@ -1,18 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "levels.h"
+#include "header/levels.h"
 
 //Maybe i should create a struct map with all the necessary information
 //and then i can create a list of maps with those structs
 #define levelFile "levels.txt"
-MAP  *loadLevel(){
+//its not going to be MAP_t but a stack with all the levels on the list
+MAP_t  *loadLevel(){
     FILE *ptr = fopen(levelFile,"r");
     if(ptr == NULL){
         printf("Error while trying to open the file \n");
         return NULL;
     }
 
-    MAP *map = malloc(sizeof(MAP));
+    MAP_t *map = malloc(sizeof(MAP_t));
     if(map == NULL){
         printf("Error while allocating memory for map\n");
         free(map);

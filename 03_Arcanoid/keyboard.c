@@ -1,4 +1,4 @@
-#include "graphics.h"
+#include "header/graphics.h"
 #include <stdio.h>
 
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad);
