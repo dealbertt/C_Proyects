@@ -1,4 +1,5 @@
 #include "header/levels.h"
+#include <stdio.h>
 
 //Maybe i should create a struct map with all the necessary information
 //and then i can create a list of maps with those structs
@@ -39,9 +40,9 @@ List *createList(){
     fscanf(ptr,"%d\n",&size);
 
     char name[15];
-    fscanf(ptr,"%s\n",name);
-
-    addToList(list,name);
+    while(fscanf(ptr,"%s\n",name) != EOF){
+        addToList(list, name);
+    }
     fclose(ptr);
     loadLevel(list->head);
     return list;
