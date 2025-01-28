@@ -1,10 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "header/levels.h"
 
 //Maybe i should create a struct map with all the necessary information
 //and then i can create a list of maps with those structs
-#define levelFile "levels.txt"
+#define levelFile "levels/levels.txt"
 //its not going to be MAP_t but a stack with all the levels on the list
 MAP_t  *loadLevel(){
     FILE *ptr = fopen(levelFile,"r");
@@ -26,35 +24,53 @@ MAP_t  *loadLevel(){
     return map;
 }
 
+int levelList(MAP_t **head){
+    *head = malloc(sizeof(MAP_t));
+    if(head == NULL){
+        printf("Error allocating memory for level\n");
+        return 1;
+        return 1;
+    }
+    FILE *ptr = fopen(levelFile,"r");
+    fscanf(ptr,"%s",(*head)->name);
+    printf("first level name: %s\n",(*head)->name);
+    fclose(ptr);
+    return 0;
+}
 
-stack_t *createStack(){
-    stack_t *stack = malloc(sizeof(stack_t));
-    if(stack == NULL){
-        printf("Error while allocating memory for level list\n");
+List *createList(){
+    List *list = malloc(sizeof(List));
+    if(list == NULL){
+        printf("Error allocating memory for list\n");
         return NULL;
     }
-
-    return stack;
-}
-
-MAP_t *pop(stack_t *stack){
-    if(stack->top == NULL){
-        return NULL; //not sure why tho
+    FILE *ptr = fopen(levelFile,"r");
+    if(ptr == NULL){
+        printf("Error while trying to open the file\n");
+        return NULL;
     }
-    MAP_t *map = stack->top;
-    stack->top = stack->top->next;
-    map->next = NULL;
-    return map;
+    int size = 0;
+    MAP_t *head = malloc(sizeof(MAP_t));
+    list->head = head;
+    fscanf(ptr,"%d\n",&size);
+    fscanf(ptr,"%s\n",head->name);
+    
+    return list;
+}
+void addToList(List *list,char levelName[15]){
+    MAP_t *level = malloc(sizeof(MAP_t));
+    strcpy(level->name,levelName);
+    printf("Level name: %s\n",level->name);
+    if(list->head == NULL){
+        list->head = level;
+        list->tail = level;
+    }else{
+        list->tail->next = level;
+        list->tail = level;
+    }
+    list->size++;
+    return;
+
 }
 
-void push(MAP_t *map,stack_t *stack){
-    map->next = stack->top;
-    stack->top = map;
-}
-void freeStack(stack_t *stack){
-    while(stack->top != NULL){
-        MAP_t *map = pop(stack);
-        free(map);
-    }
-    free(stack);
-}
+

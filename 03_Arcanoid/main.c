@@ -34,7 +34,8 @@ int main(){
     drawBall(ball->x, ball->y, window, surface,0xffffffff);
 
     printf("Start\n");
-    MAP_t *map = loadLevel();
+    MAP_t *map = NULL;
+    levelList(&map);
     gameLoop(window,surface,pad,ball);
 
     free(ball->timer);
