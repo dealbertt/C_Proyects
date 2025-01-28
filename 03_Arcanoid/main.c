@@ -35,7 +35,7 @@ int main(){
 
     printf("Start\n");
     MAP_t *map = NULL;
-    levelList(&map);
+    createList();
     gameLoop(window,surface,pad,ball);
 
     free(ball->timer);

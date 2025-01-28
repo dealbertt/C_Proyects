@@ -21,7 +21,8 @@ typedef struct{
 }List;
 
 
-MAP_t *loadLevel();
 List  *createList();
+int loadLevel(MAP_t *level);
 int levelList(MAP_t **map);
+void addToList(List *list,char levelName[15]);
 #endif
