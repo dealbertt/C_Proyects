@@ -13,8 +13,8 @@
 #include "header/levels.h"
 
 
-void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball);
 
+void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball,List **list);
 void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball);
 int main(){
 
@@ -27,15 +27,15 @@ int main(){
     BALL *ball = NULL;
     PAD *pad = NULL;
 
-    initGame(&window,&surface,&pad,&ball);
+    List *list = NULL;
+
+    initGame(&window,&surface,&pad,&ball,&list);
 
     drawPad(window,surface,pad->x,pad->y);
 
     drawBall(ball->x, ball->y, window, surface,0xffffffff);
 
     printf("Start\n");
-    MAP_t *map = NULL;
-    createList();
     gameLoop(window,surface,pad,ball);
 
     free(ball->timer);
@@ -47,7 +47,7 @@ int main(){
 
 }
 
-void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball){
+void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball,List **list){
     SDL_Init(SDL_INIT_VIDEO);
 
     *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,0);
@@ -55,6 +55,11 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
 
     //drawPad(window, surface);
     
+    *list = createList();
+
+    printf("Name of head: %s\n",(*list)->head->name);
+    printf("Name of middle: %s\n",(*list)->head->next->name);
+    printf("Name of tail: %s\n",(*list)->tail->name);
 
     drawBorders(*window, *surface);
     *pad = malloc(sizeof(PAD));

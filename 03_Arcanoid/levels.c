@@ -51,7 +51,6 @@ void addToList(List *list,char levelName[15]){
     MAP_t *level = malloc(sizeof(MAP_t));
     strcpy(level->name,levelName);
     if(list->head == NULL){
-        printf("List head NULL\n");
         list->head = level;
         list->tail = level;
 
@@ -60,7 +59,6 @@ void addToList(List *list,char levelName[15]){
         list->tail = level;
     }
     level->completed = false;
-    printf("Level name: %s\n",level->name);
     level->completed = false;
     list->size++;
     return;
