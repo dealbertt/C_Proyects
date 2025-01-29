@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include "logic.h"
 void drawPad(SDL_Window *window, SDL_Surface *surface,int x,int y);
-void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 color);
+void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 color, bool update);
 void drawBrick(int x,int y,SDL_Surface *surface ,Uint32 color);
 void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 color);
 void clearPad(SDL_Window *window, SDL_Surface *surface,int x,int y);

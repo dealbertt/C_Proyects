@@ -42,14 +42,14 @@ void simulateBall(SDL_Window *window,SDL_Surface *surface,TIMER *timer){
 }
 void drawPad(SDL_Window *window, SDL_Surface *surface,int x,int y){
     Uint32 color = 0xFFFF0000;
-    drawLine(x,y,window,surface,color);
+    drawLine(x,y,window,surface,color,true);
     return;
 }
 
 
 void clearPad(SDL_Window *window, SDL_Surface *surface,int x, int y){
     Uint32 color = 0x00000000;
-    drawLine(x,y,window,surface,color);
+    drawLine(x,y,window,surface,color,false);
     return;
 }
 
@@ -61,7 +61,7 @@ void drawBrick(int x,int y,SDL_Surface *surface ,Uint32 color){
     return;
 }
 
-void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 color){
+void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 color, bool update){
     for(int i = 0; i < 5; i ++){
 
         drawBrick(x,y,surface,color);
@@ -70,7 +70,7 @@ void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 colo
 
     }
 
-    SDL_UpdateWindowSurface(window);
+    if(update){SDL_UpdateWindowSurface(window);}
     return;
 }
 
@@ -103,13 +103,13 @@ void drawBorders(SDL_Window *window, SDL_Surface *surface){
     x = 0;
     y = 0;
     for(int i = 0; i < 10; i ++){
-        drawLine(x, y,window, surface, color);
+        drawLine(x, y,window, surface, color,true);
         x = x + 100;
     }
     x = 0;
     y = 980;
     for(int i = 0; i < 10; i ++){
-        drawLine(x, y,window, surface, color);
+        drawLine(x, y,window, surface, color,true);
         x = x + 100;
     }
     return;
