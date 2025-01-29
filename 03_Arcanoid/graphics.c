@@ -2,15 +2,6 @@
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_video.h>
-
-#define BRICK_WIDTH 20
-#define BRICK_HEIGHT  20
-#define WINDOW_HEIGHT  1000
-#define WINDOW_WIDTH 1000
-#define PAD_RESET WINDOW_WIDTH/2
-#define PAD_Y WINDOW_HEIGHT - BRICK_HEIGHT *2
-#define PAD_X 500 
-
 //Draw pad is going to be draw brick at the pad positions :)
 
 

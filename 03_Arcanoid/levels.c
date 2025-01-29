@@ -1,4 +1,5 @@
 #include "header/levels.h"
+#include "header/graphics.h"
 #include <stdio.h>
 
 //Maybe i should create a struct map with all the necessary information
@@ -44,7 +45,6 @@ List *createList(){
         addToList(list, name);
     }
     fclose(ptr);
-    loadLevel(list->head);
     return list;
 }
 void addToList(List *list,char levelName[15]){
@@ -65,7 +65,7 @@ void addToList(List *list,char levelName[15]){
 
 }
 
-int loadLevel(MAP_t *level){
+int loadLevel(MAP_t *level, SDL_Surface *surface){
     char path[30] = "levels/";
     char *root = strcat(path,level->name);
     printf("Total name: %s\n",root);
@@ -74,10 +74,55 @@ int loadLevel(MAP_t *level){
         printf("Error while trying to open the file\n");
         return 1;
     }
-    fscanf(ptr,"%d\n",&level->bricks);
+    int rows;
+    fscanf(ptr,"%d %d\n",&level->bricks,&rows);
     printf("Number of bricks: %d\n",level->bricks);
+    int y = 0;int n = 0;int x = 175;
+    printf("Number of bricks in row: %d\n",n);
+    printf("Y coordinate of starting brick: %d\n",y);
+    int color = 0;
+    for(int i = 0; i < rows; i++){
+        x = 175;
+        fscanf(ptr,"%d %d",&y,&n);
+        for(int i = 0; i < n; i++){
+            fscanf(ptr,"%d ",&color);
+            drawBrick(x, y, surface, selectColor(color));
+            x += BRICK_WIDTH; 
+            printf("color in int: %d\n color uint: %d\n",color,selectColor(color));
+
+        }
+        fscanf(ptr,"\n");
+    }
+
+
 
     return 0;
+
+}
+uint32_t selectColor(int n){
+    uint32_t color;
+    switch (n) {
+        case 0:
+            color = 0x00000000;
+            break;
+        case 1:
+            color = 0xFF0000FF;
+            break;
+        case 2:
+            color = 0xFFFF0000;
+            break;
+        case 3:
+            color = 0xFFFF00FF;
+            break;
+        case 4:
+            color = 0xFF00FF00;
+            break;
+        default:
+            color = 0x00000000;
+            break;
+
+    }
+    return color;
 
 }
 
