@@ -101,19 +101,36 @@ uint32_t selectColor(int n){
     uint32_t color;
     switch (n) {
         case 0:
+            //BLACK
             color = 0x00000000;
             break;
         case 1:
+            //BLUE
             color = 0xFF0000FF;
             break;
         case 2:
+            //RED
             color = 0xFFFF0000;
             break;
         case 3:
+            //PURPLE
             color = 0xFFFF00FF;
             break;
         case 4:
+            //GREEN
             color = 0xFF00FF00;
+            break;
+        case 5:
+            //TURQUOISE
+            color = 0xFF40E0D0;
+            break;
+        case 6:
+            //YELLOW
+            color = 0xFFFFFF00;
+            break;
+        case 7:
+            //WHITE
+            color = 0xFFFFFFFF;
             break;
         default:
             color = 0x00000000;
