@@ -33,7 +33,7 @@ int main(){
 
     drawPad(window,surface,pad->x,pad->y);
 
-    drawBall(ball->x, ball->y, window, surface,0xffffffff);
+    drawBall(ball->x, ball->y, window, surface,WHITE);
 
     printf("Start\n");
     gameLoop(window,surface,pad,ball);

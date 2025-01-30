@@ -82,7 +82,7 @@ int loadLevel(MAP_t *level, SDL_Surface *surface){
     printf("Y coordinate of starting brick: %d\n",y);
     int color = 0;
     for(int i = 0; i < rows; i++){
-        x = 175;
+        x = 300;
         fscanf(ptr,"%d %d",&y,&n);
         for(int i = 0; i < n; i++){
             fscanf(ptr,"%d ",&color);
