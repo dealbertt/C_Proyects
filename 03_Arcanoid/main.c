@@ -61,7 +61,7 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     printf("Name of middle: %s\n",(*list)->head->next->name);
     printf("Name of tail: %s\n",(*list)->tail->name);
 
-    loadLevel((*list)->head,*surface);
+    loadLevel((*list)->head->next,*surface);
     drawBorders(*window, *surface);
     *pad = malloc(sizeof(PAD));
      if(*pad == NULL){
