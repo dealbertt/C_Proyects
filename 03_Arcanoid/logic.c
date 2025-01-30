@@ -1,5 +1,5 @@
 #include "header/logic.h"
-#include <stdbool.h>
+#include "header/levels.h"
 
 short BALL_TIMER = 500;
 void resetTimer(const short initialValue,short *actualValue){
@@ -16,6 +16,14 @@ bool timer2(TIMER *timer){
         timer->value --;
     }
 
+    return false;
+}
+bool levelPassed(MAP_t *map){
+    if(map->completed){
+        return true;
+    }else{
+        return false;
+    }
     return false;
 }
 

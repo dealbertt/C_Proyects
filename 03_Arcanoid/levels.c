@@ -4,7 +4,7 @@
 
 //Maybe i should create a struct map with all the necessary information
 //and then i can create a list of maps with those structs
-#define levelFile "levels/levels.txt"
+#define levelFile "levels/levels"
 //its not going to be MAP_t but a stack with all the levels on the list
 
 
