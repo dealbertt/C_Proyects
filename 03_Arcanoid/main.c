@@ -90,11 +90,14 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
         free(ball);
         return;
     }
+    
     (*ball)->timer->value = BALL_TIMER_RESET;
     (*ball)->timer->resetValue = BALL_TIMER_RESET;
     (*ball)->timer->activated = false;
     (*ball)->x = 500;
     (*ball)->y = 940;
+    (*ball)->deltaX = 0;
+    (*ball)->deltaY = 1;
      printf("Game initialized correctly\n");
 
     return;
@@ -105,8 +108,11 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
 
 void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
 
+    getPixel(surface, pad->x, pad->y);
     while(!handleKeyboard(window, surface, pad)){
-       
+        clearBall(ball->x, ball->y, window, surface);
+        updateBallDelta(ball);
+        drawBall(ball->x, ball->y, window, surface, 0xffffffff);
     }
     return;
  
