@@ -10,7 +10,7 @@ void resetTimer(const short initialValue,short *actualValue){
     return;
 }
 
-bool timer2(TIMER *timer){
+bool timer(TIMER *timer){
     if(timer->value <= 0){
         timer->activated = true;
         timer->value = timer->resetValue;
@@ -29,6 +29,7 @@ bool levelPassed(MAP_t *map){
     }
     return false;
 }
+/*
 
 void checkBricks(BALL *ball, SDL_Surface *surface){
     if(SDL_MUSTLOCK(surface)){
@@ -38,21 +39,24 @@ void checkBricks(BALL *ball, SDL_Surface *surface){
     SDL_UnlockSurface(surface);
     return;
 }
+*/
 
 bool getPixel(SDL_Surface *surface,int x,int y){
+    //im only getting a pixel here, which sucks, because what i want to check by brick
     int pitch = surface->pitch;
     int bpp = surface->format->BytesPerPixel; //Bytes per pixel
 
     unsigned char *rgb = &surface->pixels[((y * pitch)+(x * bpp))];
     printf("R %d\nG %d\nB %d\n",rgb[0],rgb[1],rgb[2]);
 
+
     return false;
 
 }
 
-void updateBall(BALL *ball,SDL_Window *window, SDL_Surface *surface){
+void updateBall(BALL *ball){
 
-    if(timer2(ball->timer)){
+    if(timer(ball->timer)){
         if(ball->deltaX > 0){
 
             ball->x += 15;
@@ -68,6 +72,24 @@ void updateBall(BALL *ball,SDL_Window *window, SDL_Surface *surface){
             ball->y += 15;
         }
     }
+    return;
+}
+
+void getBallColision(BALL *ball){
+
+    /*
+
+    
+
+
+
+
+    */
+
+    
+
+
+
     return;
 }
 

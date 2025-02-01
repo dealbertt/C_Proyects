@@ -7,7 +7,7 @@ bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TI
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
 
     bool quit = false;
-    if(timer2(pad->timer)){
+    if(timer(pad->timer)){
 
         //SDL_WaitEvent(&event);
         SDL_Event event;
@@ -64,10 +64,11 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
 }
 
 
+/*
 bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer){
 
     bool quit = false;
-    if(timer2(timer)){
+    if(timer(timer)){
 
         printf("WORKS\n timer: %hi\n",timer->value);
         //SDL_WaitEvent(&event);
@@ -80,5 +81,5 @@ bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TI
 
      return quit;
 }
-
+*/
 
