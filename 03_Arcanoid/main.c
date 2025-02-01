@@ -31,9 +31,6 @@ int main(){
 
     initGame(&window,&surface,&pad,&ball,&list);
 
-    drawPad(window,surface,pad->x,pad->y);
-
-    drawBall(ball->x, ball->y, window, surface,WHITE);
 
     printf("Start\n");
     gameLoop(window,surface,pad,ball);
@@ -48,23 +45,26 @@ int main(){
 }
 
 void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball,List **list){
+    //Windows and SDL surfaces
     SDL_Init(SDL_INIT_VIDEO);
 
     *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,0);
+    if(*window == NULL){
+        printf("Error creating SDL_Window\n");
+        return;
+    }
     *surface = SDL_GetWindowSurface(*window);
+    if(*surface == NULL){
+        printf("Error creating SDL_Surface\n");
+        return;
+    }
 
-    //drawPad(window, surface);
+    //-------------------------
     
-    *list = createList();
-
-    printf("Name of head: %s\n",(*list)->head->name);
-    printf("Name of middle: %s\n",(*list)->head->next->name);
-    printf("Name of tail: %s\n",(*list)->tail->name);
-
-    loadLevel((*list)->head,*surface);
-    drawBorders(*window, *surface);
+    //PAD INITIALIZATION
+    
     *pad = malloc(sizeof(PAD));
-     if(*pad == NULL){
+    if(*pad == NULL){
         printf("Error allocating memory for pad\n");
         return;
     }
@@ -80,9 +80,15 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*pad)->timer->resetValue = PAD_TIMER_RESET;
     (*pad)->timer->activated = false;
 
+    //-------------------------
+
+    //BALL INITIALIZATION
+    
+    drawPad(*window,*surface,(*pad)->x,(*pad)->y);
     *ball = malloc(sizeof(BALL));
     if(*ball == NULL){
         printf("Error allocating memory for ball\n");
+        return;
     }
     (*ball)->timer = malloc(sizeof(TIMER));
     if((*ball)->timer == NULL){
@@ -98,7 +104,24 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->y = 940;
     (*ball)->deltaX = 0;
     (*ball)->deltaY = 1;
-     printf("Game initialized correctly\n");
+    drawBall((*ball)->x, (*ball)->y, *window, *surface,WHITE,true);
+
+    //----------------------------
+
+    //Level List and borders
+    *list = createList();
+
+    printf("Name of head: %s\n",(*list)->head->name);
+    printf("Name of middle: %s\n",(*list)->head->next->name);
+    printf("Name of tail: %s\n",(*list)->tail->name);
+
+    loadLevel((*list)->head,*surface);
+
+    drawBorders(*window, *surface);
+
+    //-------------------------
+
+    printf("Game initialized correctly\n");
 
     return;
 
@@ -108,11 +131,10 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
 
 void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
 
-    getPixel(surface, pad->x, pad->y);
     while(!handleKeyboard(window, surface, pad)){
         clearBall(ball->x, ball->y, window, surface);
-        updateBallDelta(ball);
-        drawBall(ball->x, ball->y, window, surface, 0xffffffff);
+        updateBall(ball,window,surface);
+        drawBall(ball->x, ball->y, window, surface, 0xffffffff,true);
     }
     return;
  

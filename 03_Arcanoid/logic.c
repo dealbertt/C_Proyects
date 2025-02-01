@@ -50,25 +50,29 @@ bool getPixel(SDL_Surface *surface,int x,int y){
 
 }
 
-void updateBallDelta(BALL *ball){
+void updateBall(BALL *ball,SDL_Window *window, SDL_Surface *surface){
+
     if(timer2(ball->timer)){
         if(ball->deltaX > 0){
 
-            ball->x += 50;
+            ball->x += 15;
 
         }else if(ball->deltaX < 0){
-            ball->x -= 50;
+            ball->x -= 15;
 
         }
 
         if(ball->deltaY > 0){
-            ball->y -= 50;
+            ball->y -= 15;
         }else if(ball->deltaY < 0){
-            ball->y += 50;
+            ball->y += 15;
         }
     }
     return;
 }
+
+
+
 
 
 

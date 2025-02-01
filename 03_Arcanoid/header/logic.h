@@ -3,10 +3,10 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <SDL2/SDL_surface.h>
+#include <SDL2/SDL.h>
 
 #define PAD_TIMER_RESET 5
-#define BALL_TIMER_RESET 50
+#define BALL_TIMER_RESET 25
 
 typedef struct {
     short value;
@@ -38,6 +38,6 @@ void resetTimer(const short initialValue, short *actualValue);
 bool timer2(TIMER *timer);
 void checkBricks(BALL *ball, SDL_Surface *surface);
 bool getPixel(SDL_Surface *surface,int x,int y);
-void updateBallDelta(BALL *ball);
+void updateBall(BALL *ball,SDL_Window *window, SDL_Surface *surface);
 #endif
 

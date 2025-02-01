@@ -85,6 +85,8 @@ int loadLevel(MAP_t *level, SDL_Surface *surface){
         for(int i = 0; i < n; i++){
             fscanf(ptr,"%d ",&color);
             drawBrick(x, y, surface, selectColor(color));
+            drawBrick(x + BRICK_WIDTH, y, surface, selectColor(color));
+            
             x += BRICK_WIDTH; 
         }
         fscanf(ptr,"\n");

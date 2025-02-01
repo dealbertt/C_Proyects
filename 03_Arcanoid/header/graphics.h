@@ -21,7 +21,7 @@ void drawBrick(int x,int y,SDL_Surface *surface ,Uint32 color);
 void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 color);
 void clearPad(SDL_Window *window, SDL_Surface *surface,int x,int y);
 void drawBorders(SDL_Window *window, SDL_Surface *surface);
-void drawBall(int x, int y,SDL_Window *window,SDL_Surface *surface,Uint32 color);
+void drawBall(int x, int y,SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update);
 void clearBall(int x, int y,SDL_Window *window,SDL_Surface *surface);
 void simulateBall(SDL_Window *window,SDL_Surface *surface,TIMER *timer);
 #endif // !GRAPHICS_H
