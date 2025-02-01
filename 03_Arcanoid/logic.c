@@ -43,6 +43,8 @@ void checkBricks(BALL *ball, SDL_Surface *surface){
 
 bool getPixel(SDL_Surface *surface,int x,int y){
     //im only getting a pixel here, which sucks, because what i want to check by brick
+    // I dont really need to check the whole brick, but rather the part that is going to be bouncing with the ball
+    // 
     int pitch = surface->pitch;
     int bpp = surface->format->BytesPerPixel; //Bytes per pixel
 
@@ -78,7 +80,11 @@ void updateBall(BALL *ball){
 void getBallColision(BALL *ball){
 
     /*
-
+    Implement the different hit cases 
+    
+    4 3 2
+        1
+        0 
     
 
 
