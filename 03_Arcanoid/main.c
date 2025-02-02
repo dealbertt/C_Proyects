@@ -130,7 +130,13 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
 
 
 void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
+   
 
+    printf("Press Space to continue\n");
+    while(!pressToContinue()){
+
+    }
+    
     while(!handleKeyboard(window, surface, pad)){
         clearBall(ball->x, ball->y, window, surface);
         updateBall(ball);

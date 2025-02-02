@@ -1,8 +1,11 @@
 #include "header/graphics.h"
+#include <SDL2/SDL_keycode.h>
 #include <stdio.h>
 
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad);
-bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer);
+//bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer);
+
+bool pressToContinue();
 
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
 
@@ -83,3 +86,22 @@ bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TI
 }
 */
 
+bool pressToContinue(){
+         //SDL_WaitEvent(&event);
+    SDL_Event event;
+    SDL_PollEvent(&event);
+
+    if(event.type == SDL_KEYDOWN){
+
+        if(event.key.keysym.sym == SDLK_SPACE){
+            system("clear");
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        SDL_FlushEvent(SDL_KEYDOWN);
+    }
+    return false;
+    
+}
