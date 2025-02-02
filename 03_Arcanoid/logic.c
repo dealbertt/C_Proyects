@@ -77,23 +77,29 @@ void updateBall(BALL *ball){
     return;
 }
 
-void getBallColision(BALL *ball){
+void getBallColision(BALL *ball,SDL_Surface *surface){
 
     /*
     Implement the different hit cases 
     
     4 3 2
-        1
+      b 1
         0 
-    
-
-
-
-
     */
+    //case 0
+    drawBrick(ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT, surface, YELLOW);
 
-    
+    //case 1
+    drawBrick(ball->x + BRICK_WIDTH, ball->y, surface, YELLOW);
 
+    //case 2
+    drawBrick(ball->x + BRICK_WIDTH, ball->y - BRICK_HEIGHT, surface, YELLOW);
+
+    //case 3
+    drawBrick(ball->x, ball->y - BRICK_HEIGHT, surface, YELLOW);
+
+    //case 4
+    drawBrick(ball->x - BRICK_WIDTH, ball->y - BRICK_HEIGHT, surface, YELLOW);
 
 
     return;
