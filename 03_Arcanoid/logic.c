@@ -41,15 +41,31 @@ void checkBricks(BALL *ball, SDL_Surface *surface){
 }
 */
 
-bool getPixel(SDL_Surface *surface,int x,int y){
+bool getBrickPixel(SDL_Surface *surface,int x,int y){
     //im only getting a pixel here, which sucks, because what i want to check by brick
     // I dont really need to check the whole brick, but rather the part that is going to be bouncing with the ball
     // 
     int pitch = surface->pitch;
     int bpp = surface->format->BytesPerPixel; //Bytes per pixel
 
-    unsigned char *rgb = &surface->pixels[((y * pitch)+(x * bpp))];
-    printf("R %d\nG %d\nB %d\n",rgb[0],rgb[1],rgb[2]);
+    for(int i = 0; i < BRICK_HEIGHT; i++){
+
+        unsigned char *rgb = &surface->pixels[((y * pitch)+(x * bpp))];
+        printf("Pixel %d\n",i);
+        printf("R %d\nG %d\nB %d\n",rgb[0],rgb[1],rgb[2]);
+
+        x++;
+        y++;
+        int overall = rgb[0] + rgb[1] + rgb[2];
+        if(overall == 0){
+            //true meaning that it has to bounce
+            return true;
+        }
+
+    }
+    return false;
+
+
 
 
     return false;
@@ -86,21 +102,21 @@ void getBallColision(BALL *ball,SDL_Surface *surface){
       b 1
         0 
     */
-    //case 0
-    drawBrick(ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT, surface, YELLOW);
+    //case 0  x + BRICK_WIDTH y + BRICK_HEIGHT
+    if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT)){
+        printf("x: %d\n y: %d\n",ball->x,ball->y);
+        drawBrick(ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT, surface, YELLOW);
 
-    //case 1
-    drawBrick(ball->x + BRICK_WIDTH, ball->y, surface, YELLOW);
+        //changes to delta
+        return;
+    }
+    //case 1 x + BRICK_WIDTH y
 
-    //case 2
-    drawBrick(ball->x + BRICK_WIDTH, ball->y - BRICK_HEIGHT, surface, YELLOW);
+    //case 2  x + BRICK_WIDTH y - BRICK_HEIGHT
 
-    //case 3
-    drawBrick(ball->x, ball->y - BRICK_HEIGHT, surface, YELLOW);
+    //case 3 x y
 
-    //case 4
-    drawBrick(ball->x - BRICK_WIDTH, ball->y - BRICK_HEIGHT, surface, YELLOW);
-
+    //case 4 x - BRICK_WIDTH y - BRICK_HEIGHT
 
     return;
 }

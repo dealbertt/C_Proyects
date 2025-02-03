@@ -30,6 +30,8 @@ int main(){
     List *list = NULL;
 
     initGame(&window,&surface,&pad,&ball,&list);
+//    getBrickPixel(surface,ball->x,ball->y);
+    getBallColision(ball, surface);
 
 
     printf("Start\n");
@@ -101,7 +103,7 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->timer->resetValue = BALL_TIMER_RESET;
     (*ball)->timer->activated = false;
     (*ball)->x = 500;
-    (*ball)->y = 920;
+    (*ball)->y = 940;
     (*ball)->deltaX = 0;
     (*ball)->deltaY = 0;
     drawBall((*ball)->x, (*ball)->y, *window, *surface, WHITE, true);

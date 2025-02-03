@@ -37,7 +37,7 @@ typedef struct{
 void resetTimer(const short initialValue, short *actualValue);
 bool timer(TIMER *timer);
 void checkBricks(BALL *ball, SDL_Surface *surface);
-bool getPixel(SDL_Surface *surface,int x,int y);
+bool getBrickPixel(SDL_Surface *surface,int x,int y);
 void updateBall(BALL *ball);
 void getBallColision(BALL *ball,SDL_Surface *surface);
 #endif
