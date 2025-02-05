@@ -101,40 +101,70 @@ void getBallColision(BALL *ball,SDL_Surface *surface){
       b 1
         0 
     */
+    bool bits[5];
     //case 0  x + BRICK_WIDTH y + BRICK_HEIGHT
     if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT)){
         //changes to delta
         //apparently no changes to delta (?)
-        return;
+        printf("case 0\n");
+        bits[0] = true;
     }
+
     //case 1 x + BRICK_WIDTH y
     else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y)){
         //changes to delta
-        ball->deltaX = -1;
-        ball->deltaY = -1;
-        return;
+       printf("case 1\n");
+        bits[1] = true;
     }
     //case 2  x + BRICK_WIDTH y - BRICK_HEIGHT
     else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y)){
         //changes to delta
-        ball->deltaY = -1;
-        return;
+        printf("case 2\n");
+        bits[2] = true;
     }
 
     //case 3 x y
     else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y)){
         //changes to delta
-        ball->deltaX = -1;
-        return;
+        printf("case 3\n");
+        bits[3] = true;
     }
 
 
     //case 4 x - BRICK_WIDTH y - BRICK_HEIGHT
     else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y)){
         //changes to delta
+        printf("case 4\n");
+        bits[4] = true;
+    }
+
+    //----------------------------- One of this parts need to go to another function
+
+    //case 0 (again)
+    if(!bits[1] && !bits[2] && !bits[3]){
+        //nothing
+        return;
+    }else if(bits[2]){
+
         ball->deltaX = -1;
         ball->deltaY = -1;
         return;
+
+    }else if(bits[3] && !bits[0] && !bits[1]){
+
+        ball->deltaY = -1;
+        return;
+
+    }else if(bits[1] && !bits[3] && !bits[4]){
+
+        ball->deltaX = -1;
+        return;
+
+    }else if(bits[1] && bits[3]){
+
+        ball->deltaX = -1;
+        ball->deltaY = -1;
+
     }
 
 
