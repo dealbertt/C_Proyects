@@ -31,8 +31,6 @@ int main(){
 
     initGame(&window,&surface,&pad,&ball,&list);
 //    getBrickPixel(surface,ball->x,ball->y);
-    getBallColision(ball, surface);
-
 
     printf("Start\n");
     gameLoop(window,surface,pad,ball);
@@ -103,9 +101,9 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->timer->resetValue = BALL_TIMER_RESET;
     (*ball)->timer->activated = false;
     (*ball)->x = 500;
-    (*ball)->y = 940;
+    (*ball)->y = 900;
     (*ball)->deltaX = 0;
-    (*ball)->deltaY = 0;
+    (*ball)->deltaY = 1;
     drawBall((*ball)->x, (*ball)->y, *window, *surface, WHITE, true);
 
     //----------------------------
@@ -141,8 +139,8 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
     
     while(!handleKeyboard(window, surface, pad)){
         clearBall(ball->x, ball->y, window, surface);
-        updateBall(ball);
         getBallColision(ball,surface);
+        updateBall(ball);
         drawBall(ball->x, ball->y, window, surface, WHITE, true);
     }
     return;

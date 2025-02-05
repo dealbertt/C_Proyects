@@ -57,19 +57,18 @@ bool getBrickPixel(SDL_Surface *surface,int x,int y){
         x++;
         y++;
         int overall = rgb[0] + rgb[1] + rgb[2];
+        /*
         if(overall == 0){
             //true meaning that it has to bounce
+            return true;
+        }
+        */
+        if(rgb[0] != 0 || rgb[1] != 0 || rgb[2] != 0){
             return true;
         }
 
     }
     return false;
-
-
-
-
-    return false;
-
 }
 
 void updateBall(BALL *ball){
@@ -104,19 +103,41 @@ void getBallColision(BALL *ball,SDL_Surface *surface){
     */
     //case 0  x + BRICK_WIDTH y + BRICK_HEIGHT
     if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT)){
-        printf("x: %d\n y: %d\n",ball->x,ball->y);
-        drawBrick(ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT, surface, YELLOW);
-
         //changes to delta
+        //apparently no changes to delta (?)
         return;
     }
     //case 1 x + BRICK_WIDTH y
-
+    else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y)){
+        //changes to delta
+        ball->deltaX = -1;
+        ball->deltaY = -1;
+        return;
+    }
     //case 2  x + BRICK_WIDTH y - BRICK_HEIGHT
+    else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y)){
+        //changes to delta
+        ball->deltaY = -1;
+        return;
+    }
 
     //case 3 x y
+    else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y)){
+        //changes to delta
+        ball->deltaX = -1;
+        return;
+    }
+
 
     //case 4 x - BRICK_WIDTH y - BRICK_HEIGHT
+    else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y)){
+        //changes to delta
+        ball->deltaX = -1;
+        ball->deltaY = -1;
+        return;
+    }
+
+
 
     return;
 }

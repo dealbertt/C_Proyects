@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <SDL2/SDL.h>
+#include <unistd.h>
 
 #define PAD_TIMER_RESET 5
 #define BALL_TIMER_RESET 25
