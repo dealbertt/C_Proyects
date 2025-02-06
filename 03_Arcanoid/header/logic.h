@@ -41,5 +41,7 @@ void checkBricks(BALL *ball, SDL_Surface *surface);
 bool getBrickPixel(SDL_Surface *surface,int x,int y);
 void updateBall(BALL *ball);
 void getBallColision(BALL *ball,SDL_Surface *surface);
+void CollisionStrucutureRight(bool bits[5], BALL *ball, SDL_Surface *surface);
+void CollisionStrucutureLeft(bool bits[5], BALL *ball, SDL_Surface *surface);
 #endif
 

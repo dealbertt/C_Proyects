@@ -30,7 +30,6 @@ int main(){
     List *list = NULL;
 
     initGame(&window,&surface,&pad,&ball,&list);
-//    getBrickPixel(surface,ball->x,ball->y);
 
     printf("Start\n");
     gameLoop(window,surface,pad,ball);
