@@ -92,64 +92,59 @@ void updateBall(BALL *ball){
 
 void getBallColision(BALL *ball,SDL_Surface *surface){
 
-    /*
-    Implement the different hit cases 
-    
-    4 3 2
-      b 1
-        0 
-    */
     bool bits[5] = {false,false,false,false,false};
-    if(ball->deltaX < 0){
-        CollisionStrucutureLeft(bits, ball, surface);
-
-    }else{
-
-        CollisionStrucutureRight(bits, ball, surface);
-
-    }
        //----------------------------- One of this parts need to go to another function
+    if(ball->deltaX < 0 && ball->deltaY < 0){
+        CollisionStrucutureTopLeft(bits, ball, surface);
+    }else if(ball->deltaX < 0 && ball->deltaY > 0){
+        CollisionStrucutureBottomLeft(bits, ball, surface);
+    }else if(ball->deltaX > 0 && ball->deltaY < 0){
+        CollisionStrucutureTopRight(bits, ball, surface);
+    }else if(ball->deltaX > 0 && ball->deltaY > 0){
+        CollisionStrucutureBottomLeft(bits, ball, surface);
+    }
 
     //case 0 (again)
     if(!bits[1] && !bits[2] && !bits[3]){
         //nothing
-        
         system("clear");
         printf("delta x: %d \n deltay: %d\n",ball->deltaX,ball->deltaY);
         return;
     }else if(bits[2]){
 
-        ball->deltaX = -ball->deltaX;
-        ball->deltaY = -ball->deltaY;
- 
+        //ball->deltaX = -(ball->deltaX);
+        //ball->deltaY = -(ball->deltaY);
+        negateDelta(ball->deltaX);
+        negateDelta(ball->deltaY);
+
         system("clear");
         printf("delta x: %d \n deltay: %d\n",ball->deltaX,ball->deltaY);
-        return;
 
     }else if(bits[3] && !bits[0] && !bits[1]){
 
-        ball->deltaY = -ball->deltaY;
+        //ball->deltaY = -(ball->deltaY);
+        negateDelta(ball->deltaY);
  
         system("clear");
         printf("delta x: %d \n deltay: %d\n",ball->deltaX,ball->deltaY);
-        return;
 
     }else if(bits[1] && !bits[3] && !bits[4]){
 
-        ball->deltaX = -ball->deltaX;
+        //ball->deltaX = -(ball->deltaX);
+        negateDelta(ball->deltaX);
  
         system("clear");
         printf("delta x: %d \n deltay: %d\n",ball->deltaX,ball->deltaY);
-        return;
 
     }else if(bits[1] && bits[3]){
 
-        ball->deltaX = -ball->deltaX;
-        ball->deltaY = -ball->deltaY;
+        //ball->deltaX = -(ball->deltaX);
+        //ball->deltaY = -(ball->deltaY);
+        negateDelta(ball->deltaX);
+        negateDelta(ball->deltaY);
  
         system("clear");
         printf("delta x: %d \n deltay: %d\n",ball->deltaX,ball->deltaY);
-        return;
 
     }
 
@@ -158,7 +153,7 @@ void getBallColision(BALL *ball,SDL_Surface *surface){
     return;
 }
 
-void CollisionStrucutureRight(bool bits[5], BALL *ball, SDL_Surface *surface){
+void CollisionStrucutureTopRight(bool bits[5], BALL *ball, SDL_Surface *surface){
     //bit 0  x + BRICK_WIDTH y + BRICK_HEIGHT
     if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT)){
         //changes to delta
@@ -189,11 +184,11 @@ void CollisionStrucutureRight(bool bits[5], BALL *ball, SDL_Surface *surface){
         //changes to delta
         bits[4] = true;
     }
-
+    return;
 
 }
 
-void CollisionStrucutureLeft(bool bits[5], BALL *ball, SDL_Surface *surface){
+void CollisionStrucutureTopLeft(bool bits[5], BALL *ball, SDL_Surface *surface){
 
 /*   
  
@@ -240,7 +235,82 @@ void CollisionStrucutureLeft(bool bits[5], BALL *ball, SDL_Surface *surface){
 }
 
 
+void CollisionStrucutureBottomLeft(bool bits[5], BALL *ball, SDL_Surface *surface){
+/*   
+      0
+      1 b      
+      2 3 4 
+     */
+
+    //bit 0  x - BRICK_WIDTH y - BRICK_HEIGHT
+    if(getBrickPixel(surface, ball->x - BRICK_WIDTH, ball->y - BRICK_HEIGHT)){
+        bits[0] = true;
+    }
+
+    //bit 1 x + BRICK_WIDTH y
+    else if(getBrickPixel(surface, ball->x - BRICK_WIDTH, ball->y)){
+        bits[1] = true;
+    }
+    //bit 2  x - BRICK_WIDTH y + BRICK_HEIGHT
+    else if(getBrickPixel(surface, ball->x - BRICK_WIDTH, ball->y - BRICK_HEIGHT)){
+        bits[2] = true;
+    }
+
+    //bit 3 x y
+    else if(getBrickPixel(surface, ball->x, ball->y + BRICK_HEIGHT)){
+        bits[3] = true;
+    }
+
+    //bit 4 x + BRICK_WIDTH y + BRICK_HEIGHT
+    else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT)){
+        bits[4] = true;
+    }
+
+    return;
+}
+
+void CollisionStrucutureBottomRight(bool bits[5], BALL *ball, SDL_Surface *surface){
+
+/*   
+        0
+      b 1      
+    4 3 2  
+     */
+    //bit 0  x + BRICK_WIDTH y + BRICK_HEIGHT
+    if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y - BRICK_HEIGHT)){
+        bits[0] = true;
+    }
+
+    //bit 1 x + BRICK_WIDTH y
+    else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y)){
+        //changes to delta
+        bits[1] = true;
+    }
+    //bit 2  x + BRICK_WIDTH y - BRICK_HEIGHT
+    else if(getBrickPixel(surface, ball->x + BRICK_WIDTH, ball->y + BRICK_HEIGHT)){
+        bits[2] = true;
+    }
+
+    //bit 3 x y
+    else if(getBrickPixel(surface, ball->x, ball->y + BRICK_HEIGHT)){
+        //changes to delta
+        bits[3] = true;
+    }
 
 
+    //bit 4 x - BRICK_WIDTH y - BRICK_HEIGHT
+    else if(getBrickPixel(surface, ball->x - BRICK_WIDTH, ball->y + BRICK_HEIGHT)){
+        //changes to delta
+        bits[4] = true;
+    }
+    return;
 
-
+}
+int negateDelta(int delta){
+    if(delta > 0){
+        delta = -1;
+    }else{
+        delta = 1;
+    }
+    return delta;
+}

@@ -37,11 +37,18 @@ typedef struct{
 
 void resetTimer(const short initialValue, short *actualValue);
 bool timer(TIMER *timer);
+
 void checkBricks(BALL *ball, SDL_Surface *surface);
 bool getBrickPixel(SDL_Surface *surface,int x,int y);
+
 void updateBall(BALL *ball);
 void getBallColision(BALL *ball,SDL_Surface *surface);
-void CollisionStrucutureRight(bool bits[5], BALL *ball, SDL_Surface *surface);
-void CollisionStrucutureLeft(bool bits[5], BALL *ball, SDL_Surface *surface);
+
+void CollisionStrucutureTopRight(bool bits[5], BALL *ball, SDL_Surface *surface);
+void CollisionStrucutureTopLeft(bool bits[5], BALL *ball, SDL_Surface *surface);
+void CollisionStrucutureBottomLeft(bool bits[5], BALL *ball, SDL_Surface *surface);
+void CollisionStrucutureBottomRight(bool bits[5], BALL *ball, SDL_Surface *surface);
+
+int negateDelta(int delta);
 #endif
 
