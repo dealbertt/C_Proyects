@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -I. # Include current directory for header files
 
 LDFLAGS = -lm -lSDL2
 # Source and object files
-SRC = main.c graphics.c logic.c levels.c
+SRC = main.c graphics.c logic.c levels.c collisions.c	
 OBJ = $(SRC:.c=.o)
 TARGET = Arcanoid
 

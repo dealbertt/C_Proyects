@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+
+//HEADERS CREATED FOR THIS PROGRAM
+#include "header/collisions.h"
 #include "header/graphics.h"
 #include <stdbool.h>
 #include "header/logic.h"
@@ -138,7 +141,8 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
     
     while(!handleKeyboard(window, surface, pad)){
         clearBall(ball->x, ball->y, window, surface);
-        getBallColision(ball,surface);
+        //collision function
+        checkCollisions(surface, ball,window);
         updateBall(ball);
         drawBall(ball->x, ball->y, window, surface, WHITE, true);
     }
