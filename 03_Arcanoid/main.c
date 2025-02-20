@@ -98,6 +98,12 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
         free(ball);
         return;
     }
+    (*ball)->layer= malloc(sizeof(LAYER));
+    if((*ball)->layer == NULL){
+        printf("Error allocating memory for collision layer\n");
+        free(ball);
+        return;
+    }
     
     (*ball)->timer->value = BALL_TIMER_RESET;
     (*ball)->timer->resetValue = BALL_TIMER_RESET;
@@ -145,6 +151,7 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
         checkCollisions(surface, ball,window);
         updateBall(ball);
         drawBall(ball->x, ball->y, window, surface, WHITE, true);
+        SDL_Delay(500);
     }
     return;
  

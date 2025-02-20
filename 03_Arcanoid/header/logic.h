@@ -16,11 +16,17 @@ typedef struct {
 }TIMER;
 
 typedef struct{
+    bool bits[5];
+    SDL_Rect checkers[5];
+}LAYER;
+
+typedef struct{
     int x;
     int y;
     int deltaX;
     int deltaY;
     TIMER *timer;
+    LAYER *layer;
 }BALL;
 
 typedef struct{
@@ -28,7 +34,6 @@ typedef struct{
     int y;
     TIMER *timer;
 }PAD;
-
 
 
 void resetTimer(const short initialValue, short *actualValue);

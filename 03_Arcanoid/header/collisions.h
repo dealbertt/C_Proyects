@@ -9,12 +9,8 @@
 #include "graphics.h"
 #include <unistd.h>
 
-#define CHECK_SIZE BRICK_WIDTH/4
-typedef struct{
-    bool bits[5];
-    SDL_Rect checkers[5];
-}LAYER;
+#define CHECK_SIZE BRICK_WIDTH/5
 
-int assingCheckers(LAYER *layer,BALL *ball,SDL_Surface *surface,SDL_Window *window);
+int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window);
 bool checkCollisions(SDL_Surface *surface, BALL *ball, SDL_Window *window);
 #endif
