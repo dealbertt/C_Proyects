@@ -37,11 +37,11 @@ int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window){
     //corners only have 4 checkers insted of 5
     if(ball->deltaX == 0 && ball->deltaY > 0){
         //moving only up
-        getColorData(window,ball,ball ->x,ball->y - 10,CHECK_SIZE,CHECK_SIZE,0);
-        getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y - 10,CHECK_SIZE,CHECK_SIZE,1);
-        getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y - 10, CHECK_SIZE,CHECK_SIZE,2);
-        getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y - 10 ,CHECK_SIZE,CHECK_SIZE,3);
-        getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y - 10 ,CHECK_SIZE,CHECK_SIZE,4);
+        getColorData(window,ball,ball ->x,ball->y - 10,CHECK_SIZE,0);
+        getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y - 10,CHECK_SIZE,1);
+        getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y - 10, CHECK_SIZE,2);
+        getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y - 10 ,CHECK_SIZE,3);
+        getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y - 10 ,CHECK_SIZE,4);
         //checks for colllisions i guess
         //do one row of pixels instead of a rectangle
         return 1;
@@ -86,17 +86,16 @@ int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window){
     return 0;
 
 }
-int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int width,int height,int index){
+int getColorData(SDL_Window *window, BALL *ball, int startX, int y,int width,int index){
     SDL_Surface *surface = SDL_GetWindowSurface(window);
     if(surface == NULL){
         printf("Error trying to get the surface from window");
         return -1;
     }
     SDL_LockSurface(surface);
-      for (int y = startY; y < startY + height; ++y) {
         for (int x = startX; x < startX + width; ++x) {
             // Make sure the coordinates are within the surface bounds
-            if (x >= 0 && x < surface->w && y >= 0 && y < surface->h) {
+            if (x >= 0 && x < surface->w){
                 // Get the pixel value
                 Uint32 pixel = ((Uint32*)surface->pixels)[y * surface->w + x];
 
@@ -108,12 +107,12 @@ int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int widt
                 Uint8 totalColor = r + g + b;
                 if(totalColor != 0){
                     ball->layer->bits[index] = true;
-                    printf("Color at (%d, %d): R=%d, G=%d, B=%d, A=%d\n", x, y, r, g, b, a);
+                    printf("R=%d, G=%d, B=%d, A=%d\n", r, g, b, a);
+                    SDL_Delay(500);
                     return 1;
                 }
             }
         }
-    }
     SDL_UnlockSurface(surface);
 
 
