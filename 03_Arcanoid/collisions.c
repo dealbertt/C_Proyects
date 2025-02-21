@@ -93,7 +93,7 @@ int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window){
             SDL_UpdateWindowSurface(window);
         }
     
-    }else if(ball->deltaX ==  0 && ball->deltaY > 0){
+    }else if(ball->deltaX > 0 && ball->deltaY > 0){
         //moving to the right and up
         ball->layer->checkers[0] = (SDL_Rect){ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
         ball->layer->checkers[1] = (SDL_Rect){ball ->x + (BRICK_WIDTH - CHECK_SIZE),ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
