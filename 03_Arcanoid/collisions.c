@@ -34,7 +34,7 @@ bool checkCollisions(SDL_Surface *surface, BALL *ball,SDL_Window *window){
 
 int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window){
     //corners only have 4 checkers insted of 5
-    if(ball->deltaX == 0 && ball->deltaY < 0){
+    if(ball->deltaX == 0 && ball->deltaY > 0){
         //moving only up
         ball->layer->checkers[0] = (SDL_Rect){ball ->x,ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
         ball->layer->checkers[1] = (SDL_Rect){ball ->x + CHECK_SIZE ,ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};

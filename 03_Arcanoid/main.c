@@ -151,7 +151,6 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
         checkCollisions(surface, ball,window);
         updateBall(ball);
         drawBall(ball->x, ball->y, window, surface, WHITE, true);
-        SDL_Delay(500);
     }
     return;
  
