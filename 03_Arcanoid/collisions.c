@@ -53,17 +53,53 @@ int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window){
         ball->layer->checkers[1] = (SDL_Rect){ball ->x + CHECK_SIZE ,ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
         ball->layer->checkers[2] = (SDL_Rect){ball ->x + (CHECK_SIZE * 2),ball->y + BRICK_HEIGHT, CHECK_SIZE,CHECK_SIZE,};
         ball->layer->checkers[3] = (SDL_Rect){ball ->x + (CHECK_SIZE * 3),ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[4] = (SDL_Rect){ball ->x + (CHECK_SIZE * 4),ball->y + CHECK_SIZE ,CHECK_SIZE,CHECK_SIZE,};
         for(int i = 0; i < 5; i++){
             SDL_FillRect(surface, &ball->layer->checkers[i], 0xFFFF0000);
             SDL_UpdateWindowSurface(window);
         }
-    }else if(ball->deltaX == 0 && ball->deltaY > 0){
+    }else if(ball->deltaX < 0 && ball->deltaY > 0){
         //moving to the left and up
         ball->layer->checkers[0] = (SDL_Rect){ball ->x,ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
         ball->layer->checkers[1] = (SDL_Rect){ball ->x + CHECK_SIZE ,ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
         ball->layer->checkers[2] = (SDL_Rect){ball ->x - CHECK_SIZE,ball->y, CHECK_SIZE,CHECK_SIZE,};
         ball->layer->checkers[3] = (SDL_Rect){ball ->x - CHECK_SIZE,ball->y + CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
         ball->layer->checkers[4] = (SDL_Rect){ball ->x - CHECK_SIZE,ball->y - CHECK_SIZE ,CHECK_SIZE,CHECK_SIZE,};
+        for(int i = 0; i < 5; i++){
+            SDL_FillRect(surface, &ball->layer->checkers[i], 0xFFFF0000);
+            SDL_UpdateWindowSurface(window);
+        }
+    }else if(ball->deltaX < 0 && ball->deltaY < 0){
+        //moving to the left and down
+        ball->layer->checkers[0] = (SDL_Rect){ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - (CHECK_SIZE * 2)),CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[1] = (SDL_Rect){ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - CHECK_SIZE),CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[2] = (SDL_Rect){ball ->x - CHECK_SIZE,ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[3] = (SDL_Rect){ball ->x,ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[4] = (SDL_Rect){ball ->x + CHECK_SIZE,ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
+        for(int i = 0; i < 5; i++){
+            SDL_FillRect(surface, &ball->layer->checkers[i], 0xFFFF0000);
+            SDL_UpdateWindowSurface(window);
+        }
+    
+    }else if(ball->deltaX > 0 && ball->deltaY < 0){
+        //moving to the right and down
+        ball->layer->checkers[0] = (SDL_Rect){ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[1] = (SDL_Rect){ball ->x + (BRICK_WIDTH - CHECK_SIZE),ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[2] = (SDL_Rect){ball ->x + BRICK_WIDTH,ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[3] = (SDL_Rect){ball ->x + BRICK_WIDTH,ball->y + BRICK_HEIGHT - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[4] = (SDL_Rect){ball ->x + BRICK_WIDTH,ball->y + (BRICK_HEIGHT - CHECK_SIZE * 2),CHECK_SIZE,CHECK_SIZE,};
+        for(int i = 0; i < 5; i++){
+            SDL_FillRect(surface, &ball->layer->checkers[i], 0xFFFF0000);
+            SDL_UpdateWindowSurface(window);
+        }
+    
+    }else if(ball->deltaX ==  0 && ball->deltaY > 0){
+        //moving to the right and up
+        ball->layer->checkers[0] = (SDL_Rect){ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[1] = (SDL_Rect){ball ->x + (BRICK_WIDTH - CHECK_SIZE),ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[2] = (SDL_Rect){ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[3] = (SDL_Rect){ball ->x + BRICK_WIDTH,ball->y,CHECK_SIZE,CHECK_SIZE,};
+        ball->layer->checkers[4] = (SDL_Rect){ball ->x + BRICK_WIDTH,ball->y + CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
         for(int i = 0; i < 5; i++){
             SDL_FillRect(surface, &ball->layer->checkers[i], 0xFFFF0000);
             SDL_UpdateWindowSurface(window);
