@@ -37,11 +37,11 @@ int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window){
     //corners only have 4 checkers insted of 5
     if(ball->deltaX == 0 && ball->deltaY > 0){
         //moving only up
-        getColorData(window,ball,ball ->x,ball->y - 10,CHECK_SIZE,CHECK_SIZE,0);
-        getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y - 10,CHECK_SIZE,CHECK_SIZE,1);
-        getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y - 10, CHECK_SIZE,CHECK_SIZE,2);
-        getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y - 10 ,CHECK_SIZE,CHECK_SIZE,3);
-        getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y - 10 ,CHECK_SIZE,CHECK_SIZE,4);
+        getColorData(window,ball,ball ->x,ball->y + 10,CHECK_SIZE,CHECK_SIZE,0);
+        getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y + 10,CHECK_SIZE,CHECK_SIZE,1);
+        getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y + 10, CHECK_SIZE,CHECK_SIZE,2);
+        getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y + 10 ,CHECK_SIZE,CHECK_SIZE,3);
+        getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y + 10 ,CHECK_SIZE,CHECK_SIZE,4);
         //checks for colllisions i guess
         return 1;
     }else if(ball->deltaX == 0 && ball->deltaY < 0){
@@ -104,10 +104,11 @@ int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int widt
                 SDL_GetRGBA(pixel, surface->format, &r, &g, &b, &a);
 
                 // Output the color of the pixel
-                Uint8 totalColor = r + g + b;
+                int totalColor = r + g + b;
                 if(totalColor != 0){
                     ball->layer->bits[index] = true;
                     printf("Color at (%d, %d): R=%d, G=%d, B=%d, A=%d\n", x, y, r, g, b, a);
+                    SDL_Delay(500);
                     return 1;
                 }
             }

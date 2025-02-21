@@ -13,4 +13,5 @@
 
 int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window);
 bool checkCollisions(SDL_Surface *surface, BALL *ball, SDL_Window *window);
+int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int width,int height,int index);
 #endif
