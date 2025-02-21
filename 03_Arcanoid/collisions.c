@@ -43,6 +43,7 @@ int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window){
         getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y - 10 ,CHECK_SIZE,CHECK_SIZE,3);
         getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y - 10 ,CHECK_SIZE,CHECK_SIZE,4);
         //checks for colllisions i guess
+        //do one row of pixels instead of a rectangle
         return 1;
     }else if(ball->deltaX == 0 && ball->deltaY < 0){
         //moving only down
