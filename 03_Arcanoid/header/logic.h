@@ -17,7 +17,6 @@ typedef struct {
 
 typedef struct{
     bool bits[5];
-    SDL_Rect checkers[5];
 }LAYER;
 
 typedef struct{

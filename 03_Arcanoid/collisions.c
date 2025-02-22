@@ -23,7 +23,7 @@ bool checkCollisions(BALL *ball,SDL_Window *window){
         return false;
     }
     for(int i = 0; i < 5; i++){
-        layer->bits[i] = false;
+        ball->layer->bits[i] = false;
     }
     assingCheckers(ball,window);
     return false;
@@ -58,22 +58,25 @@ int assingCheckers(BALL *ball,SDL_Window *window){
         return 1;
     }else if(ball->deltaX < 0 && ball->deltaY > 0){
         //moving to the left and up
-        array[4] = getColorData(window, ball, ball ->x + (CHECK_SIZE * 2),ball->y - CHECK_SIZE - 10,CHECK_SIZE,4);
-        array[3] = getColorData(window, ball, ball ->x + CHECK_SIZE ,ball->y - CHECK_SIZE - 10,CHECK_SIZE,3);
-        array[2] = getColorData(window, ball, ball ->x,ball->y - CHECK_SIZE - 10, CHECK_SIZE,2);
-        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y,CHECK_SIZE,1);
-        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + CHECK_SIZE ,CHECK_SIZE,0);
+        for(int i = 0; i < 5; i++){
+            array[i] = 0;
+        }
+        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - (CHECK_SIZE - 10),CHECK_SIZE,4);
+        array[3] = getColorData(window, ball, ball ->x ,ball->y - (CHECK_SIZE - 10),CHECK_SIZE,3);
+        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - (CHECK_SIZE - 10), CHECK_SIZE,2);
+        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y,CHECK_SIZE,1);
+        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y + CHECK_SIZE,CHECK_SIZE,0);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }
         return 1;
     }else if(ball->deltaX < 0 && ball->deltaY < 0){
         //moving to the left and down
-        array[4] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - (CHECK_SIZE * 2)),CHECK_SIZE,4);
-        array[3] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - CHECK_SIZE),CHECK_SIZE,3);
+        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - (CHECK_SIZE * 2)),CHECK_SIZE,0);
+        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - CHECK_SIZE),CHECK_SIZE,1);
         array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + BRICK_HEIGHT,CHECK_SIZE,2);
-        array[1] = getColorData(window, ball, ball ->x,ball->y + BRICK_HEIGHT,CHECK_SIZE,1);
-        array[0] = getColorData(window, ball, ball ->x + CHECK_SIZE,ball->y + BRICK_HEIGHT,CHECK_SIZE,0);
+        array[3] = getColorData(window, ball, ball ->x,ball->y + BRICK_HEIGHT,CHECK_SIZE,3);
+        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE,ball->y + BRICK_HEIGHT,CHECK_SIZE,4);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }
@@ -81,8 +84,8 @@ int assingCheckers(BALL *ball,SDL_Window *window){
     
     }else if(ball->deltaX > 0 && ball->deltaY < 0){
         //moving to the right and down
-        array[4] = getColorData(window, ball, ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y + BRICK_HEIGHT,CHECK_SIZE,4);
-        array[3] = getColorData(window, ball, ball ->x + (BRICK_WIDTH - CHECK_SIZE),ball->y + BRICK_HEIGHT,CHECK_SIZE,3);
+        array[4] = getColorData(window, ball, ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,4);
+        array[3] = getColorData(window, ball, ball ->x + (BRICK_WIDTH - CHECK_SIZE),ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,3);
         array[2] = getColorData(window, ball, ball ->x + BRICK_WIDTH,ball->y + BRICK_HEIGHT,CHECK_SIZE,2);
         array[1] = getColorData(window, ball, ball ->x + BRICK_WIDTH,ball->y + BRICK_HEIGHT - CHECK_SIZE,CHECK_SIZE,1);
         array[0] = getColorData(window, ball, ball ->x + BRICK_WIDTH,ball->y + (BRICK_HEIGHT - CHECK_SIZE * 2),CHECK_SIZE,0);
@@ -163,13 +166,18 @@ void changeDelta(BALL *ball){
         //case 3
         ball->deltaX = -(ball->deltaX);
         printf("CASE 3\n");
+        for(int i = 0; i < 5; i++){
+            printf("bit %d: %d\n",i,ball->layer->bits[i]);
+        }
         return;
     }else if(ball->layer->bits[3] && ball->layer->bits[1]){
         //case 4
         ball->deltaX = -(ball->deltaX);
         ball->deltaY = -(ball->deltaY);
         printf("CASE 4\n");
+        for(int i = 0; i < 5; i++){
+            printf("bit %d: %d\n",i,ball->layer->bits[i]);
+        }
         return;
     }
-    return;
-}
+    return; }
