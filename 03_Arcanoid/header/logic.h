@@ -32,6 +32,9 @@ typedef struct{
     int x;
     int y;
     TIMER *timer;
+    int leftSide;
+    int center;
+    int rightside;
 }PAD;
 
 

@@ -11,8 +11,9 @@
 
 #define CHECK_SIZE BRICK_WIDTH/5
 
-int assingCheckers(BALL *ball,SDL_Window *window);
-bool checkCollisions(BALL *ball, SDL_Window *window);
+int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad);
+bool checkCollisions(BALL *ball, SDL_Window *window, PAD *pad);
 int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int width,int index);
 void changeDelta(BALL *ball);
+void changeDeltaWithPad(BALL *ball, PAD *pad);
 #endif

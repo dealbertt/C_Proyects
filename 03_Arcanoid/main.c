@@ -82,11 +82,18 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*pad)->timer->resetValue = PAD_TIMER_RESET;
     (*pad)->timer->activated = false;
 
+    (*pad)->leftSide = (*pad)->x;
+    (*pad)->center = (*pad)->x  + 33;
+    (*pad)->rightside = (*pad)->x + 66;
+    drawPad(*window,*surface,(*pad)->x,(*pad)->y);
+    printf("LeftSide: %d\n",(*pad)->leftSide);
+    printf("Center: %d\n",(*pad)->center);
+    printf("RigthSide: %d\n",(*pad)->rightside);
+
     //-------------------------
 
     //BALL INITIALIZATION
     
-    drawPad(*window,*surface,(*pad)->x,(*pad)->y);
     *ball = malloc(sizeof(BALL));
     if(*ball == NULL){
         printf("Error allocating memory for ball\n");
@@ -110,7 +117,7 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->timer->activated = false;
     (*ball)->x = 500;
     (*ball)->y = 900;
-    (*ball)->deltaX = 1;
+    (*ball)->deltaX = 0;
     (*ball)->deltaY = 1;
     drawBall((*ball)->x, (*ball)->y, *window, *surface, WHITE, true);
 
@@ -148,7 +155,7 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
     while(!handleKeyboard(window, surface, pad)){
         clearBall(ball->x, ball->y, window, surface);
         //collision function
-        checkCollisions(ball,window);
+        checkCollisions(ball,window, pad);
         updateBall(ball);
         drawBall(ball->x, ball->y, window, surface, WHITE, true);
     }

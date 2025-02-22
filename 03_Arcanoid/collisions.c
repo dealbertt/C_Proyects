@@ -15,7 +15,7 @@
 //  [][][][][][][][][][] this are supposed to be boxes that check the color. if its anything than black, a collision has happened
 //  -------------------- 
 //  some progress, i still need to figure out how this guys are going to figure out the color tho
-bool checkCollisions(BALL *ball,SDL_Window *window){
+bool checkCollisions(BALL *ball,SDL_Window *window, PAD *pad){
     //check the ball delta to determine where the bits need to be positioned
     LAYER *layer = malloc(sizeof(LAYER));
     if(layer == NULL){
@@ -25,11 +25,11 @@ bool checkCollisions(BALL *ball,SDL_Window *window){
     for(int i = 0; i < 5; i++){
         ball->layer->bits[i] = false;
     }
-    assingCheckers(ball,window);
+    assingCheckers(ball,window,pad);
     return false;
 }
 
-int assingCheckers(BALL *ball,SDL_Window *window){
+int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
     //corners do have 5 checkers
     int array[5];
     if(ball->deltaX == 0 && ball->deltaY > 0){
@@ -42,6 +42,17 @@ int assingCheckers(BALL *ball,SDL_Window *window){
         //checks for colllisions i guess
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
+        }
+        return 1;
+    }else if(ball->deltaY < 0 && ball->y > 900 && ball->x >= pad->x && ball->x <= pad->x + 100){
+        array[4] = getColorData(window,ball,ball ->x, ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,4);
+        array[3] = getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,3);
+        array[2] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y + BRICK_HEIGHT + 10, CHECK_SIZE,2);
+        array[1] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,1);
+        array[0] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,0);
+        //checks for colllisions i guess
+        if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
+            changeDeltaWithPad(ball, pad);
         }
         return 1;
     }else if(ball->deltaX == 0 && ball->deltaY < 0){
@@ -61,9 +72,9 @@ int assingCheckers(BALL *ball,SDL_Window *window){
         for(int i = 0; i < 5; i++){
             array[i] = 0;
         }
-        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - (CHECK_SIZE - 10),CHECK_SIZE,4);
-        array[3] = getColorData(window, ball, ball ->x ,ball->y - (CHECK_SIZE - 10),CHECK_SIZE,3);
-        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - (CHECK_SIZE - 10), CHECK_SIZE,2);
+        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - CHECK_SIZE ,CHECK_SIZE,4);
+        array[3] = getColorData(window, ball, ball ->x ,ball->y - CHECK_SIZE,CHECK_SIZE,3);
+        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - CHECK_SIZE, CHECK_SIZE,2);
         array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y,CHECK_SIZE,1);
         array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y + CHECK_SIZE,CHECK_SIZE,0);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
@@ -180,4 +191,37 @@ void changeDelta(BALL *ball){
         }
         return;
     }
-    return; }
+    return; 
+}
+
+void changeDeltaWithPad(BALL *ball, PAD *pad){
+    if(ball->x >= pad->leftSide && ball->x < pad->center){
+        printf("Left side\n");
+        if(ball->deltaX == 0){
+            ball->deltaX = -1;
+        }else{
+            ball->deltaX = -(ball->deltaX);
+        }
+        ball->deltaY = -(ball->deltaY);
+        return;
+    }else if(ball->x >= pad->center && ball->x < pad->rightside){
+        printf("Center\n");
+        printf("X: %d Y: %d\n",ball->x,ball->y);
+        printf("LeftSide: %d\n",pad->leftSide);
+        printf("Center: %d\n",pad->center);
+        printf("RigthSide: %d\n",pad->rightside);
+        ball->deltaY = -(ball->deltaY);
+        return;
+    }else if(ball->x >= pad->rightside && ball->x < ball->x + 100){
+        printf("Right side\n");
+        if(ball->deltaX == 0){
+            ball->deltaX = 1;
+        }else{
+            ball->deltaX = -(ball->deltaX);
+        }
+        ball->deltaY = -(ball->deltaY);
+        return;
+    }
+
+    return;
+}

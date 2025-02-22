@@ -33,6 +33,9 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
                     if(pad->x < 875){
                         clearPad(window, surface, pad->x, pad->y);
                         pad->x += 25;
+                        pad->center += 25;
+                        pad->leftSide+= 25;
+                        pad->rightside+= 25;
                         drawPad(window,surface,pad->x,pad->y);
                     }else{
                         drawPad(window, surface, pad->x, pad->y);
@@ -44,6 +47,9 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
                     if(pad->x > 25){
                         clearPad(window, surface, pad->x, pad->y);
                         pad->x -= 25;
+                        pad->center -= 25;
+                        pad->leftSide -= 25;
+                        pad->rightside -= 25;
                         drawPad(window,surface,pad->x, pad->y);
 
                     }else{
@@ -53,12 +59,15 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
                     break;
                 default:
                     break;
-
             }
             
             system("clear");
             printf("X: %d Y: %d\n",pad->x,pad->y);
             printf("Timer: %d\n",pad->timer->value);
+            printf("Part of the pad:\n");
+            printf("LeftSide: %d\n",pad->leftSide);
+            printf("Center: %d\n",pad->center);
+            printf("RigthSide: %d\n",pad->rightside);
         }
 
     }else{
