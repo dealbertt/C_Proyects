@@ -110,7 +110,7 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->timer->activated = false;
     (*ball)->x = 500;
     (*ball)->y = 900;
-    (*ball)->deltaX = 0;
+    (*ball)->deltaX = 1;
     (*ball)->deltaY = 1;
     drawBall((*ball)->x, (*ball)->y, *window, *surface, WHITE, true);
 
@@ -148,7 +148,7 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
     while(!handleKeyboard(window, surface, pad)){
         clearBall(ball->x, ball->y, window, surface);
         //collision function
-        checkCollisions(surface, ball,window);
+        checkCollisions(ball,window);
         updateBall(ball);
         drawBall(ball->x, ball->y, window, surface, WHITE, true);
     }
