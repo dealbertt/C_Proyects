@@ -35,23 +35,31 @@ bool checkCollisions(SDL_Surface *surface, BALL *ball,SDL_Window *window){
 int assingCheckers(BALL *ball,SDL_Surface *surface,SDL_Window *window){
     //this whole thing does not make any sense :)
     //corners only have 4 checkers insted of 5
+    int array[5];
     if(ball->deltaX == 0 && ball->deltaY > 0){
         //moving only up
-        getColorData(window,ball,ball ->x,ball->y - 10,CHECK_SIZE,0);
-        getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y - 10,CHECK_SIZE,1);
-        getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y - 10, CHECK_SIZE,2);
-        getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y - 10 ,CHECK_SIZE,3);
-        getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y - 10 ,CHECK_SIZE,4);
+        array[0] = getColorData(window,ball,ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE - 10,CHECK_SIZE,0);
+        array[1] = getColorData(window,ball, ball ->x +(BRICK_WIDTH - CHECK_SIZE) ,ball->y - CHECK_SIZE - 10,CHECK_SIZE,1);
+        array[2] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE + 10, CHECK_SIZE,2);
+        array[3] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y + 10,CHECK_SIZE,3);
+        array[4] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y + CHECK_SIZE + 10,CHECK_SIZE,4);
         //checks for colllisions i guess
+        if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
+            changeDelta(ball);
+        }
         //do one row of pixels instead of a rectangle
         return 1;
     }else if(ball->deltaX == 0 && ball->deltaY < 0){
         //moving only down
-        ball->layer->checkers[0] = (SDL_Rect){ball ->x,ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
-        ball->layer->checkers[1] = (SDL_Rect){ball ->x + CHECK_SIZE ,ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
-        ball->layer->checkers[2] = (SDL_Rect){ball ->x + (CHECK_SIZE * 2),ball->y + BRICK_HEIGHT, CHECK_SIZE,CHECK_SIZE,};
-        ball->layer->checkers[3] = (SDL_Rect){ball ->x + (CHECK_SIZE * 3),ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE,};
-        ball->layer->checkers[4] = (SDL_Rect){ball ->x + (CHECK_SIZE * 4),ball->y + CHECK_SIZE ,CHECK_SIZE,CHECK_SIZE,};
+        array[0] = getColorData(window,ball,ball ->x,ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,0);
+        array[1] = getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,1);
+        array[2] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y + BRICK_HEIGHT + 10, CHECK_SIZE,2);
+        array[3] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,3);
+        array[4] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,4);
+        //checks for colllisions i guess
+        if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
+            changeDelta(ball);
+        }
     }else if(ball->deltaX < 0 && ball->deltaY > 0){
         //moving to the left and up
         ball->layer->checkers[0] = (SDL_Rect){ball ->x,ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
@@ -107,15 +115,21 @@ int getColorData(SDL_Window *window, BALL *ball, int startX, int y,int width,int
                 Uint8 totalColor = r + g + b;
                 if(totalColor != 0){
                     ball->layer->bits[index] = true;
-                    printf("R=%d, G=%d, B=%d, A=%d\n", r, g, b, a);
-                    SDL_Delay(500);
+                    //printf("R=%d, G=%d, B=%d, A=%d\n", r, g, b, a);
                     return 1;
                 }
             }
         }
     SDL_UnlockSurface(surface);
 
-
-
     return 0;
+}
+
+void changeDelta(BALL *ball){
+    if(ball->layer->bits[0] && ball->layer->bits[1]){
+        printf("INVERTIR DELTA Y\n");
+        ball->deltaY = -(ball->deltaY);
+        return;
+    }
+    return;
 }

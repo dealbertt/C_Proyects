@@ -55,11 +55,10 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
                     break;
 
             }
-            /*
+            
             system("clear");
             printf("X: %d Y: %d\n",pad->x,pad->y);
             printf("Timer: %d\n",pad->timer->value);
-            */
         }
 
     }else{
