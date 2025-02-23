@@ -72,6 +72,10 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     }
     (*pad)->x = 450;
     (*pad)->y = 960;
+    drawPad(*window,*surface,(*pad)->x,(*pad)->y);
+    (*pad)->coordX = (*pad)->x + 50;
+    (*pad)->coordY = (*pad)->y + 10;
+    printf("X: %d Y: %d\n",(*pad)->coordX,(*pad)->coordY);
     (*pad)->timer = malloc(sizeof(TIMER));
     if((*pad)->timer == NULL){
         printf("Error allocating memory for pad timer\n");
@@ -83,9 +87,8 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*pad)->timer->activated = false;
 
     (*pad)->leftSide = (*pad)->x;
-    (*pad)->center = (*pad)->x  + 33;
+    (*pad)->center = (*pad)->x + 33;
     (*pad)->rightside = (*pad)->x + 66;
-    drawPad(*window,*surface,(*pad)->x,(*pad)->y);
     printf("LeftSide: %d\n",(*pad)->leftSide);
     printf("Center: %d\n",(*pad)->center);
     printf("RigthSide: %d\n",(*pad)->rightside);

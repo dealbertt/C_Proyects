@@ -31,6 +31,8 @@ typedef struct{
 typedef struct{
     int x;
     int y;
+    int coordX;
+    int coordY;
     TIMER *timer;
     int leftSide;
     int center;
