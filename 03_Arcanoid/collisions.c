@@ -23,11 +23,11 @@ bool checkCollisions(BALL *ball,SDL_Window *window, PAD *pad){
 }
 
 int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
-    bool collisionVertical;
-    bool collisionLateral;
-    if((collisionVertical = collisionPanel(window, ball, 1))|| (collisionLateral = collisionPanel(window, ball, 1))){
-        changeDelta(ball,collisionVertical,collisionLateral); 
+    bool collisionVertical = collisionPanel(window, ball, 1);
+    bool collisionLateral = collisionPanel(window, ball, 0); 
+    if(collisionVertical|| collisionLateral ){
         printf("Colisiones\nLateral: %d\nVertical: %d\n",collisionLateral, collisionVertical);
+        changeDelta(ball,collisionVertical,collisionLateral); 
         return 1;
     }
     return 0;
@@ -84,11 +84,11 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
         }else if(ball->deltaY < 0){ 
             //moving down
             printf("Checking lower side of the ball\n");
-            array[4] = getColorData(window, ball, ball->x, ball->y + BRICK_HEIGHT + 10, CHECK_SIZE, CHECK_SIZE);
-            array[3] = getColorData(window, ball, ball->x + CHECK_SIZE, ball->y + BRICK_HEIGHT + 10, CHECK_SIZE,CHECK_SIZE);
-            array[2] = getColorData(window, ball, ball->x + (CHECK_SIZE * 2), ball->y + BRICK_HEIGHT + 10, CHECK_SIZE,CHECK_SIZE);
-            array[1] = getColorData(window, ball, ball->x + (CHECK_SIZE * 3), ball->y + BRICK_HEIGHT + 10, CHECK_SIZE, CHECK_SIZE);
-            array[0] = getColorData(window, ball, ball->x + (CHECK_SIZE * 4), ball->y + BRICK_HEIGHT + 10, CHECK_SIZE,CHECK_SIZE);
+            array[4] = getColorData(window, ball, ball->x, ball->y +(BRICK_HEIGHT + 10), CHECK_SIZE, CHECK_SIZE);
+            array[3] = getColorData(window, ball, ball->x + CHECK_SIZE, ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
+            array[2] = getColorData(window, ball, ball->x + (CHECK_SIZE * 2), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
+            array[1] = getColorData(window, ball, ball->x + (CHECK_SIZE * 3), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE, CHECK_SIZE);
+            array[0] = getColorData(window, ball, ball->x + (CHECK_SIZE * 4), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
             //checks for colllisions i guess
             for(int i = 0; i < 5; i++){
                 if(array[i] == 1){
