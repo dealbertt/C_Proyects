@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 #define PAD_TIMER_RESET 5
-#define BALL_TIMER_RESET 55
+#define BALL_TIMER_RESET 35
 
 typedef struct {
     short value;
@@ -22,6 +22,8 @@ typedef struct{
 typedef struct{
     int x;
     int y;
+    int coordX;
+    int coordY;
     int deltaX;
     int deltaY;
     TIMER *timer;

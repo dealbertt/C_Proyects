@@ -195,7 +195,7 @@ void changeDelta(BALL *ball){
 }
 
 void changeDeltaWithPad(BALL *ball, PAD *pad){
-    if(ball->x >= pad->leftSide && ball->x < pad->center){
+    if(ball->coordX >= pad->leftSide && ball->coordX< pad->center){
         printf("Left side\n");
         if(ball->deltaX == 0){
             ball->deltaX = -1;
@@ -204,15 +204,15 @@ void changeDeltaWithPad(BALL *ball, PAD *pad){
         }
         ball->deltaY = -(ball->deltaY);
         return;
-    }else if(ball->x >= pad->center && ball->x < pad->rightside){
+    }else if(ball->coordX >= pad->center && ball->coordX < pad->rightside){
         printf("Center\n");
-        printf("X: %d Y: %d\n",ball->x,ball->y);
+        printf("X: %d Y: %d\n",ball->coordX,ball->coordY);
         printf("LeftSide: %d\n",pad->leftSide);
         printf("Center: %d\n",pad->center);
         printf("RigthSide: %d\n",pad->rightside);
         ball->deltaY = -(ball->deltaY);
         return;
-    }else if(ball->x >= pad->rightside && ball->x < ball->x + 100){
+    }else if(ball->coordX >= pad->rightside && ball->coordX < ball->x + 100){
         printf("Right side\n");
         if(ball->deltaX == 0){
             ball->deltaX = 1;

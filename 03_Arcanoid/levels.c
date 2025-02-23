@@ -80,7 +80,7 @@ int loadLevel(MAP_t *level, SDL_Surface *surface){
     int y = 0;int n = 0;int x = 175;
     int color = 0;
     for(int i = 0; i < rows; i++){
-        x = 300;
+        x = 340;
         fscanf(ptr,"%d %d",&y,&n);
         for(int i = 0; i < n; i++){
             fscanf(ptr,"%d ",&color);

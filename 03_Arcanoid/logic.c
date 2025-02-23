@@ -1,8 +1,6 @@
 #include "header/logic.h"
 #include "header/levels.h"
-#include "header/graphics.h"
 
-short BALL_TIMER = 500;
 void resetTimer(const short initialValue,short *actualValue){
     *actualValue = initialValue;
     return;
@@ -53,16 +51,20 @@ void updateBall(BALL *ball){
         if(ball->deltaX > 0){
 
             ball->x += 15;
+            ball->coordX += 15;
 
         }else if(ball->deltaX < 0){
             ball->x -= 15;
+            ball->coordX -= 15;
 
         }
 
         if(ball->deltaY > 0){
             ball->y -= 15;
+            ball->coordY -= 15;
         }else if(ball->deltaY < 0){
             ball->y += 15;
+            ball->coordY += 15;
         }
     }
     return;

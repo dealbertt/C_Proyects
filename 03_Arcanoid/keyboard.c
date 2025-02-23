@@ -29,14 +29,14 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
                     break;
 
                 case SDLK_d:
-
-                    if(pad->x < 875){
+                    if(pad->x < WINDOW_WIDTH - BRICK_WIDTH - 100){
                         clearPad(window, surface, pad->x, pad->y);
-                        pad->x += 25;
-                        pad->coordX += 25;
-                        pad->center += 25;
-                        pad->leftSide+= 25;
-                        pad->rightside+= 25;
+                        pad->x += 30;
+                        pad->coordX += 30;
+                        pad->center += 30;
+                        pad->leftSide+= 30;
+                        pad->rightside+= 30;
+
                         drawPad(window,surface,pad->x,pad->y);
                     }else{
                         drawPad(window, surface, pad->x, pad->y);
@@ -45,13 +45,14 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
                     break;
                 case SDLK_a:
 
-                    if(pad->x > 25){
+                    if(pad->x > BRICK_WIDTH){
                         clearPad(window, surface, pad->x, pad->y);
-                        pad->x -= 25;
-                        pad->coordX -= 25;
-                        pad->center -= 25;
-                        pad->leftSide -= 25;
-                        pad->rightside -= 25;
+                        pad->x -= 30;
+                        pad->coordX -= 30;
+                        pad->center -= 30;
+                        pad->leftSide -= 30;
+                        pad->rightside -= 30;
+
                         drawPad(window,surface,pad->x, pad->y);
 
                     }else{

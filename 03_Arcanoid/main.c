@@ -50,7 +50,7 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     //Windows and SDL surfaces
     SDL_Init(SDL_INIT_VIDEO);
 
-    *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1000,1000,0);
+    *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,WINDOW_WIDTH,WINDOW_HEIGHT,0);
     if(*window == NULL){
         printf("Error creating SDL_Window\n");
         return;
@@ -70,11 +70,12 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
         printf("Error allocating memory for pad\n");
         return;
     }
-    (*pad)->x = 450;
-    (*pad)->y = 960;
+    (*pad)->x = PAD_X;
+    (*pad)->y = PAD_Y;
     drawPad(*window,*surface,(*pad)->x,(*pad)->y);
     (*pad)->coordX = (*pad)->x + 50;
     (*pad)->coordY = (*pad)->y + 10;
+    printf("Pad\n");
     printf("X: %d Y: %d\n",(*pad)->coordX,(*pad)->coordY);
     (*pad)->timer = malloc(sizeof(TIMER));
     if((*pad)->timer == NULL){
@@ -118,11 +119,14 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->timer->value = BALL_TIMER_RESET;
     (*ball)->timer->resetValue = BALL_TIMER_RESET;
     (*ball)->timer->activated = false;
-    (*ball)->x = 500;
+    (*ball)->x = 490;
     (*ball)->y = 900;
+    (*ball)->coordX = (*ball)->x + 10; 
+    (*ball)->coordY = (*ball)->y + 10; 
     (*ball)->deltaX = 0;
     (*ball)->deltaY = 1;
-    drawBall((*ball)->x, (*ball)->y, *window, *surface, WHITE, true);
+    printf("Ball\nX:%d\nY:%d\n",(*ball)->coordX,(*ball)->coordY);
+     drawBall((*ball)->x, (*ball)->y, *window, *surface, WHITE, true);
 
     //----------------------------
 
