@@ -102,7 +102,6 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
 
 int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int width,int height){
     SDL_Surface *surface = SDL_GetWindowSurface(window);
-    Uint8 color = 0;
     if(surface == NULL){
         printf("Error trying to get the surface from window");
         return -1;
