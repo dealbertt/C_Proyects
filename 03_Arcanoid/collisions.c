@@ -34,83 +34,81 @@ int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
     int array[5];
     if(ball->deltaX == 0 && ball->deltaY > 0){
         //moving only up
-        array[4] = getColorData(window,ball,ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE - 10,CHECK_SIZE,4);
-        array[3] = getColorData(window,ball, ball ->x +(BRICK_WIDTH - CHECK_SIZE) ,ball->y - CHECK_SIZE - 10,CHECK_SIZE,3);
-        array[2] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE, CHECK_SIZE,2);
-        array[1] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y,CHECK_SIZE,1);
-        array[0] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y + CHECK_SIZE, CHECK_SIZE,0);
+        array[4] = getColorData(window,ball,ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE - 10,CHECK_SIZE,CHECK_SIZE, 4);
+        array[3] = getColorData(window,ball, ball ->x +(BRICK_WIDTH - CHECK_SIZE) ,ball->y - CHECK_SIZE - 10,CHECK_SIZE,CHECK_SIZE, 3);
+        array[2] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE, CHECK_SIZE,CHECK_SIZE, 2);
+        array[1] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y,CHECK_SIZE,CHECK_SIZE, 1);
+        array[0] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y + CHECK_SIZE, CHECK_SIZE,CHECK_SIZE, 0);
         //checks for colllisions i guess
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }
         return 1;
-    }else if(ball->deltaY < 0 && ball->y > 900 && ball->x >= pad->x && ball->x <= pad->x + 100){
-        array[4] = getColorData(window,ball,ball ->x, ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,4);
-        array[3] = getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,3);
-        array[2] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y + BRICK_HEIGHT + 10, CHECK_SIZE,2);
-        array[1] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,1);
-        array[0] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,0);
+    }else if(ball->deltaY < 0 && ball->y > 950 && ball->x >= pad->x && ball->x <= pad->x + 100){
+        array[4] = getColorData(window,ball,ball ->x, ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,CHECK_SIZE, 4);
+        array[3] = getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,CHECK_SIZE, 3);
+        array[2] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y + BRICK_HEIGHT + 10, CHECK_SIZE,CHECK_SIZE, 2);
+        array[1] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,CHECK_SIZE, 1);
+        array[0] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,CHECK_SIZE, 0);
         //checks for colllisions i guess
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
-            changeDeltaWithPad(ball, pad);
+            changeDeltaWithPad(ball,pad);
         }
         return 1;
     }else if(ball->deltaX == 0 && ball->deltaY < 0){
         //moving only down
-        array[4] = getColorData(window,ball,ball ->x, ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,4);
-        array[3] = getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,3);
-        array[2] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y + BRICK_HEIGHT + 10, CHECK_SIZE,2);
-        array[1] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,1);
-        array[0] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,0);
+        array[4] = getColorData(window,ball,ball ->x, ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,CHECK_SIZE, 4);
+        array[3] = getColorData(window,ball, ball ->x + CHECK_SIZE ,ball->y + BRICK_HEIGHT + 10,CHECK_SIZE,CHECK_SIZE, 3);
+        array[2] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 2),ball->y + BRICK_HEIGHT + 10, CHECK_SIZE,CHECK_SIZE, 2);
+        array[1] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 3),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,CHECK_SIZE, 1);
+        array[0] = getColorData(window,ball,ball ->x + (CHECK_SIZE * 4),ball->y + BRICK_HEIGHT + 10 ,CHECK_SIZE,CHECK_SIZE, 0);
         //checks for colllisions i guess
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }
-        return 1;
     }else if(ball->deltaX < 0 && ball->deltaY > 0){
         //moving to the left and up
         for(int i = 0; i < 5; i++){
             array[i] = 0;
         }
-        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - CHECK_SIZE - 10,CHECK_SIZE,4);
-        array[3] = getColorData(window, ball, ball ->x ,ball->y - CHECK_SIZE - 10,CHECK_SIZE,3);
-        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - CHECK_SIZE + 10, CHECK_SIZE,2);
-        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y,CHECK_SIZE,1);
-        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y + CHECK_SIZE,CHECK_SIZE,0);
+        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - CHECK_SIZE - 10,CHECK_SIZE,CHECK_SIZE, 4);
+        array[3] = getColorData(window, ball, ball ->x ,ball->y - CHECK_SIZE - 10,CHECK_SIZE,CHECK_SIZE, 3);
+        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - CHECK_SIZE + 10, CHECK_SIZE,CHECK_SIZE, 2);
+        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y,CHECK_SIZE,CHECK_SIZE, 1);
+        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y + CHECK_SIZE,CHECK_SIZE,CHECK_SIZE, 0);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }
         return 1;
     }else if(ball->deltaX < 0 && ball->deltaY < 0){
         //moving to the left and down
-        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - (CHECK_SIZE * 2)) + 10,CHECK_SIZE,0);
-        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - CHECK_SIZE) + 10,CHECK_SIZE,1);
-        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,2);
-        array[3] = getColorData(window, ball, ball ->x,ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,3);
-        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE,ball->y + (10 + BRICK_HEIGHT),CHECK_SIZE,4);
+        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - (CHECK_SIZE * 2)) + 10,CHECK_SIZE,CHECK_SIZE, 0);
+        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - CHECK_SIZE) + 10,CHECK_SIZE,CHECK_SIZE, 1);
+        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,CHECK_SIZE, 2);
+        array[3] = getColorData(window, ball, ball ->x,ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,CHECK_SIZE, 3);
+        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE,ball->y + (10 + BRICK_HEIGHT),CHECK_SIZE,CHECK_SIZE, 4);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }
         return 1;
-    
     }else if(ball->deltaX > 0 && ball->deltaY < 0){
         //moving to the right and down
-        array[4] = getColorData(window, ball, ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,4);
-        array[3] = getColorData(window, ball, ball ->x + (BRICK_WIDTH - CHECK_SIZE),ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,3);
-        array[2] = getColorData(window, ball, ball ->x + BRICK_WIDTH,ball->y + BRICK_HEIGHT,CHECK_SIZE,2);
-        array[1] = getColorData(window, ball, ball ->x + BRICK_WIDTH,ball->y + BRICK_HEIGHT - CHECK_SIZE,CHECK_SIZE,1);
-        array[0] = getColorData(window, ball, ball ->x + BRICK_WIDTH,ball->y + (BRICK_HEIGHT - CHECK_SIZE * 2),CHECK_SIZE,0);
+        array[4] = getColorData(window, ball, ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,CHECK_SIZE, 4);
+        array[3] = getColorData(window, ball, ball ->x + (BRICK_WIDTH - CHECK_SIZE),ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,CHECK_SIZE, 3);
+        array[2] = getColorData(window, ball, ball ->x + BRICK_WIDTH + 10,ball->y + BRICK_HEIGHT,CHECK_SIZE,CHECK_SIZE, 2);
+        array[1] = getColorData(window, ball, ball ->x + BRICK_WIDTH + 10,ball->y + BRICK_HEIGHT - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE, 1);
+        array[0] = getColorData(window, ball, ball ->x + BRICK_WIDTH + 10,ball->y + (BRICK_HEIGHT - CHECK_SIZE * 2),CHECK_SIZE,CHECK_SIZE, 0);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }
         return 1;
     }else if(ball->deltaX > 0 && ball->deltaY > 0){
         //moving to the right and up
-        array[4] = getColorData(window,ball,ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE,CHECK_SIZE,4);
-        array[3] = getColorData(window,ball, ball ->x +(BRICK_WIDTH - CHECK_SIZE) ,ball->y - CHECK_SIZE,CHECK_SIZE,3);
-        array[2] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE, CHECK_SIZE,2);
-        array[1] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y,CHECK_SIZE,1);
-        array[0] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y + CHECK_SIZE, CHECK_SIZE,0);
+        array[4] = getColorData(window,ball,ball ->x + (BRICK_WIDTH - (CHECK_SIZE * 2)),ball->y - (CHECK_SIZE - 10),CHECK_SIZE,CHECK_SIZE, 4);
+        array[3] = getColorData(window,ball, ball ->x +(BRICK_WIDTH - CHECK_SIZE) ,ball->y - (CHECK_SIZE - 10),CHECK_SIZE,CHECK_SIZE, 3);
+        array[2] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y - (CHECK_SIZE - 10), CHECK_SIZE,CHECK_SIZE, 2);
+        array[1] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y - 10,CHECK_SIZE,CHECK_SIZE, 1);
+        array[0] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y + (CHECK_SIZE - 10), CHECK_SIZE,CHECK_SIZE, 0);
         //checks for colllisions i guess
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
@@ -118,11 +116,11 @@ int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
         return 1;
     }else if(ball->deltaX > 0 && ball->deltaY == 0){
         //moving to the right 
-        array[4] = getColorData(window,ball,ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE,CHECK_SIZE,4);
-        array[3] = getColorData(window,ball, ball ->x +(BRICK_WIDTH - CHECK_SIZE) ,ball->y - CHECK_SIZE,CHECK_SIZE,3);
-        array[2] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE, CHECK_SIZE,2);
-        array[1] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y,CHECK_SIZE,1);
-        array[0] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y + CHECK_SIZE, CHECK_SIZE,0);
+        array[4] = getColorData(window,ball,ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE, 4);
+        array[3] = getColorData(window,ball, ball ->x +(BRICK_WIDTH - CHECK_SIZE) ,ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE, 3);
+        array[2] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE, CHECK_SIZE,CHECK_SIZE, 2);
+        array[1] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y,CHECK_SIZE,CHECK_SIZE, 1);
+        array[0] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y + CHECK_SIZE, CHECK_SIZE,CHECK_SIZE, 0);
         //checks for colllisions i guess
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
@@ -130,26 +128,28 @@ int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
         return 1;
     }else if(ball->deltaX < 0 && ball->deltaY == 0){
         //moving just to the left
-        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - CHECK_SIZE ,CHECK_SIZE,4);
-        array[3] = getColorData(window, ball, ball ->x ,ball->y - CHECK_SIZE,CHECK_SIZE,3);
-        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - CHECK_SIZE, CHECK_SIZE,2);
-        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y,CHECK_SIZE,1);
-        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y + CHECK_SIZE,CHECK_SIZE,0);
+        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - CHECK_SIZE ,CHECK_SIZE,CHECK_SIZE, 4);
+        array[3] = getColorData(window, ball, ball ->x ,ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE, 3);
+        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - CHECK_SIZE, CHECK_SIZE,CHECK_SIZE, 2);
+        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y,CHECK_SIZE,CHECK_SIZE, 1);
+        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y + CHECK_SIZE,CHECK_SIZE,CHECK_SIZE, 0);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }
         return 1;
     }
     return 0;
-
 }
-int getColorData(SDL_Window *window, BALL *ball, int startX, int y,int width,int index){
+
+int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int width,int height,int index){
     SDL_Surface *surface = SDL_GetWindowSurface(window);
+    Uint8 color = 0;
     if(surface == NULL){
         printf("Error trying to get the surface from window");
         return -1;
     }
     SDL_LockSurface(surface);
+    for(int y = startY; y < startY + height; y++){
         for (int x = startX; x < startX + width; ++x) {
             // Make sure the coordinates are within the surface bounds
             if (x >= 0 && x < surface->w){
@@ -161,15 +161,17 @@ int getColorData(SDL_Window *window, BALL *ball, int startX, int y,int width,int
                 SDL_GetRGBA(pixel, surface->format, &r, &g, &b, &a);
 
                 // Output the color of the pixel
-                Uint8 totalColor = r + g + b;
-                if(totalColor != 0){
-                    ball->layer->bits[index] = true;
-                    //printf("R=%d, G=%d, B=%d, A=%d\n", r, g, b, a);
-                    SDL_UnlockSurface(surface);
-                    return 1;
-                }
+                color += r + g + b;
             }
         }
+    }
+    if(color != 0){
+        ball->layer->bits[index] = true;
+        //printf("R=%d, G=%d, B=%d, A=%d\n", r, g, b, a);
+        printf("Color: %d\n",color);
+        SDL_UnlockSurface(surface);
+        return 1;
+    }
     SDL_UnlockSurface(surface);
 
     return 0;
@@ -184,11 +186,17 @@ void changeDelta(BALL *ball){
         ball->deltaX = -(ball->deltaX);
         ball->deltaY = -(ball->deltaY);
         printf("CASE 1\n");
+        for(int i = 0; i < 5; i++){
+            printf("bit %d: %d\n",i,ball->layer->bits[i]);
+        }
         return;
     }else if(ball->layer->bits[3] && !ball->layer->bits[1] && !ball->layer->bits[2]){
         //case 2
         ball->deltaY = -(ball->deltaY);
         printf("CASE 2\n");
+        for(int i = 0; i < 5; i++){
+            printf("bit %d: %d\n",i,ball->layer->bits[i]);
+        }
         return;
     }else if(!ball->layer->bits[4] && !ball->layer->bits[3] && ball->layer->bits[1]){
         //case 3
