@@ -9,11 +9,11 @@
 
 #define BRICK_WIDTH 20
 #define BRICK_HEIGHT  20
-#define WINDOW_HEIGHT  1000
+#define WINDOW_HEIGHT  1040
 #define WINDOW_WIDTH 1040
 #define PAD_RESET WINDOW_WIDTH/2
-#define PAD_Y WINDOW_HEIGHT - BRICK_HEIGHT *2
-#define PAD_X 470 
+#define PAD_Y WINDOW_HEIGHT - BRICK_HEIGHT * 2
+#define PAD_X 470
 
 void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 color, bool update);
 void drawBrick(int x,int y,SDL_Surface *surface ,Uint32 color);

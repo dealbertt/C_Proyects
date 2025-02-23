@@ -72,9 +72,9 @@ int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
         for(int i = 0; i < 5; i++){
             array[i] = 0;
         }
-        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - CHECK_SIZE ,CHECK_SIZE,4);
-        array[3] = getColorData(window, ball, ball ->x ,ball->y - CHECK_SIZE,CHECK_SIZE,3);
-        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - CHECK_SIZE, CHECK_SIZE,2);
+        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - CHECK_SIZE - 10,CHECK_SIZE,4);
+        array[3] = getColorData(window, ball, ball ->x ,ball->y - CHECK_SIZE - 10,CHECK_SIZE,3);
+        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - CHECK_SIZE + 10, CHECK_SIZE,2);
         array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y,CHECK_SIZE,1);
         array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y + CHECK_SIZE,CHECK_SIZE,0);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
@@ -83,11 +83,11 @@ int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
         return 1;
     }else if(ball->deltaX < 0 && ball->deltaY < 0){
         //moving to the left and down
-        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - (CHECK_SIZE * 2)),CHECK_SIZE,0);
-        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - CHECK_SIZE),CHECK_SIZE,1);
-        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + BRICK_HEIGHT,CHECK_SIZE,2);
-        array[3] = getColorData(window, ball, ball ->x,ball->y + BRICK_HEIGHT,CHECK_SIZE,3);
-        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE,ball->y + BRICK_HEIGHT,CHECK_SIZE,4);
+        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - (CHECK_SIZE * 2)) + 10,CHECK_SIZE,0);
+        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT - CHECK_SIZE) + 10,CHECK_SIZE,1);
+        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE,ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,2);
+        array[3] = getColorData(window, ball, ball ->x,ball->y + (BRICK_HEIGHT + 10),CHECK_SIZE,3);
+        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE,ball->y + (10 + BRICK_HEIGHT),CHECK_SIZE,4);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }
@@ -106,18 +106,35 @@ int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
         return 1;
     }else if(ball->deltaX > 0 && ball->deltaY > 0){
         //moving to the right and up
-        //ball->layer->checkers[0] = (SDL_Rect){ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
-        //ball->layer->checkers[1] = (SDL_Rect){ball ->x + (BRICK_WIDTH - CHECK_SIZE),ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
-        //ball->layer->checkers[2] = (SDL_Rect){ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
-        //ball->layer->checkers[3] = (SDL_Rect){ball ->x + BRICK_WIDTH,ball->y,CHECK_SIZE,CHECK_SIZE,};
-        //ball->layer->checkers[4] = (SDL_Rect){ball ->x + BRICK_WIDTH,ball->y + CHECK_SIZE,CHECK_SIZE,CHECK_SIZE,};
-
         array[4] = getColorData(window,ball,ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE,CHECK_SIZE,4);
         array[3] = getColorData(window,ball, ball ->x +(BRICK_WIDTH - CHECK_SIZE) ,ball->y - CHECK_SIZE,CHECK_SIZE,3);
         array[2] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE, CHECK_SIZE,2);
         array[1] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y,CHECK_SIZE,1);
         array[0] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y + CHECK_SIZE, CHECK_SIZE,0);
         //checks for colllisions i guess
+        if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
+            changeDelta(ball);
+        }
+        return 1;
+    }else if(ball->deltaX > 0 && ball->deltaY == 0){
+        //moving to the right 
+        array[4] = getColorData(window,ball,ball ->x + (BRICK_WIDTH - CHECK_SIZE * 2),ball->y - CHECK_SIZE,CHECK_SIZE,4);
+        array[3] = getColorData(window,ball, ball ->x +(BRICK_WIDTH - CHECK_SIZE) ,ball->y - CHECK_SIZE,CHECK_SIZE,3);
+        array[2] = getColorData(window,ball,ball ->x + BRICK_WIDTH,ball->y - CHECK_SIZE, CHECK_SIZE,2);
+        array[1] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y,CHECK_SIZE,1);
+        array[0] = getColorData(window,ball,ball ->x + BRICK_WIDTH + 10,ball->y + CHECK_SIZE, CHECK_SIZE,0);
+        //checks for colllisions i guess
+        if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
+            changeDelta(ball);
+        }
+        return 1;
+    }else if(ball->deltaX < 0 && ball->deltaY == 0){
+        //moving just to the left
+        array[4] = getColorData(window, ball, ball ->x + CHECK_SIZE, ball->y - CHECK_SIZE ,CHECK_SIZE,4);
+        array[3] = getColorData(window, ball, ball ->x ,ball->y - CHECK_SIZE,CHECK_SIZE,3);
+        array[2] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y - CHECK_SIZE, CHECK_SIZE,2);
+        array[1] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y,CHECK_SIZE,1);
+        array[0] = getColorData(window, ball, ball ->x - CHECK_SIZE, ball->y + CHECK_SIZE,CHECK_SIZE,0);
         if(array[0] == 1 || array[1] == 1 || array[2] == 1|| array[3] == 1 || array[4] == 1){
             changeDelta(ball);
         }

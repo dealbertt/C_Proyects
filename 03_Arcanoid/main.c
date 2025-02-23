@@ -119,11 +119,11 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->timer->value = BALL_TIMER_RESET;
     (*ball)->timer->resetValue = BALL_TIMER_RESET;
     (*ball)->timer->activated = false;
-    (*ball)->x = 490;
+    (*ball)->x = 470;
     (*ball)->y = 900;
     (*ball)->coordX = (*ball)->x + 10; 
     (*ball)->coordY = (*ball)->y + 10; 
-    (*ball)->deltaX = 0;
+    (*ball)->deltaX = 1;
     (*ball)->deltaY = 1;
     printf("Ball\nX:%d\nY:%d\n",(*ball)->coordX,(*ball)->coordY);
      drawBall((*ball)->x, (*ball)->y, *window, *surface, WHITE, true);
