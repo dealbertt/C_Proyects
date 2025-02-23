@@ -123,9 +123,10 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->y = 900;
     (*ball)->coordX = (*ball)->x + 10; 
     (*ball)->coordY = (*ball)->y + 10; 
-    (*ball)->deltaX = -1;
+    (*ball)->deltaX = 0;
     (*ball)->deltaY = 1;
     printf("Ball\nX:%d\nY:%d\n",(*ball)->coordX,(*ball)->coordY);
+    printf("Delta X: %d\nDelta Y:%d\n",(*ball)->deltaX,(*ball)->deltaY);
      drawBall((*ball)->x, (*ball)->y, *window, *surface, WHITE, true);
 
     //----------------------------
@@ -160,9 +161,8 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
     }
     
     while(!handleKeyboard(window, surface, pad)){
-        clearBall(ball->x, ball->y, window, surface);
-        //collision function
         checkCollisions(ball,window, pad);
+        clearBall(ball->x, ball->y, window, surface);
         updateBall(ball);
         drawBall(ball->x, ball->y, window, surface, WHITE, true);
     }
