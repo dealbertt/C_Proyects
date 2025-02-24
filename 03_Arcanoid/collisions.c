@@ -23,12 +23,20 @@ bool checkCollisions(BALL *ball,SDL_Window *window, PAD *pad){
 }
 
 int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
-    bool collisionVertical = collisionPanel(window, ball, 1);
-    bool collisionLateral = collisionPanel(window, ball, 0); 
-    if(collisionVertical|| collisionLateral ){
-        printf("Colisiones\nLateral: %d\nVertical: %d\n",collisionLateral, collisionVertical);
-        changeDelta(ball,collisionVertical,collisionLateral); 
-        return 1;
+    if(ball->y > 950 && ball->deltaY < 0){
+        printf("Getting close to the pad\n");
+        bool collisionVertical = collisionPanel(window, ball, 1);
+        if(collisionVertical){
+            changeDeltaWithPad(ball, pad);
+        }
+        return 2;
+    }else{
+        bool collisionVertical = collisionPanel(window, ball, 1);
+        bool collisionLateral = collisionPanel(window, ball, 0); 
+        if(collisionVertical|| collisionLateral){
+            changeDelta(ball,collisionVertical,collisionLateral); 
+            return 1;
+        }
     }
     return 0;
 }
@@ -37,7 +45,6 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
     int array[5] = {0};
     if(option == 0){
         if(ball->deltaX > 0){
-            printf("Checking right side of the ball\n");
             //going to the right
             array[4] = getColorData(window, ball, ball->x + (BRICK_WIDTH + 10), ball->y, CHECK_SIZE, CHECK_SIZE);
             array[3] = getColorData(window, ball, ball->x + (BRICK_WIDTH + 10), ball->y + CHECK_SIZE, CHECK_SIZE,CHECK_SIZE);
@@ -46,14 +53,12 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
             array[0] = getColorData(window, ball, ball->x + (BRICK_WIDTH + 10), ball->y + (CHECK_SIZE * 4), CHECK_SIZE,CHECK_SIZE);
             for(int i = 0; i < 5; i++){
                 if(array[i] == 1){
-                    printf("Valor del array %d: %d\n", i, array[i]);
                     return true;
                 }
             }
             //checks for colllisions i guess
         }else if(ball->deltaX < 0){
             //moving to the left
-            printf("Checking left side of the ball\n");
             array[4] = getColorData(window, ball, ball->x - 10, ball->y, CHECK_SIZE, CHECK_SIZE);
             array[3] = getColorData(window, ball, ball->x - 10, ball->y + CHECK_SIZE, CHECK_SIZE,CHECK_SIZE);
             array[2] = getColorData(window, ball, ball->x - 10, ball->y + (CHECK_SIZE * 2), CHECK_SIZE,CHECK_SIZE);
@@ -62,7 +67,6 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
             //checks for colllisions i guess
             for(int i = 0; i < 5; i++){
                 if(array[i] == 1){
-                    printf("Valor del array %d: %d\n", i, array[i]);
                     return true;
                 }
             }
@@ -83,7 +87,6 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
             }
         }else if(ball->deltaY < 0){ 
             //moving down
-            printf("Checking lower side of the ball\n");
             array[4] = getColorData(window, ball, ball->x, ball->y +(BRICK_HEIGHT + 10), CHECK_SIZE, CHECK_SIZE);
             array[3] = getColorData(window, ball, ball->x + CHECK_SIZE, ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
             array[2] = getColorData(window, ball, ball->x + (CHECK_SIZE * 2), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
@@ -119,7 +122,7 @@ int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int widt
                 SDL_GetRGBA(pixel, surface->format, &r, &g, &b, &a);
 
                 // Output the color of the pixel
-                if(r != 0 | g != 0 | b != 0){
+                if((r != 0) | (g != 0) | (b != 0)){
                     //printf("R=%d, G=%d, B=%d, A=%d\n", r, g, b, a);
                     SDL_UnlockSurface(surface);
                     return 1;
@@ -132,7 +135,6 @@ int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int widt
 }
 
 void changeDelta(BALL *ball, bool vertical, bool horizontal){
-    printf("Changing deltas...\n");
      if(!vertical && !horizontal){
         //case 0
         //no collision;
@@ -148,9 +150,7 @@ void changeDelta(BALL *ball, bool vertical, bool horizontal){
     }else if(vertical && !horizontal){
         //case 2
         printf("CASE 2\n");
-        printf("Old deltas - deltaX: %d, deltaY: %d\n", ball->deltaX, ball->deltaY);
         ball->deltaY = -(ball->deltaY);
-        printf("New deltas - deltaX: %d, deltaY: %d\n", ball->deltaX, ball->deltaY);
         return;
     }else if(!vertical && horizontal){
         //case 3
@@ -170,7 +170,8 @@ void changeDelta(BALL *ball, bool vertical, bool horizontal){
 }
 
 void changeDeltaWithPad(BALL *ball, PAD *pad){
-    if(ball->coordX >= pad->leftSide && ball->coordX< pad->center){
+    printf("Collision with the pad\n");
+    if(ball->x >= pad->leftSide && ball->x < pad->center){
         printf("Left side\n");
         if(ball->deltaX == 0){
             ball->deltaX = -1;
@@ -179,7 +180,7 @@ void changeDeltaWithPad(BALL *ball, PAD *pad){
         }
         ball->deltaY = -(ball->deltaY);
         return;
-    }else if(ball->coordX >= pad->center && ball->coordX < pad->rightside){
+    }else if(ball->x >= pad->center && ball->x < pad->rightside){
         printf("Center\n");
         printf("X: %d Y: %d\n",ball->coordX,ball->coordY);
         printf("LeftSide: %d\n",pad->leftSide);
@@ -187,7 +188,7 @@ void changeDeltaWithPad(BALL *ball, PAD *pad){
         printf("RigthSide: %d\n",pad->rightside);
         ball->deltaY = -(ball->deltaY);
         return;
-    }else if(ball->coordX >= pad->rightside && ball->coordX < ball->x + 100){
+    }else if(ball->x >= pad->rightside && ball->x < ball->x + 100){
         printf("Right side\n");
         if(ball->deltaX == 0){
             ball->deltaX = 1;

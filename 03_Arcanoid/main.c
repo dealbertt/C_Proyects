@@ -121,7 +121,12 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->timer->activated = false;
     (*ball)->x = 470;
     (*ball)->y = PAD_Y - BRICK_HEIGHT - 10;
-    (*ball)->deltaX = 1;
+    (*ball)->coordX = (*ball)->x + 10;
+    (*ball)->coordY = (*ball)->y + 10;
+
+    (*ball)->x = 470;
+    (*ball)->y = PAD_Y - BRICK_HEIGHT - 10;
+    (*ball)->deltaX = 0;
     (*ball)->deltaY = 1;
     printf("Ball\nX:%d\nY:%d\n",(*ball)->coordX,(*ball)->coordY);
     printf("Delta X: %d\nDelta Y:%d\n",(*ball)->deltaX,(*ball)->deltaY);
