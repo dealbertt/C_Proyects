@@ -46,11 +46,11 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
     if(option == 0){
         if(ball->deltaX > 0){
             //going to the right
-            array[4] = getColorData(window, ball, ball->x + (BRICK_WIDTH + 10), ball->y, CHECK_SIZE, CHECK_SIZE);
-            array[3] = getColorData(window, ball, ball->x + (BRICK_WIDTH + 10), ball->y + CHECK_SIZE, CHECK_SIZE,CHECK_SIZE);
-            array[2] = getColorData(window, ball, ball->x + (BRICK_WIDTH + 10), ball->y + (CHECK_SIZE * 2), CHECK_SIZE,CHECK_SIZE); 
-            array[1] = getColorData(window, ball, ball->x + (BRICK_WIDTH + 10), ball->y + (CHECK_SIZE * 3), CHECK_SIZE,CHECK_SIZE);
-            array[0] = getColorData(window, ball, ball->x + (BRICK_WIDTH + 10), ball->y + (CHECK_SIZE * 4), CHECK_SIZE,CHECK_SIZE);
+            array[4] = getColorData(window, ball->x + (BRICK_WIDTH + 10), ball->y, CHECK_SIZE, CHECK_SIZE);
+            array[3] = getColorData(window, ball->x + (BRICK_WIDTH + 10), ball->y + CHECK_SIZE, CHECK_SIZE,CHECK_SIZE);
+            array[2] = getColorData(window, ball->x + (BRICK_WIDTH + 10), ball->y + (CHECK_SIZE * 2), CHECK_SIZE,CHECK_SIZE); 
+            array[1] = getColorData(window, ball->x + (BRICK_WIDTH + 10), ball->y + (CHECK_SIZE * 3), CHECK_SIZE,CHECK_SIZE);
+            array[0] = getColorData(window, ball->x + (BRICK_WIDTH + 10), ball->y + (CHECK_SIZE * 4), CHECK_SIZE,CHECK_SIZE);
             for(int i = 0; i < 5; i++){
                 if(array[i] == 1){
                     return true;
@@ -59,11 +59,11 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
             //checks for colllisions i guess
         }else if(ball->deltaX < 0){
             //moving to the left
-            array[4] = getColorData(window, ball, ball->x - 10, ball->y, CHECK_SIZE, CHECK_SIZE);
-            array[3] = getColorData(window, ball, ball->x - 10, ball->y + CHECK_SIZE, CHECK_SIZE,CHECK_SIZE);
-            array[2] = getColorData(window, ball, ball->x - 10, ball->y + (CHECK_SIZE * 2), CHECK_SIZE,CHECK_SIZE);
-            array[1] = getColorData(window, ball, ball->x - 10, ball->y + (CHECK_SIZE * 3), CHECK_SIZE,CHECK_SIZE);
-            array[0] = getColorData(window, ball, ball->x - 10, ball->y + (CHECK_SIZE * 4), CHECK_SIZE,CHECK_SIZE);
+            array[4] = getColorData(window, ball->x - 10, ball->y, CHECK_SIZE, CHECK_SIZE);
+            array[3] = getColorData(window, ball->x - 10, ball->y + CHECK_SIZE, CHECK_SIZE,CHECK_SIZE);
+            array[2] = getColorData(window, ball->x - 10, ball->y + (CHECK_SIZE * 2), CHECK_SIZE,CHECK_SIZE);
+            array[1] = getColorData(window, ball->x - 10, ball->y + (CHECK_SIZE * 3), CHECK_SIZE,CHECK_SIZE);
+            array[0] = getColorData(window, ball->x - 10, ball->y + (CHECK_SIZE * 4), CHECK_SIZE,CHECK_SIZE);
             //checks for colllisions i guess
             for(int i = 0; i < 5; i++){
                 if(array[i] == 1){
@@ -74,11 +74,11 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
     }else{
         if(ball->deltaY > 0){
             //moving up
-            array[4] = getColorData(window, ball, ball->x, ball->y - 10, CHECK_SIZE, CHECK_SIZE);
-            array[3] = getColorData(window, ball, ball->x + CHECK_SIZE, ball->y - 10, CHECK_SIZE,CHECK_SIZE);
-            array[2] = getColorData(window, ball, ball->x + (CHECK_SIZE * 2), ball->y - 10, CHECK_SIZE,CHECK_SIZE);
-            array[1] = getColorData(window, ball, ball->x + (CHECK_SIZE * 3), ball->y - 10, CHECK_SIZE,CHECK_SIZE);
-            array[0] = getColorData(window, ball, ball->x + (CHECK_SIZE * 4), ball->y - 10, CHECK_SIZE,CHECK_SIZE);
+            array[4] = getColorData(window, ball->x, ball->y - 10, CHECK_SIZE, CHECK_SIZE);
+            array[3] = getColorData(window, ball->x + CHECK_SIZE, ball->y - 10, CHECK_SIZE,CHECK_SIZE);
+            array[2] = getColorData(window, ball->x + (CHECK_SIZE * 2), ball->y - 10, CHECK_SIZE,CHECK_SIZE);
+            array[1] = getColorData(window, ball->x + (CHECK_SIZE * 3), ball->y - 10, CHECK_SIZE,CHECK_SIZE);
+            array[0] = getColorData(window, ball->x + (CHECK_SIZE * 4), ball->y - 10, CHECK_SIZE,CHECK_SIZE);
             //checks for colllisions i guess
             for(int i = 0; i < 5; i++){
                 if(array[i] == 1){
@@ -87,11 +87,11 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
             }
         }else if(ball->deltaY < 0){ 
             //moving down
-            array[4] = getColorData(window, ball, ball->x, ball->y +(BRICK_HEIGHT + 10), CHECK_SIZE, CHECK_SIZE);
-            array[3] = getColorData(window, ball, ball->x + CHECK_SIZE, ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
-            array[2] = getColorData(window, ball, ball->x + (CHECK_SIZE * 2), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
-            array[1] = getColorData(window, ball, ball->x + (CHECK_SIZE * 3), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE, CHECK_SIZE);
-            array[0] = getColorData(window, ball, ball->x + (CHECK_SIZE * 4), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
+            array[4] = getColorData(window, ball->x, ball->y +(BRICK_HEIGHT + 10), CHECK_SIZE, CHECK_SIZE);
+            array[3] = getColorData(window, ball->x + CHECK_SIZE, ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
+            array[2] = getColorData(window, ball->x + (CHECK_SIZE * 2), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
+            array[1] = getColorData(window, ball->x + (CHECK_SIZE * 3), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE, CHECK_SIZE);
+            array[0] = getColorData(window, ball->x + (CHECK_SIZE * 4), ball->y + (BRICK_HEIGHT + 10), CHECK_SIZE,CHECK_SIZE);
             //checks for colllisions i guess
             for(int i = 0; i < 5; i++){
                 if(array[i] == 1){
@@ -103,7 +103,7 @@ bool collisionPanel(SDL_Window *window, BALL *ball, int option){
     return false;
 }
 
-int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int width,int height){
+int getColorData(SDL_Window *window, int startX, int startY,int width,int height){
     SDL_Surface *surface = SDL_GetWindowSurface(window);
     if(surface == NULL){
         printf("Error trying to get the surface from window");

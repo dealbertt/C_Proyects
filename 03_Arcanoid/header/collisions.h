@@ -13,7 +13,7 @@
 
 int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad);
 bool checkCollisions(BALL *ball, SDL_Window *window, PAD *pad);
-int getColorData(SDL_Window *window, BALL *ball, int startX, int startY,int width,int height);
+int getColorData(SDL_Window *window, int startX, int startY,int width,int height);
 void changeDelta(BALL *ball,bool vertical, bool horizontal);
 void changeDeltaWithPad(BALL *ball, PAD *pad);
 bool collisionPanel(SDL_Window *window, BALL *ball, int option);
