@@ -40,4 +40,5 @@ int loadLevel(MAP_t *level,SDL_Surface *surface);
 int levelList(MAP_t **map);
 void addToList(List *list,char levelName[15]);
 uint32_t selectColor(int n);
+MAP_t *pop(List *list);
 #endif

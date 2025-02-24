@@ -18,7 +18,7 @@
 
 
 void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball,List **list);
-void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball);
+void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball, List *list);
 int main(){
 
     SDL_Window *window = NULL;
@@ -32,10 +32,11 @@ int main(){
 
     List *list = NULL;
 
+
     initGame(&window,&surface,&pad,&ball,&list);
 
     printf("Start\n");
-    gameLoop(window,surface,pad,ball);
+    gameLoop(window, surface, pad, ball, list);
 
     free(ball->timer);
     free(pad->timer);
@@ -155,16 +156,23 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
 
 
 
-void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball){
+void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball,List *list){
    
+    MAP_t *blank = malloc(sizeof(MAP_t));
+    strcpy(blank->name,"blank");
+    blank->completed = false;
 
     printf("Press Space to continue\n");
     while(!pressToContinue()){
-
     }
     
     while(!handleKeyboard(window, surface, pad)){
-        checkCollisions(ball,window, pad);
+        if(!checkCollisions(ball,window, pad)){
+            loadLevel(blank, surface);
+            pop(list);
+            loadLevel(list->head, surface);
+            //need to reset pad and ball position
+        }
         clearBall(ball->x, ball->y, window, surface);
         updateBall(ball);
         drawBall(ball->x, ball->y, window, surface, WHITE, true);

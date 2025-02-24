@@ -18,12 +18,18 @@
 //  some progress, i still need to figure out how this guys are going to figure out the color tho
 bool checkCollisions(BALL *ball,SDL_Window *window, PAD *pad){
     //check the ball delta to determine where the bits need to be positioned
-    assingCheckers(ball,window,pad);
-    return true;
+    if(assingCheckers(ball,window,pad) == 3){
+        return false;
+    }else {
+        return true;
+    }
 }
 
 int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
-    if(ball->y > 950 && ball->deltaY < 0){
+    if(ball->y >= 990){
+        printf("Collision with floor\n");
+        return 3;
+    }else if(ball->y > 950 && ball->deltaY < 0){
         printf("Getting close to the pad\n");
         bool collisionVertical = collisionPanel(window, ball, 1);
         if(collisionVertical){

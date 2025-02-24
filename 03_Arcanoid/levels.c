@@ -139,4 +139,10 @@ uint32_t selectColor(int n){
     return color;
 
 }
-
+MAP_t *pop(List *list){
+    if(list->head == NULL) return NULL;
+    MAP_t *level = list->head;
+    list->head = list->head->next;
+    level->next = NULL;
+    return level;
+}
