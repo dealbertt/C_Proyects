@@ -41,4 +41,5 @@ int levelList(MAP_t **map);
 void addToList(List *list,char levelName[15]);
 uint32_t selectColor(int n);
 MAP_t *pop(List *list);
+int resetObjects(PAD *pad, BALL *ball, List *list, SDL_Surface *surface, SDL_Window *window);
 #endif

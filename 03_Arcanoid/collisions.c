@@ -27,10 +27,8 @@ bool checkCollisions(BALL *ball,SDL_Window *window, PAD *pad){
 
 int assingCheckers(BALL *ball,SDL_Window *window, PAD *pad){
     if(ball->y >= 990){
-        printf("Collision with floor\n");
         return 3;
     }else if(ball->y > 950 && ball->deltaY < 0){
-        printf("Getting close to the pad\n");
         bool collisionVertical = collisionPanel(window, ball, 1);
         if(collisionVertical){
             changeDeltaWithPad(ball, pad);

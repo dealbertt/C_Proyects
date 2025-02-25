@@ -64,13 +64,6 @@ bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
                     break;
             }
             
-            system("clear");
-            printf("X: %d Y: %d\n",pad->coordX,pad->coordY);
-            printf("Timer: %d\n",pad->timer->value);
-            printf("Part of the pad:\n");
-            printf("LeftSide: %d\n",pad->leftSide);
-            printf("Center: %d\n",pad->center);
-            printf("RigthSide: %d\n",pad->rightside);
         }
 
     }else{

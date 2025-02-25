@@ -125,8 +125,6 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     (*ball)->coordX = (*ball)->x + 10;
     (*ball)->coordY = (*ball)->y + 10;
 
-    (*ball)->x = 470;
-    (*ball)->y = PAD_Y - BRICK_HEIGHT - 10;
     (*ball)->deltaX = 0;
     (*ball)->deltaY = 1;
     printf("Ball\nX:%d\nY:%d\n",(*ball)->coordX,(*ball)->coordY);
@@ -172,6 +170,7 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball,List 
             pop(list);
             loadLevel(list->head, surface);
             //need to reset pad and ball position
+            resetObjects(pad, ball, list, surface, window);
         }
         clearBall(ball->x, ball->y, window, surface);
         updateBall(ball);

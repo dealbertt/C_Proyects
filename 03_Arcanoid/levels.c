@@ -146,3 +146,36 @@ MAP_t *pop(List *list){
     level->next = NULL;
     return level;
 }
+
+int resetObjects(PAD *pad, BALL *ball, List *list, SDL_Surface *surface, SDL_Window *window){
+    clearBall(ball->x, ball->y, window, surface);
+    clearPad(window, surface, pad->x, pad->y);
+    
+
+    //Resetting everything that has to do with the pad
+    pad->x = PAD_X;
+    pad->y = PAD_Y;
+    drawPad(window,surface,pad->x,pad->y);
+    pad->timer->value = PAD_TIMER_RESET;
+    pad->timer->resetValue = PAD_TIMER_RESET;
+    pad->timer->activated = false;
+    pad->leftSide = pad->x;
+    pad->center = pad->x + 33;
+    pad->rightside = pad->x + 66;
+
+    //Resetting everything that has to do with the ball
+    ball->timer->value = BALL_TIMER_RESET;
+    ball->timer->resetValue = BALL_TIMER_RESET;
+    ball->timer->activated = false;
+    ball->x = 470;
+    ball->y = PAD_Y - BRICK_HEIGHT - 10;
+    ball->coordX = ball->x + 10;
+    ball->coordY = ball->y + 10;
+
+    ball->deltaX = 0;
+    ball->deltaY = 1;
+    drawBall(ball->x, ball->y, window, surface, WHITE, true);
+
+    printf("Objects have been reset correctly\n");
+    return 0;
+}
