@@ -156,21 +156,20 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
 
 void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball,List *list){
    
-    MAP_t *blank = malloc(sizeof(MAP_t));
-    strcpy(blank->name,"blank");
-    blank->completed = false;
-
     printf("Press Space to continue\n");
     while(!pressToContinue()){
     }
     
     while(!handleKeyboard(window, surface, pad)){
         if(!checkCollisions(ball,window, pad)){
-            loadLevel(blank, surface);
-            pop(list);
-            loadLevel(list->head, surface);
             //need to reset pad and ball position
-            resetObjects(pad, ball, list, surface, window);
+            if(list->head == list->tail){
+                printf("END OF THE GAME\n");
+                return;
+            }else{
+                resetObjects(pad, ball, list, surface, window);
+            }
+
         }
         clearBall(ball->x, ball->y, window, surface);
         updateBall(ball);

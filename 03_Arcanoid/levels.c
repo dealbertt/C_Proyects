@@ -148,9 +148,21 @@ MAP_t *pop(List *list){
 }
 
 int resetObjects(PAD *pad, BALL *ball, List *list, SDL_Surface *surface, SDL_Window *window){
+    //changing levels and updating list
+    MAP_t *blank = malloc(sizeof(MAP_t));
+    strcpy(blank->name,"blank");
+    blank->completed = false;
+
+    loadLevel(blank, surface);
+    pop(list);
+    loadLevel(list->head, surface);
+
+    //-------------------------
+    
+    //Clearing both pad and ball to avoid having graphical glitches when resetting their position
+    
     clearBall(ball->x, ball->y, window, surface);
     clearPad(window, surface, pad->x, pad->y);
-    
 
     //Resetting everything that has to do with the pad
     pad->x = PAD_X;
@@ -162,6 +174,8 @@ int resetObjects(PAD *pad, BALL *ball, List *list, SDL_Surface *surface, SDL_Win
     pad->leftSide = pad->x;
     pad->center = pad->x + 33;
     pad->rightside = pad->x + 66;
+
+    //-------------------------
 
     //Resetting everything that has to do with the ball
     ball->timer->value = BALL_TIMER_RESET;
@@ -175,6 +189,8 @@ int resetObjects(PAD *pad, BALL *ball, List *list, SDL_Surface *surface, SDL_Win
     ball->deltaX = 0;
     ball->deltaY = 1;
     drawBall(ball->x, ball->y, window, surface, WHITE, true);
+
+    //-------------------------
 
     printf("Objects have been reset correctly\n");
     return 0;
