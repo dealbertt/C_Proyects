@@ -158,8 +158,7 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball,List 
    
     printf("Press Space to continue\n");
     while(!pressToContinue()){
-    }
-    
+    } 
     while(!handleKeyboard(window, surface, pad)){
         if(!checkCollisions(ball,window, pad)){
             //need to reset pad and ball position
@@ -171,6 +170,7 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball,List 
                 return;
             }else{
                 resetObjects(pad, ball, list, surface, window);
+
             }
 
         }

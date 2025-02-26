@@ -1,12 +1,16 @@
 #ifndef LEVELS_H
 #define LEVELS_H
 #include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+
 #include "graphics.h"
+#include "keyboard.h"
+
 
 
 #define BLACK 0x00000000
@@ -42,4 +46,5 @@ void addToList(List *list,char levelName[15]);
 uint32_t selectColor(int n);
 MAP_t *pop(List *list);
 int resetObjects(PAD *pad, BALL *ball, List *list, SDL_Surface *surface, SDL_Window *window);
+int printLevelNumber(SDL_Window *window, SDL_Surface *surface, List *list);
 #endif
