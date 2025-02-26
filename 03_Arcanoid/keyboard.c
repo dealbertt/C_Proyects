@@ -1,11 +1,10 @@
 #include "header/graphics.h"
 #include <SDL2/SDL_keycode.h>
 #include <stdio.h>
+#include "header/keyboard.h"
 
-bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad);
 //bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer);
 
-bool pressToContinue();
 
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
 

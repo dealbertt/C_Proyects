@@ -1,6 +1,7 @@
 #include "header/levels.h"
 #include "header/graphics.h"
 #include <stdio.h>
+#include "keyboard.c"
 
 //Maybe i should create a struct map with all the necessary information
 //and then i can create a list of maps with those structs
@@ -192,6 +193,9 @@ int resetObjects(PAD *pad, BALL *ball, List *list, SDL_Surface *surface, SDL_Win
 
     //-------------------------
 
+    printf("Press Space to continue\n");
+    while(!pressToContinue()){
+    }
     printf("Objects have been reset correctly\n");
     return 0;
 }

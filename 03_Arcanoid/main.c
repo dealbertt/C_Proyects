@@ -12,7 +12,7 @@
 #include "header/graphics.h"
 #include <stdbool.h>
 #include "header/logic.h"
-#include "keyboard.c"
+#include "header/keyboard.h"
 #include "header/levels.h"
 
 
