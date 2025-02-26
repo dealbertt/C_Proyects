@@ -22,7 +22,7 @@ void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 col
 void drawPad(SDL_Window *window, SDL_Surface *surface,int x,int y);
 void clearPad(SDL_Window *window, SDL_Surface *surface,int x,int y);
 
-void drawBorders(SDL_Window *window, SDL_Surface *surface);
+void drawBorders(SDL_Window *window, SDL_Surface *surface, Uint32 color);
 
 void drawBall(int x, int y,SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update);
 void clearBall(int x, int y,SDL_Window *window,SDL_Surface *surface);

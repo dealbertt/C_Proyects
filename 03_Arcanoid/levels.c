@@ -196,6 +196,7 @@ int resetObjects(PAD *pad, BALL *ball, List *list, SDL_Surface *surface, SDL_Win
     printf("Press Space to continue\n");
     while(!pressToContinue()){
     }
+
     printf("Objects have been reset correctly\n");
     return 0;
 }

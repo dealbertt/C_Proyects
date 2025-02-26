@@ -142,7 +142,7 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
 
     loadLevel((*list)->head,*surface);
 
-    drawBorders(*window, *surface);
+    drawBorders(*window, *surface, BLUE);
 
     //-------------------------
 
@@ -164,7 +164,10 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball,List 
         if(!checkCollisions(ball,window, pad)){
             //need to reset pad and ball position
             if(list->head == list->tail){
+                drawBorders(window, surface, RED);
                 printf("END OF THE GAME\n");
+                SDL_Delay(1000);
+                SDL_Quit();
                 return;
             }else{
                 resetObjects(pad, ball, list, surface, window);
