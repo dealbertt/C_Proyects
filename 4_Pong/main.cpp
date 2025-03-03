@@ -1,9 +1,14 @@
 #include <SDL2/SDL_video.h>
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <iterator>
+
+
+//Headers created for the program
 #include "header/pad.hpp"
 #include "header/ball.hpp"
 #include "header/graphics.hpp"
+#include "header/timer.hpp"
 
 //First C++ proyect, i am planning on reading books and such to get good at it but i wanted
 //to first see what i know and use Chatgpt a little bit to help me on the basics of the language
@@ -22,6 +27,15 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player, Ball **ba
     }
     *player = new Pad(500,500);
     *ball = new Ball(500,500,1,1);
+    (*ball)->Initialize();
+    (*ball)->timer.value = BALL_TIMER_RESET; 
+    (*ball)->timer.activated = false;
+    std::cout << "Ball timer value:" << (*ball)->timer.value << std::endl;
+    (*player)->Initialize();
+
+    (*player)->timer.value = PAD_TIMER_RESET;
+    (*player)->timer.activated = false;
+    std::cout << "Player timer value:" << (*player)->timer.value << std::endl;
     return 0;
 }
 
@@ -41,10 +55,12 @@ int main(){
         std::cerr << "Failed to initialize game!" << std::endl;
         return -1;
     }
-    ball->Initialize();
-    player->Initialize();
 
+
+    SDL_UpdateWindowSurface(window);
+    SDL_Delay(1000);
     SDL_Quit();
+
 
     return 0;
 }

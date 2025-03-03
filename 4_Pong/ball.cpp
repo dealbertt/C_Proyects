@@ -10,4 +10,9 @@ void Ball::Initialize(){
     return;
 }
 
+void Ball::moveBall(SDL_Window *window){
+
+
+}
+
 
