@@ -8,33 +8,43 @@
 //First C++ proyect, i am planning on reading books and such to get good at it but i wanted
 //to first see what i know and use Chatgpt a little bit to help me on the basics of the language
 
+int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player, Ball **ball){
+    
+    *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
+    if(*window == NULL){
+        perror("Error while trying to created SDL Window\n");
+        return  -1;
+    }
+    *surface = SDL_GetWindowSurface(*window);
+    if(*surface == NULL){
+        perror("Error trying to create SDL_Surface\n");
+        return -1;
+    }
+    *player = new Pad(500,500);
+    *ball = new Ball(500,500,1,1);
+    return 0;
+}
+
 int main(){
     std::cout << "Hello World\n";
     SDL_Window *window = NULL;
     SDL_Surface *surface = NULL;
-    Pad player1(0,500);
-    Pad player2(900,500);
     
     SDL_Init(SDL_INIT_VIDEO);
-    window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
-    if(window == NULL){
-        perror("Error while trying to created SDL Window\n");
-        return  -1;
-    }
 
-    surface = SDL_GetWindowSurface(window);
-    if(surface == NULL){
-        perror("Error trying to create SDL_Surface\n");
+
+
+    Ball *ball = nullptr;
+    Pad *player = nullptr;
+
+    if (initGame(&window, &surface, &player, &ball) != 0) {
+        std::cerr << "Failed to initialize game!" << std::endl;
         return -1;
     }
+    ball->Initialize();
+    player->Initialize();
 
-    SDL_UpdateWindowSurface(window);
-    player1.Initialize();
-    player2.Initialize();
-
-
-    Ball ball(500,500,1,1);
-    ball.Initialize();
+    SDL_Quit();
 
     return 0;
 }
