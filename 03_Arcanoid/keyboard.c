@@ -110,11 +110,10 @@ bool pressToContinue(){
     return false;
     
 }
-bool handleSignal(int signal){
+void handleSignal(int signal){
     if(signal == SIGTERM){
         printf("Received SIGTERM, shutting down program\n");
-        SDL_Quit();
-        return true;
+        return;
     }
-    return false;
+    return;
 }

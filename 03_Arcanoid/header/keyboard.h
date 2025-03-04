@@ -8,5 +8,5 @@
 
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad);
 bool pressToContinue();
-bool handleSignal(int signal);
+void handleSignal(int signal);
 #endif 
