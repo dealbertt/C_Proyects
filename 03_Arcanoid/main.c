@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_hints.h>
 
 //HEADERS CREATED FOR THIS PROGRAM
 #include "header/collisions.h"
@@ -15,10 +16,13 @@
 #include "header/keyboard.h"
 #include "header/levels.h"
 
+#define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
 
 
 void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball,List **list);
 void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball, List *list);
+
+volatile bool running = true;
 
 int main(){
 
@@ -55,7 +59,7 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
     signal(SIGTERM, handleSignal);
     signal(SIGINT, handleSignal);
 
-    *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,WINDOW_WIDTH,WINDOW_HEIGHT,0);
+    *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,WINDOW_WIDTH,WINDOW_HEIGHT,SDL_WINDOW_OPENGL );
     if(*window == NULL){
         printf("Error creating SDL_Window\n");
         return;
@@ -159,11 +163,10 @@ void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball
 
 
 void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball,List *list){
-   
     printf("Press Space to continue\n");
     while(!pressToContinue()){
     } 
-    while(!handleKeyboard(window, surface, pad)){
+    while(!handleKeyboard(window, surface, pad) && running){
         if(!checkCollisions(ball,window, pad)){
             //need to reset pad and ball position
             if(list->head == list->tail){
@@ -185,3 +188,11 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball,List 
  
 }
 
+void handleSignal(int signal){
+    if(signal == SIGTERM || signal == SIGINT){
+        printf("Received SDL_Quit\n");
+        running = false;
+        return;
+    }
+    return;
+}
