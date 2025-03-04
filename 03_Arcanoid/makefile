@@ -2,7 +2,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -I. # Include current directory for header files
 
-LDFLAGS = -lm -lSDL2 -lSDL2_ttf
+LDFLAGS = -lm -lSDL2 
 # Source and object files
 SRC = main.c graphics.c logic.c levels.c collisions.c keyboard.c	
 OBJ = $(SRC:.c=.o)

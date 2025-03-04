@@ -3,10 +3,9 @@
 
 
 #include <SDL2/SDL.h>
-#include <signal.h>
 #include "logic.h"
+#include <signal.h>
 
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad);
 bool pressToContinue();
-bool handleSignal(int signal);
 #endif 

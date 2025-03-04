@@ -1,7 +1,6 @@
 #ifndef LEVELS_H
 #define LEVELS_H
 #include <SDL2/SDL_surface.h>
-#include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>

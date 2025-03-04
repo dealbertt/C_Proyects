@@ -2,7 +2,6 @@
 #include "header/graphics.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_surface.h>
-#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
 #include <stdio.h>
 #include <string.h>
@@ -201,34 +200,6 @@ int resetObjects(PAD *pad, BALL *ball, List *list, SDL_Surface *surface, SDL_Win
     }
 
     printf("Objects have been reset correctly\n");
-    printLevelNumber(window, surface, list);
     return 0;
 }
 
-int printLevelNumber(SDL_Window *window, SDL_Surface *surface, List *list){
-    if(TTF_Init() != 0){
-        perror("TTF_Init() failed\n");
-        SDL_Quit();
-        return 1;
-    }
-
-    TTF_Font *font;
-    font = TTF_OpenFont("FreeSans.ttf", 24);
-    if(font == NULL){
-        perror("TTF_OpenFont() failedi\n");
-        TTF_Quit();
-        SDL_Quit();
-        return 1;
-    }
-    
-    SDL_Color text_color = {255,255,255};
-    SDL_Surface *text = TTF_RenderText_Solid(font, "Hola buenas\n",text_color);
-    if(text == NULL){
-        perror("TTF_RenderText_Solid() failed\n");
-        TTF_Quit();
-        SDL_Quit();
-        return 1;
-    }
-    SDL_UpdateWindowSurface(window);
-    return 0;
-}
