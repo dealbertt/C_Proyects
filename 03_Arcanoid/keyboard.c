@@ -5,10 +5,15 @@
 
 //bool handleKeyboardSim(SDL_Window *window,SDL_Surface *surface,int *x, int *y,TIMER *timer);
 
+volatile bool running = true;
 
 bool handleKeyboard(SDL_Window *window,SDL_Surface *surface,PAD *pad){
 
+
     bool quit = false;
+    if(!running){
+        quit = true;
+    }
     if(timer(pad->timer)){
 
         //SDL_WaitEvent(&event);
@@ -111,8 +116,8 @@ bool pressToContinue(){
     
 }
 void handleSignal(int signal){
-    if(signal == SIGTERM){
-        printf("Received SIGTERM, shutting down program\n");
+    if(signal == SIGTERM || signal == SIGINT){
+        running = false;
         return;
     }
     return;

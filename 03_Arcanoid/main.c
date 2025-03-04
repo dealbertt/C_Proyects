@@ -19,6 +19,7 @@
 
 void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball,List **list);
 void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball, List *list);
+
 int main(){
 
     SDL_Window *window = NULL;
@@ -42,6 +43,7 @@ int main(){
     free(pad->timer);
     free(ball);
     free(pad);
+    SDL_Quit();
     return 0;
 
 
@@ -50,7 +52,8 @@ int main(){
 void initGame(SDL_Window **window, SDL_Surface **surface, PAD **pad, BALL **ball,List **list){
     //Windows and SDL surfaces
     SDL_Init(SDL_INIT_VIDEO);
-    signal(SIGINT, SIG_DFL);
+    signal(SIGTERM, handleSignal);
+    signal(SIGINT, handleSignal);
 
     *window = SDL_CreateWindow("Arcanoid",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,WINDOW_WIDTH,WINDOW_HEIGHT,0);
     if(*window == NULL){
@@ -161,14 +164,12 @@ void gameLoop(SDL_Window *window,SDL_Surface *surface,PAD *pad, BALL *ball,List 
     while(!pressToContinue()){
     } 
     while(!handleKeyboard(window, surface, pad)){
-        signal(SIGTERM,handleSignal);
         if(!checkCollisions(ball,window, pad)){
             //need to reset pad and ball position
             if(list->head == list->tail){
                 drawBorders(window, surface, RED);
                 printf("END OF THE GAME\n");
                 SDL_Delay(1000);
-                SDL_Quit();
                 return;
             }else{
                 resetObjects(pad, ball, list, surface, window);
