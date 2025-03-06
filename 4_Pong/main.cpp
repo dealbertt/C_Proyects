@@ -41,6 +41,7 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player, Ball **ba
     std::cout << "Player timer value:" << (*player)->timer.value << std::endl;
 
     drawBorders(*window, *surface, BLUE);
+    (*ball)->drawBall(*window, *surface, WHITE, true);
     return 0;
 }
 
