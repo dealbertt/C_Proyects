@@ -1,21 +1,24 @@
 #include <SDL2/SDL_video.h>
 #include <iostream>
 #include <SDL2/SDL.h>
-#include <iterator>
+#include <SDL2/SDL_hints.h>
 
 
 //Headers created for the program
 #include "header/pad.hpp"
 #include "header/ball.hpp"
-#include "header/graphics.hpp"
+#include "header/graphics.h"
 #include "header/timer.hpp"
 
 //First C++ proyect, i am planning on reading books and such to get good at it but i wanted
 //to first see what i know and use Chatgpt a little bit to help me on the basics of the language
 
+#define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
+
+
 int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player, Ball **ball){
     
-    *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_WIDTH, WIN_HEIGHT, 0);
+    *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
     if(*window == NULL){
         perror("Error while trying to created SDL Window\n");
         return  -1;
@@ -36,6 +39,8 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player, Ball **ba
     (*player)->timer.value = PAD_TIMER_RESET;
     (*player)->timer.activated = false;
     std::cout << "Player timer value:" << (*player)->timer.value << std::endl;
+
+    drawBorders(*window, *surface, BLUE);
     return 0;
 }
 
@@ -63,4 +68,9 @@ int main(){
 
 
     return 0;
+}
+
+void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player, Ball *ball){
+
+
 }

@@ -6,7 +6,7 @@ CXXFLAGS = -Wall -std=c++17 $(shell pkg-config --cflags sdl2)
 LDFLAGS = $(shell pkg-config --libs sdl2)
 
 # Source and Object Files
-SRC = main.cpp pad.cpp ball.cpp
+SRC = main.cpp pad.cpp ball.cpp graphics.c
 OBJ = $(SRC:.cpp=.o)
 # Target
 TARGET = Pong
