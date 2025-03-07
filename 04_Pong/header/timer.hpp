@@ -6,6 +6,7 @@
 class Timer {
     public:
         short value;
+        short resetValue;
         bool activated;
 
         void resetTimer();

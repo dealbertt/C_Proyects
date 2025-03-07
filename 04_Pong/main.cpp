@@ -34,15 +34,17 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     }
 
     *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,1);
-    (*ball)->Initialize();
     (*ball)->timer.value = BALL_TIMER_RESET; 
+    (*ball)->timer.resetValue = BALL_TIMER_RESET; 
     (*ball)->timer.activated = false;
     (*ball)->drawBall(*window, *surface, WHITE, true);
+    (*ball)->Initialize();
     std::cout << "Ball timer value:" << (*ball)->timer.value << std::endl;
 
     *player1 = new Pad(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y);
     (*player1)->timer.value = PAD_TIMER_RESET;
     (*player1)->timer.activated = false;
+    (*player1)->timer.resetValue = PAD_TIMER_RESET;
     (*player1)->Initialize();
     (*player1)->drawPad(*window, *surface);
     std::cout << "Player 1 timer value:" << (*player1)->timer.value << std::endl;

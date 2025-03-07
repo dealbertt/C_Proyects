@@ -30,4 +30,20 @@ void Ball::clearBall(SDL_Window *window,SDL_Surface *surface){
     return;
 }
 
+void Ball::updateBall(){
 
+    if(timer.activated){
+        if(deltaX > 0){
+            xPos += 15;
+        }else if(deltaX < 0){
+            xPos -= 15;
+        }
+
+        if(deltaY > 0){
+            yPos -= 15;
+        }else if(deltaY < 0){
+            yPos += 15;
+        }
+    }
+    return;
+}

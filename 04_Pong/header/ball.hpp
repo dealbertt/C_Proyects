@@ -1,7 +1,6 @@
 #ifndef BALL_HPP
 #define BALL_HPP
 
-#include <iostream>
 #include <SDL2/SDL.h>
 #include "timer.hpp"
 #include "graphics.h"
@@ -24,6 +23,7 @@ class Ball {
         void moveBall(SDL_Window *window);
         void drawBall(SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update);
         void clearBall(SDL_Window *window,SDL_Surface *surface);
+        void updateBall();
 };
 
 #endif
