@@ -2,7 +2,7 @@
 
 Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(player1), player2(player2), ball(ball){
     goalsPlayer1 = 0;
-    goalsPlayer2 = 0;
+    goalsPlayer1 = 0;
 }
 
 void Game::updateScore(){

@@ -59,6 +59,11 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     std::cout << "Player 2 timer value:" << (*player2)->timer.value << std::endl;
 
     *game = new Game(**player1, **player2, **ball); 
+    if(*game  == NULL){
+        perror("Error trying to create Game object\n");
+        return -1;
+    }
+    std::cout << "Test of game: " << (*game)->ball.timer.value << std::endl;
 
     drawBorders(*window, *surface, BLUE);
 
@@ -66,7 +71,6 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
 }
 
 int main(){
-    std::cout << "Hello World\n";
     SDL_Window *window = NULL;
     SDL_Surface *surface = NULL;
     
