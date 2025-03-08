@@ -6,7 +6,7 @@ CFLAGS = -Wall $(shell pkg-config --cflags sdl2)  # C compiler flags
 LDFLAGS = $(shell pkg-config --libs sdl2)  # SDL2 linking flags
 
 # Source and Object Files
-SRC = main.cpp pad.cpp ball.cpp graphics.c  # C++ and C sources
+SRC = main.cpp pad.cpp ball.cpp graphics.c timer.cpp game.cpp # C++ and C sources
 OBJ = $(SRC:.cpp=.o)  # Convert .cpp to .o
 OBJ := $(OBJ:.c=.o)   # Convert .c to .o
 

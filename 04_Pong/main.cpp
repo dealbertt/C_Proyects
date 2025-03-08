@@ -9,6 +9,7 @@
 #include "header/ball.hpp"
 #include "header/graphics.h"
 #include "header/timer.hpp"
+#include "header/game.hpp"
 
 //First C++ proyect, i am planning on reading books and such to get good at it but i wanted
 //to first see what i know and use Chatgpt a little bit to help me on the basics of the language
@@ -19,7 +20,7 @@ bool running = true;
 void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball);
 
 
-int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **player2, Ball **ball){
+int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **player2, Ball **ball, Game **game){
     
     *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
     if(*window == NULL){
@@ -33,7 +34,8 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
         return -1;
     }
 
-    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,1);
+    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,0);
+    (*ball)->deltaX = (*ball)->chooseDelta();
     (*ball)->timer.value = BALL_TIMER_RESET; 
     (*ball)->timer.resetValue = BALL_TIMER_RESET; 
     (*ball)->timer.activated = false;
@@ -56,6 +58,8 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     (*player2)->drawPad(*window, *surface);
     std::cout << "Player 2 timer value:" << (*player2)->timer.value << std::endl;
 
+    *game = new Game(**player1, **player2, **ball); 
+
     drawBorders(*window, *surface, BLUE);
 
     return 0;
@@ -74,8 +78,9 @@ int main(){
     Ball *ball = nullptr;
     Pad *player1 = nullptr;
     Pad *player2 = nullptr;
+    Game *game = nullptr;
 
-    if (initGame(&window, &surface, &player1, &player2, &ball) != 0) {
+    if (initGame(&window, &surface, &player1, &player2, &ball, &game) != 0) {
         std::cerr << "Failed to initialize game!" << std::endl;
         return -1;
     }
@@ -95,10 +100,15 @@ int main(){
 
 void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball){
     while(running){
-        //moves players
         //update ball
+        ball->clearBall(window, surface);
+        ball->updateBall();
+        ball->drawBall(window, surface, WHITE, true);
+
+        //moves players
         //check for collisions and stuff i guess
     }
 
+    return;
 
 }

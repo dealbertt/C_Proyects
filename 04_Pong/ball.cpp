@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ostream>
 #include "header/ball.hpp"
 
 Ball::Ball(int xPos, int yPos, int deltaX, int deltaY) : xPos(xPos), yPos(yPos), deltaX(deltaX), deltaY(deltaY){}
@@ -10,10 +11,6 @@ void Ball::Initialize(){
     return;
 }
 
-void Ball::moveBall(SDL_Window *window){
-
-
-}
 
 void Ball::drawBall(SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update){
     /*
@@ -32,7 +29,7 @@ void Ball::clearBall(SDL_Window *window,SDL_Surface *surface){
 
 void Ball::updateBall(){
 
-    if(timer.activated){
+    if(timer.checkTimer()){
         if(deltaX > 0){
             xPos += 15;
         }else if(deltaX < 0){
@@ -46,4 +43,15 @@ void Ball::updateBall(){
         }
     }
     return;
+}
+
+int Ball::chooseDelta(){
+    std::random_device rd;  // Seed for the random number engine
+    std::mt19937 gen(rd()); // Mersenne Twister PRNG
+    std::uniform_int_distribution<int> dist(0, 1); // Generates 0 or 1
+
+    int choice = (dist(gen) * 2) - 1; // Convert 0 to -1 and 1 to 1
+
+    std::cout << "Random choice: " << choice << std::endl;
+    return choice; 
 }
