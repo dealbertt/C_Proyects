@@ -31,15 +31,15 @@ void Ball::updateBall(){
 
     if(timer.checkTimer()){
         if(deltaX > 0){
-            xPos += 15;
+            xPos += 5;
         }else if(deltaX < 0){
-            xPos -= 15;
+            xPos -= 5;
         }
 
         if(deltaY > 0){
-            yPos -= 15;
+            yPos -= 5;
         }else if(deltaY < 0){
-            yPos += 15;
+            yPos += 5;
         }
     }
     return;

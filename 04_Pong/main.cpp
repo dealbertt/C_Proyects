@@ -14,10 +14,17 @@
 //First C++ proyect, i am planning on reading books and such to get good at it but i wanted
 //to first see what i know and use Chatgpt a little bit to help me on the basics of the language
 
+
+//TODO: Collisions
+
+//For the "AI" players, 
+//- do something where they get a snapshot of the deltas of the ball
+//- Predict where the ball might be going based on that snapshot
+//- Move the pad based on that prediction
 bool running = true;
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
-void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball);
+void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game);
 
 
 int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **player2, Ball **ball, Game **game){
@@ -39,7 +46,7 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     (*ball)->timer.value = BALL_TIMER_RESET; 
     (*ball)->timer.resetValue = BALL_TIMER_RESET; 
     (*ball)->timer.activated = false;
-    (*ball)->drawBall(*window, *surface, WHITE, true);
+    (*ball)->drawBall(*window, *surface, WHITE, false);
     (*ball)->Initialize();
     std::cout << "Ball timer value:" << (*ball)->timer.value << std::endl;
 
@@ -91,7 +98,7 @@ int main(){
 
 
     SDL_UpdateWindowSurface(window);
-    gameLoop(window, surface, player1, player2, ball);
+    gameLoop(window, surface, player1, player2, ball, game);
     SDL_Delay(1000);
     SDL_Quit();
     delete player1; 
@@ -102,12 +109,13 @@ int main(){
     return 0;
 }
 
-void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball){
+void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game){
     while(running){
         //update ball
+        game->updateGame(window);
         ball->clearBall(window, surface);
         ball->updateBall();
-        ball->drawBall(window, surface, WHITE, true);
+        ball->drawBall(window, surface, WHITE, false);
 
         //moves players
         //check for collisions and stuff i guess

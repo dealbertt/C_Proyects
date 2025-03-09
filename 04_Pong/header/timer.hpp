@@ -2,7 +2,7 @@
 #define TIMER_H
 
 #define PAD_TIMER_RESET 5
-#define BALL_TIMER_RESET 15
+#define BALL_TIMER_RESET 2
 class Timer {
     public:
         short value;

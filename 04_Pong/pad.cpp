@@ -10,7 +10,7 @@ void Pad::Initialize(){
 
 void Pad::drawPad(SDL_Window *window, SDL_Surface *surface){
     Uint32 color = 0xFFFF0000;
-    drawColumn(xPos,yPos,window,surface,color,true);
+    drawColumn(xPos, yPos, window, surface, color, false);
     return;
 }
 
@@ -20,4 +20,6 @@ void Pad::clearPad(SDL_Window *window, SDL_Surface *surface){
     return;
 }
 
-
+void detectCollisions(Ball *ball){
+    //idk, check if the pos x of ball and pad are the same
+}
