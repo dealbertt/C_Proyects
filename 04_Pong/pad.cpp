@@ -1,7 +1,8 @@
 #include <iostream>
 #include "header/pad.hpp"
+#include "header/graphics.h"
 
-Pad::Pad(int x, int y) : xPos(x), yPos(y){}
+Pad::Pad(int x, int y, int xCollisionCoord) : xPos(x), yPos(y), xCollisionCoord(xCollisionCoord){}
 
 void Pad::Initialize(){
     std::cout << " Pad X position: " << xPos << " Pad Y position: " << yPos << std::endl;
@@ -20,6 +21,9 @@ void Pad::clearPad(SDL_Window *window, SDL_Surface *surface){
     return;
 }
 
-void detectCollisions(Ball *ball){
+void Pad::detectCollisions(Ball *ball){
     //idk, check if the pos x of ball and pad are the same
+    if(ball->xPos == xPos + xCollisionCoord && ball->yPos <= yPos && ball->yPos >= (yPos * 5)){
+    // i guess i can define the pad zones here
+    }
 }

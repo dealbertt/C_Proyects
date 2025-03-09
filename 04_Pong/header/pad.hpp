@@ -13,15 +13,16 @@ class Pad {
     public:
         int xPos;
         int yPos;
+        int xCollisionCoord;
         //timer for movement
         Timer timer;
 
-        Pad(int x, int y);
+
+        Pad(int x, int y, int xCollisionCoord);
         void Initialize();
         void drawPad(SDL_Window *window, SDL_Surface *surface);
         void clearPad(SDL_Window *window, SDL_Surface *surface);
         void detectCollisions(Ball *ball);
-
 };
 
 #endif 
