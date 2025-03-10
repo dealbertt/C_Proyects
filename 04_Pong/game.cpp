@@ -9,9 +9,9 @@ Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(player1), player2(p
 }
 
 void Game::updateScore(){
-    if(ball.xPos == 20){
+    if(ball.getX() == 20){
         goalsPlayer2++;
-    }else if(ball.xPos == 1000){
+    }else if(ball.getX() == 1000){
         goalsPlayer1++;
     }
 

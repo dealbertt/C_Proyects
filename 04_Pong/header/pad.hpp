@@ -10,7 +10,7 @@
 #define PAD_DEFAULT_Y 500
 
 class Pad {
-    public:
+    private:
         int xPos;
         int yPos;
         int xCollisionCoord;
@@ -18,6 +18,7 @@ class Pad {
         Timer timer;
 
 
+    public:
         Pad(int x, int y, int xCollisionCoord);
         void Initialize();
         void drawPad(SDL_Window *window, SDL_Surface *surface);
@@ -25,6 +26,15 @@ class Pad {
         void detectCollisions(Ball *ball);
         void movePadUp(SDL_Window *window, SDL_Surface *surface);
         void movePadDown(SDL_Window *window, SDL_Surface *surface);
+
+        int getXpos() const { return xPos; }
+        int getYpos() const { return yPos; }
+        int getXcollisionCoord() const { return xCollisionCoord; }
+
+        void setXpos(int newXpos){ xPos = newXpos; }
+        void setYpos(int newYpos){ yPos = newYpos; }
+        void setXcollisionCoord(int newCollision){ xCollisionCoord = newCollision; }
+        Timer &getTimer() { return timer;}
 };
 
 #endif 

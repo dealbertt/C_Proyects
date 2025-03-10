@@ -24,7 +24,7 @@ void Pad::clearPad(SDL_Window *window, SDL_Surface *surface){
 
 void Pad::detectCollisions(Ball *ball){
     //idk, check if the pos x of ball and pad are the same
-    if(ball->xPos == xPos + xCollisionCoord && ball->yPos <= yPos && ball->yPos >= (yPos * 5)){
+    if(ball->getX() == xPos + xCollisionCoord && ball->getY() <= yPos && ball->getY() >= (yPos * 5)){
     // i guess i can define the pad zones here
     }
 }
@@ -32,7 +32,7 @@ void Pad::detectCollisions(Ball *ball){
 void Pad::movePadUp(SDL_Window *window, SDL_Surface *surface){
     if(timer.checkTimer()){
         clearPad(window, surface);
-        yPos -= 5;
+        yPos -= 10;
         drawPad(window, surface);
     }
     return;
@@ -41,7 +41,7 @@ void Pad::movePadUp(SDL_Window *window, SDL_Surface *surface){
 void Pad::movePadDown(SDL_Window *window, SDL_Surface *surface){
     if(timer.checkTimer()){
         clearPad(window, surface);
-        yPos += 5;
+        yPos += 10;
         drawPad(window, surface);
     }
     return;

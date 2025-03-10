@@ -16,6 +16,7 @@
 
 
 //TODO: Collisions
+//TODO: Config file for things like BRICK_WIDTH or timer values
 
 //For the "AI" players, 
 //- do something where they get a snapshot of the deltas of the ball
@@ -42,29 +43,30 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     }
 
     *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,0);
-    (*ball)->deltaX = (*ball)->chooseDelta();
-    (*ball)->timer.value = BALL_TIMER_RESET; 
-    (*ball)->timer.resetValue = BALL_TIMER_RESET; 
-    (*ball)->timer.activated = false;
+    int delta = (*ball)->chooseDelta();
+    (*ball)->setDeltaX(delta);  
+    (*ball)->getTimer().setValue(BALL_TIMER_RESET); 
+    (*ball)->getTimer().setResetValue(BALL_TIMER_RESET); 
+    (*ball)->getTimer().setActivated(false);
     (*ball)->drawBall(*window, *surface, WHITE, false);
     (*ball)->Initialize();
-    std::cout << "Ball timer value:" << (*ball)->timer.value << std::endl;
+    std::cout << "Ball timer value:" << (*ball)->getTimer().getValue()<< std::endl;
 
     *player1 = new Pad(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, BRICK_WIDTH);
-    (*player1)->timer.value = PAD_TIMER_RESET;
-    (*player1)->timer.activated = false;
-    (*player1)->timer.resetValue = PAD_TIMER_RESET;
+    (*player1)->getTimer().setValue(PAD_TIMER_RESET);
+    (*player1)->getTimer().setActivated(false);
+    (*player1)->getTimer().setResetValue(PAD_TIMER_RESET);
     (*player1)->Initialize();
     (*player1)->drawPad(*window, *surface);
-    std::cout << "Player 1 timer value:" << (*player1)->timer.value << std::endl;
+    std::cout << "Player 1 timer value:" << (*player1)->getTimer().getValue() << std::endl;
 
     *player2 = new Pad(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, 0);
-    (*player2)->timer.value = PAD_TIMER_RESET;
-    (*player2)->timer.activated = false;
-    (*player2)->timer.resetValue = PAD_TIMER_RESET;
+    (*player2)->getTimer().setValue(PAD_TIMER_RESET);
+    (*player2)->getTimer().setActivated(false);
+    (*player2)->getTimer().setResetValue(PAD_TIMER_RESET);
     (*player2)->Initialize();
     (*player2)->drawPad(*window, *surface);
-    std::cout << "Player 2 timer value:" << (*player2)->timer.value << std::endl;
+    std::cout << "Player 2 timer value:" << (*player2)->getTimer().getValue() << std::endl;
 
     *game = new Game(**player1, **player2, **ball); 
     if(*game  == NULL){
@@ -114,6 +116,7 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
         //update ball
         game->updateGame(window);
         ball->updateBall(window, surface);
+        //the moving actions of the players will be made inside the decision functions
         player1->movePadDown(window, surface);
         player2->movePadUp(window, surface);
         //moves players
