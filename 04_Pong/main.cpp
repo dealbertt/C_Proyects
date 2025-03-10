@@ -61,6 +61,7 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     *player2 = new Pad(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, 0);
     (*player2)->timer.value = PAD_TIMER_RESET;
     (*player2)->timer.activated = false;
+    (*player2)->timer.resetValue = PAD_TIMER_RESET;
     (*player2)->Initialize();
     (*player2)->drawPad(*window, *surface);
     std::cout << "Player 2 timer value:" << (*player2)->timer.value << std::endl;
@@ -70,7 +71,6 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
         perror("Error trying to create Game object\n");
         return -1;
     }
-    std::cout << "Test of game: " << (*game)->ball.timer.value << std::endl;
 
     drawBorders(*window, *surface, BLUE);
 
@@ -113,10 +113,9 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
     while(running){
         //update ball
         game->updateGame(window);
-        ball->clearBall(window, surface);
-        ball->updateBall();
-        ball->drawBall(window, surface, WHITE, false);
-
+        ball->updateBall(window, surface);
+        player1->movePadDown(window, surface);
+        player2->movePadUp(window, surface);
         //moves players
         //check for collisions and stuff i guess
     }

@@ -1,3 +1,4 @@
+#include <SDL2/SDL_surface.h>
 #include <iostream>
 #include "header/pad.hpp"
 #include "header/graphics.h"
@@ -17,7 +18,7 @@ void Pad::drawPad(SDL_Window *window, SDL_Surface *surface){
 
 void Pad::clearPad(SDL_Window *window, SDL_Surface *surface){
     Uint32 color = 0x00000000;
-    drawLine(xPos,yPos,window,surface,color);
+    drawColumn(xPos,yPos,window,surface,color);
     return;
 }
 
@@ -26,4 +27,22 @@ void Pad::detectCollisions(Ball *ball){
     if(ball->xPos == xPos + xCollisionCoord && ball->yPos <= yPos && ball->yPos >= (yPos * 5)){
     // i guess i can define the pad zones here
     }
+}
+
+void Pad::movePadUp(SDL_Window *window, SDL_Surface *surface){
+    if(timer.checkTimer()){
+        clearPad(window, surface);
+        yPos -= 5;
+        drawPad(window, surface);
+    }
+    return;
+}
+
+void Pad::movePadDown(SDL_Window *window, SDL_Surface *surface){
+    if(timer.checkTimer()){
+        clearPad(window, surface);
+        yPos += 5;
+        drawPad(window, surface);
+    }
+    return;
 }

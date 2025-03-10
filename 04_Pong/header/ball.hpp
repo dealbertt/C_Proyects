@@ -25,7 +25,7 @@ class Ball {
         void Initialize();
         void drawBall(SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update);
         void clearBall(SDL_Window *window,SDL_Surface *surface);
-        void updateBall();
+        void updateBall(SDL_Window *window, SDL_Surface *surface);
         int chooseDelta();
 };
 

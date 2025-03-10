@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ostream>
 #include "header/ball.hpp"
+#include "header/graphics.h"
 
 Ball::Ball(int xPos, int yPos, int deltaX, int deltaY) : xPos(xPos), yPos(yPos), deltaX(deltaX), deltaY(deltaY){}
 
@@ -13,10 +14,6 @@ void Ball::Initialize(){
 
 
 void Ball::drawBall(SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update){
-    /*
-    SDL_Rect rect = {x,y,BRICK_WIDTH,BRICK_HEIGHT};
-    SDL_FillRect(surface, &rect,color);
-    */
     drawBrick(xPos, yPos, surface, color);
     if(update){SDL_UpdateWindowSurface(window);}
     return;
@@ -27,8 +24,8 @@ void Ball::clearBall(SDL_Window *window,SDL_Surface *surface){
     return;
 }
 
-void Ball::updateBall(){
-
+void Ball::updateBall(SDL_Window *window, SDL_Surface *surface){
+    clearBall(window, surface);
     if(timer.checkTimer()){
         if(deltaX > 0){
             xPos += 5;
@@ -42,6 +39,7 @@ void Ball::updateBall(){
             yPos += 5;
         }
     }
+    drawBall(window, surface, WHITE, false);
     return;
 }
 
