@@ -23,6 +23,8 @@ class Pad {
         void drawPad(SDL_Window *window, SDL_Surface *surface);
         void clearPad(SDL_Window *window, SDL_Surface *surface);
         void detectCollisions(Ball *ball);
+        void movePadLeft();
+        void movePadRight();
 };
 
 #endif 

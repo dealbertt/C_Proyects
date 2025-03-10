@@ -32,7 +32,7 @@ void drawBrick(int x,int y,SDL_Surface *surface ,Uint32 color){
     return;
 }
 
-void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 color, bool update){
+void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 color){
     for(int i = 0; i < 5; i ++){
 
         drawBrick(x,y,surface,color);
@@ -41,11 +41,10 @@ void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 colo
 
     }
 
-    if(update){SDL_UpdateWindowSurface(window);}
     return;
 }
 
-void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 color, bool update){
+void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 color){
     for(int i = 0; i < 5; i ++){
 
         drawBrick(x,y,surface,color);
@@ -53,34 +52,31 @@ void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 col
 
 
     }
-    if(update){
-        SDL_UpdateWindowSurface(window);
-    }
     return;
 }
 
 void drawBorders(SDL_Window *window, SDL_Surface *surface, Uint32 color){
     int x = 0, y = 0;
     for(int i = 0; i < 11; i ++){
-        drawColumn(x, y,window, surface, color, true);
+        drawColumn(x, y,window, surface, color);
         y = y + 100;
     }
     x = WINDOW_WIDTH - BRICK_WIDTH;
     y = 0;
     for(int i = 0; i < 11; i ++){
-        drawColumn(x, y,window, surface, color, true);
+        drawColumn(x, y,window, surface, color);
         y = y + 100;
     }
     x = 0;
     y = 0;
     for(int i = 0; i < 11; i ++){
-        drawLine(x, y,window, surface, color,true);
+        drawLine(x, y,window, surface, color);
         x = x + 100;
     }
     x = 0;
     y = WINDOW_HEIGHT - BRICK_HEIGHT;
     for(int i = 0; i < 11; i ++){
-        drawLine(x, y,window, surface, color,true);
+        drawLine(x, y,window, surface, color);
         x = x + 100;
     }
     return;

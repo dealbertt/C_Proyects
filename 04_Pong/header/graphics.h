@@ -32,14 +32,14 @@ extern "C" {
 #define WHITE 0xffffffff
 
 
-void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 color, bool update);
+void drawLine(int x,int y, SDL_Window *window, SDL_Surface *surface, Uint32 color);
 void drawBrick(int x,int y,SDL_Surface *surface ,Uint32 color);
-void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 color, bool update);
+void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 color);
 
 
 void drawBorders(SDL_Window *window, SDL_Surface *surface, Uint32 color);
 
-void drawBall(int x, int y,SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update);
+void drawBall(int x, int y,SDL_Window *window,SDL_Surface *surface,Uint32 color);
 void clearBall(int x, int y,SDL_Window *window,SDL_Surface *surface);
 
 #ifdef __cplusplus
