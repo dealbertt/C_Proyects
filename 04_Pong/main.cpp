@@ -15,8 +15,8 @@
 //to first see what i know and use Chatgpt a little bit to help me on the basics of the language
 
 
-//TODO: Collisions
 //TODO: Config file for things like BRICK_WIDTH or timer values
+//TODO: Changing resoltion to have a wider screen, because pong is a horizontal game
 
 //For the "AI" players, 
 //- do something where they get a snapshot of the deltas of the ball
@@ -42,9 +42,9 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
         return -1;
     }
 
-    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,1);
+    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,0);
     int delta = (*ball)->chooseDelta();
-    (*ball)->setDeltaX(0);  
+    (*ball)->setDeltaX(delta);  
     (*ball)->getTimer().setValue(BALL_TIMER_RESET); 
     (*ball)->getTimer().setResetValue(BALL_TIMER_RESET); 
     (*ball)->getTimer().setActivated(false);

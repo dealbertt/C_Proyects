@@ -33,6 +33,7 @@ class Ball {
         int invertDeltaY();
         int collisionWithPlayers(Pad *player1, Pad *player2); 
         int collisionWithBorders();
+        int choosePadZone(Pad *player);
 
         //GETTERS
         int getX() const { return xPos; }

@@ -24,14 +24,19 @@ class Pad {
         void clearPad(SDL_Window *window, SDL_Surface *surface);
         void movePadUp(SDL_Window *window, SDL_Surface *surface);
         void movePadDown(SDL_Window *window, SDL_Surface *surface);
+        
 
+        //GETTERS
         int getXpos() const { return xPos; }
         int getYpos() const { return yPos; }
         int getXcollisionCoord() const { return xCollisionCoord; }
 
+        //SETTERS
         void setXpos(int newXpos){ xPos = newXpos; }
         void setYpos(int newYpos){ yPos = newYpos; }
         void setXcollisionCoord(int newCollision){ xCollisionCoord = newCollision; }
+
+        //BIT OF BOTH
         Timer &getTimer() { return timer;}
 };
 

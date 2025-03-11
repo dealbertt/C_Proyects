@@ -40,3 +40,4 @@ void Pad::movePadDown(SDL_Window *window, SDL_Surface *surface){
     }
     return;
 }
+
