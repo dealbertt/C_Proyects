@@ -115,10 +115,9 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
     while(running){
         //update ball
         game->updateGame(window);
+        ball->collision(player1, player2);
         ball->updateBall(window, surface);
         //the moving actions of the players will be made inside the decision functions
-        player1->movePadDown(window, surface);
-        player2->movePadUp(window, surface);
         //moves players
         //check for collisions and stuff i guess
     }

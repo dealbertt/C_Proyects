@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <random>
 #include "timer.hpp"
+#include "pad.hpp"
 #include "graphics.h"
 
 
@@ -28,7 +29,7 @@ class Ball {
         void clearBall(SDL_Window *window,SDL_Surface *surface);
         void updateBall(SDL_Window *window, SDL_Surface *surface);
         int chooseDelta();
-        
+        int collision(Pad *player1, Pad *player2); 
 
         //GETTERS
         int getX() const { return xPos; }

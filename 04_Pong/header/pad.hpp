@@ -2,7 +2,6 @@
 #define PAD_H
 #include <iostream>
 #include "timer.hpp"
-#include "ball.hpp"
 #include "graphics.h"
 
 #define PLAYER1_DEFAULT_X 20
@@ -23,7 +22,6 @@ class Pad {
         void Initialize();
         void drawPad(SDL_Window *window, SDL_Surface *surface);
         void clearPad(SDL_Window *window, SDL_Surface *surface);
-        void detectCollisions(Ball *ball);
         void movePadUp(SDL_Window *window, SDL_Surface *surface);
         void movePadDown(SDL_Window *window, SDL_Surface *surface);
 

@@ -53,3 +53,22 @@ int Ball::chooseDelta(){
     std::cout << "Random choice: " << choice << std::endl;
     return choice; 
 }
+
+int Ball::collision(Pad *player1, Pad *player2){
+    if(getDeltaX() > 0){
+        //moving to the right 
+        if((getX() + BRICK_WIDTH == player2->getXpos() + player2->getXcollisionCoord()) && (getY() >= player2->getYpos() && getY() <= (player2->getYpos() * 5))){
+            std::cout << "Collision with Player2!" << std::endl;
+            setDeltaX(-1);
+            return 1;
+        }
+    }else if(getDeltaX() < 0){
+        //moving to the left
+        if((getX() == player1->getXpos() + player1->getXcollisionCoord()) && (getY() >= player1->getYpos() && getY() <= (player1->getYpos() * 5))){
+            std::cout << "Collision with Player1!" << std::endl;
+            setDeltaX(1);
+            return 1;
+        }
+    }
+    return 0;
+}
