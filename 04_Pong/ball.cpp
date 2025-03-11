@@ -76,7 +76,7 @@ int Ball::invertDeltaY(){
 int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
     if(getDeltaX() > 0){
         //moving to the right 
-        if((getX() + BRICK_WIDTH == player2->getXpos() + player2->getXcollisionCoord()) && (getY() >= player2->getYpos() && getY() <= (player2->getYpos() * 5))){
+        if((getX() + BRICK_WIDTH == player2->getXpos() + player2->getXcollisionCoord()) && (getY() >= player2->getYpos() && getY() <= (player2->getYpos() + 100))){
             std::cout << "Collision with Player2!" << std::endl;
             invertDeltaX();
             choosePadZone(player2);
@@ -85,7 +85,7 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
         }
     }else if(getDeltaX() < 0){
         //moving to the left
-        if((getX() == player1->getXpos() + player1->getXcollisionCoord()) && (getY() >= player1->getYpos() && getY() <= (player1->getYpos() * 5))){
+        if((getX() == player1->getXpos() + player1->getXcollisionCoord()) && (getY() >= player1->getYpos() && getY() <= (player1->getYpos() + 100))){
             std::cout << "Collision with Player1!" << std::endl;
             invertDeltaX();
             choosePadZone(player1);
@@ -100,7 +100,7 @@ int Ball::collisionWithBorders(){
     if(getY() == 20){
         invertDeltaY();
         return 0;
-    }else if(getY() == 1000){
+    }else if(getY() == WINDOW_HEIGHT - 40){
         invertDeltaY();
         return 0;
     }

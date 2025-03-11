@@ -57,16 +57,6 @@ void drawColumn(int x,int y, SDL_Window *window, SDL_Surface *surface,Uint32 col
 
 void drawBorders(SDL_Window *window, SDL_Surface *surface, Uint32 color){
     int x = 0, y = 0;
-    for(int i = 0; i < 11; i ++){
-        drawColumn(x, y,window, surface, color);
-        y = y + 100;
-    }
-    x = WINDOW_WIDTH - BRICK_WIDTH;
-    y = 0;
-    for(int i = 0; i < 11; i ++){
-        drawColumn(x, y,window, surface, color);
-        y = y + 100;
-    }
     x = 0;
     y = 0;
     for(int i = 0; i < 11; i ++){

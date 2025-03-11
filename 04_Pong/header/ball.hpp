@@ -10,8 +10,8 @@
 
 
 
-#define BALL_DEFAULT_X 500
-#define BALL_DEFAULT_Y 500
+#define BALL_DEFAULT_X WINDOW_WIDTH / 2
+#define BALL_DEFAULT_Y WINDOW_HEIGHT / 2
 
 class Ball {
     private:

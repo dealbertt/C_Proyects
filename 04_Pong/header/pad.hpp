@@ -5,8 +5,8 @@
 #include "graphics.h"
 
 #define PLAYER1_DEFAULT_X 20
-#define PLAYER2_DEFAULT_X 1000
-#define PAD_DEFAULT_Y 500
+#define PLAYER2_DEFAULT_X (WINDOW_WIDTH - 40) 
+#define PAD_DEFAULT_Y WINDOW_HEIGHT / 2 
 
 class Pad {
     private:
