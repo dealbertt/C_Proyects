@@ -42,9 +42,9 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
         return -1;
     }
 
-    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,0);
+    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,1);
     int delta = (*ball)->chooseDelta();
-    (*ball)->setDeltaX(delta);  
+    (*ball)->setDeltaX(0);  
     (*ball)->getTimer().setValue(BALL_TIMER_RESET); 
     (*ball)->getTimer().setResetValue(BALL_TIMER_RESET); 
     (*ball)->getTimer().setActivated(false);
@@ -115,7 +115,8 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
     while(running){
         //update ball
         game->updateGame(window);
-        ball->collision(player1, player2);
+        if(ball->getDeltaY() != 0){ ball->collisionWithBorders();}
+        ball->collisionWithPlayers(player1, player2);
         ball->updateBall(window, surface);
         //the moving actions of the players will be made inside the decision functions
         //moves players

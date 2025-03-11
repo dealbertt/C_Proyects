@@ -54,21 +54,51 @@ int Ball::chooseDelta(){
     return choice; 
 }
 
-int Ball::collision(Pad *player1, Pad *player2){
+int Ball::invertDeltaX(){
+    if(getDeltaX() > 0){
+        setDeltaX(-1);
+    }else{
+        setDeltaX(1);
+    }
+    return 0;
+}
+
+int Ball::invertDeltaY(){
+    if(getDeltaY() > 0){
+        setDeltaY(-1);
+    }else{
+        setDeltaY(1);
+    }
+    return 0;
+}
+
+
+int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
     if(getDeltaX() > 0){
         //moving to the right 
         if((getX() + BRICK_WIDTH == player2->getXpos() + player2->getXcollisionCoord()) && (getY() >= player2->getYpos() && getY() <= (player2->getYpos() * 5))){
             std::cout << "Collision with Player2!" << std::endl;
-            setDeltaX(-1);
-            return 1;
+            invertDeltaX();
+            return 0;
         }
     }else if(getDeltaX() < 0){
         //moving to the left
         if((getX() == player1->getXpos() + player1->getXcollisionCoord()) && (getY() >= player1->getYpos() && getY() <= (player1->getYpos() * 5))){
             std::cout << "Collision with Player1!" << std::endl;
-            setDeltaX(1);
-            return 1;
+            invertDeltaX();
+            return 0;
         }
     }
-    return 0;
+    return 1;
+}
+
+int Ball::collisionWithBorders(){
+    if(getY() == 20){
+        invertDeltaY();
+        return 0;
+    }else if(getY() == 1000){
+        invertDeltaY();
+        return 0;
+    }
+    return 1;
 }

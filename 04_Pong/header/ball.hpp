@@ -29,7 +29,10 @@ class Ball {
         void clearBall(SDL_Window *window,SDL_Surface *surface);
         void updateBall(SDL_Window *window, SDL_Surface *surface);
         int chooseDelta();
-        int collision(Pad *player1, Pad *player2); 
+        int invertDeltaX();
+        int invertDeltaY();
+        int collisionWithPlayers(Pad *player1, Pad *player2); 
+        int collisionWithBorders();
 
         //GETTERS
         int getX() const { return xPos; }
