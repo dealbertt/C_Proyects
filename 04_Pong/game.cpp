@@ -25,5 +25,16 @@ void Game::updateGame(SDL_Window *window){
     if(frameDelay > frameTime){
         SDL_Delay(frameDelay - frameTime);
     }
+}
 
+int Game::ballStatus(int values[4]){
+    //DELTAS
+    values[0] = ball.getDeltaX();
+    values[1] = ball.getDeltaY();
+
+    //POSITIONS
+    values[2] = ball.getX();
+    values[3] = ball.getY();
+
+    return 0;
 }

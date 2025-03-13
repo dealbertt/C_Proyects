@@ -42,6 +42,9 @@ class Pad {
 
         //BIT OF BOTH
         Timer &getTimer() { return timer;}
+
+        //PLAYER BEHAVIOUR
+        int playerMoves(int values[4]);
 };
 
 #endif 

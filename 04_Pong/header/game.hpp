@@ -12,6 +12,7 @@ class Game{
     public:
         int goalsPlayer1;
         int goalsPlayer2;
+        int turn;
 
         Pad player1;
         Pad player2;
@@ -19,6 +20,9 @@ class Game{
         Game(Pad &player1, Pad &player2, Ball &ball);
         void updateScore();
         void updateGame(SDL_Window *window);
+
+        int ballStatus(int values[4]);
+        
 };
 
 #endif

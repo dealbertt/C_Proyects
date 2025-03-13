@@ -15,8 +15,7 @@
 //First C++ proyect, i am planning on reading books and such to get good at it but i wanted
 //to first see what i know and use Chatgpt a little bit to help me on the basics of the language
 
-
-//TODO: Config file for things like BRICK_WIDTH or timer values
+//TODO: Maybe consider implementing turns in game so playerMoves is only called by the player when the ball is going towards that player
 
 //For the "AI" players, 
 //- do something where they get a snapshot of the deltas of the ball
@@ -115,14 +114,24 @@ int main(){
 }
 
 void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game){
+    int values[4];
     while(running){
         //update ball
         game->updateGame(window);
         if(ball->getDeltaY() != 0){ ball->collisionWithBorders();}
+        game->turn = ball->collisionWithPlayers(player1, player2);
+        if(game->turn == 1){
+            //the ball has just collided with player1
+            //i now have to give turn to player2
+            player2->playerMoves(values);
+        }else if(game->turn == 2){
+            //the ball has just collided with player2
+            //i have to give turn to player1
+            player1->playerMoves(values);
+        }
         ball->collisionWithPlayers(player1, player2);
         ball->updateBall(window, surface);
-        player1->movePadDown(window, surface);
-        player2->movePadUp(window, surface);
+        game->ballStatus(values);
         //the moving actions of the players will be made inside the decision functions
         //moves players
         //check for collisions and stuff i guess

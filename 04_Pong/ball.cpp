@@ -81,7 +81,7 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
             invertDeltaX();
             choosePadZone(player2);
             //function that choose the pad zone
-            return 0;
+            return 2;
         }
     }else if(getDeltaX() < 0){
         //moving to the left
@@ -90,10 +90,10 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
             invertDeltaX();
             choosePadZone(player1);
             //function that choose the pad zone
-            return 0;
+            return 1;
         }
     }
-    return 1;
+    return 0;
 }
 
 int Ball::collisionWithBorders(){
