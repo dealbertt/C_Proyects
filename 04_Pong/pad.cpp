@@ -1,17 +1,17 @@
+#include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
 #include <iostream>
 #include "header/pad.hpp"
 #include "header/graphics.h"
 
-Pad::Pad(int x, int y, int xCollisionCoord) : xPos(x), yPos(y), xCollisionCoord(xCollisionCoord){}
+Pad::Pad(int x, int y, int xCollisionCoord, Uint32 color) : xPos(x), yPos(y), xCollisionCoord(xCollisionCoord), color(color){}
 
 void Pad::Initialize(){
     std::cout << " Pad X position: " << xPos << " Pad Y position: " << yPos << std::endl;
     return;
 }
 
-void Pad::drawPad(SDL_Window *window, SDL_Surface *surface){
-    Uint32 color = 0xFFFF0000;
+void Pad::drawPad(SDL_Window *window, SDL_Surface *surface, Uint32 color){ 
     drawColumn(xPos, yPos, window, surface, color);
     return;
 }
@@ -23,21 +23,23 @@ void Pad::clearPad(SDL_Window *window, SDL_Surface *surface){
 }
 
 
-void Pad::movePadUp(SDL_Window *window, SDL_Surface *surface){
-    if(timer.checkTimer()){
+int Pad::movePadUp(SDL_Window *window, SDL_Surface *surface){
+    if(timer.checkTimer() && getYpos() > 20){
         clearPad(window, surface);
         yPos -= 10;
-        drawPad(window, surface);
+        drawPad(window, surface, color);
+        return 0;
     }
-    return;
+    return 1;
 }
 
-void Pad::movePadDown(SDL_Window *window, SDL_Surface *surface){
-    if(timer.checkTimer()){
+int Pad::movePadDown(SDL_Window *window, SDL_Surface *surface){
+    if(timer.checkTimer() && getYpos() < WINDOW_HEIGHT - 120){
         clearPad(window, surface);
         yPos += 10;
-        drawPad(window, surface);
+        drawPad(window, surface, color);
+        return 0;
     }
-    return;
+    return 1;
 }
 
