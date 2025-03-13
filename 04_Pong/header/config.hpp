@@ -6,6 +6,8 @@
 typedef struct Config{
     short ballTimer;
     short padTimer;
+    int windowWidth;
+    int windowHeigth;
 }Config;
 
 
