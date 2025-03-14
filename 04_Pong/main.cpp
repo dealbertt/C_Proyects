@@ -118,7 +118,6 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
         //update ball
         game->updateGame(window);
         game->ballStatus(values);
-        std::cout << "Ball Y: " << ball->getY() << std::endl;
         if(ball->getDeltaY() != 0){ ball->collisionWithBorders();}
         game->turn = ball->collisionWithPlayers(player1, player2);
         if(ball->getDeltaX() == 1){

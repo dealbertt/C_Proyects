@@ -26,7 +26,7 @@ void Pad::clearPad(SDL_Window *window, SDL_Surface *surface){
 int Pad::movePadUp(SDL_Window *window, SDL_Surface *surface){
     if(timer.checkTimer() && getYpos() > 20){
         clearPad(window, surface);
-        yPos -= 10;
+        yPos -= 5;
         drawPad(window, surface, color);
         return 0;
     }
@@ -36,7 +36,7 @@ int Pad::movePadUp(SDL_Window *window, SDL_Surface *surface){
 int Pad::movePadDown(SDL_Window *window, SDL_Surface *surface){
     if(timer.checkTimer() && getYpos() < WINDOW_HEIGHT - 120){
         clearPad(window, surface);
-        yPos += 10;
+        yPos += 5;
         drawPad(window, surface, color);
         return 0;
     }
