@@ -36,5 +36,6 @@ int Game::ballStatus(int values[4]){
     values[2] = ball.getX();
     values[3] = ball.getY();
 
+
     return 0;
 }

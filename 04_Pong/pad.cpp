@@ -43,12 +43,15 @@ int Pad::movePadDown(SDL_Window *window, SDL_Surface *surface){
     return 1;
 }
 
-int Pad::playerMoves(int values[4]){
-    std::cout << "Ball delta X: " << values[0] << std::endl;
-    std::cout << "Ball delta Y: " << values[1] << std::endl;
-    
-    std::cout << "Ball position X: " << values[2] << std::endl;
-    std::cout << "Ball position Y: " << values[3] << std::endl;
-
+int Pad::playerMoves(int deltaY, SDL_Window *window, SDL_Surface *surface){
+    //DELTA X: values 0 
+    //DELTA Y: values 1 
+    //BALL X: values 2
+    //BALL Y: values 3
+    if(deltaY > getYpos()){
+        movePadDown(window, surface);
+    }else if(deltaY < getYpos()){
+        movePadUp(window, surface);
+    }
     return 0;
 }

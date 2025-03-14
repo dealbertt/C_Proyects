@@ -44,7 +44,7 @@ class Pad {
         Timer &getTimer() { return timer;}
 
         //PLAYER BEHAVIOUR
-        int playerMoves(int values[4]);
+        int playerMoves(int deltaY, SDL_Window *window, SDL_Surface *surface);
 };
 
 #endif 

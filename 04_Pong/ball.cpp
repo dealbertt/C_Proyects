@@ -28,15 +28,19 @@ void Ball::updateBall(SDL_Window *window, SDL_Surface *surface){
     clearBall(window, surface);
     if(timer.checkTimer()){
         if(deltaX > 0){
-            xPos += 5;
+            int newPos = getX() + 5;
+            setX(newPos);
         }else if(deltaX < 0){
-            xPos -= 5;
+            int newPos = getX() - 5;
+            setX(newPos);
         }
 
         if(deltaY > 0){
-            yPos -= 5;
+            int newPos = getY() - 5;
+            setY(newPos);
         }else if(deltaY < 0){
-            yPos += 5;
+            int newPos = getY() + 5;
+            setY(newPos);
         }
     }
     drawBall(window, surface, WHITE, false);
