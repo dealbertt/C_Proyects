@@ -1,3 +1,4 @@
+#include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -10,7 +11,6 @@
 #include "header/graphics.h"
 #include "header/timer.hpp"
 #include "header/game.hpp"
-#include "header/config.hpp"
 
 //First C++ proyect, i am planning on reading books and such to get good at it but i wanted
 //to first see what i know and use Chatgpt a little bit to help me on the basics of the language
@@ -20,6 +20,9 @@
 //- do something where they get a snapshot of the deltas of the ball
 //- Predict where the ball might be going based on that snapshot
 //- Move the pad based on that prediction
+
+
+//TODO: Chna
 bool running = true;
 
 Config config;
@@ -114,9 +117,10 @@ int main(){
 
 void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game){
     int values[4];
+    Uint32 lastFrameTime = SDL_GetTicks();
     while(running){
         //update ball
-        game->updateGame(window);
+        game->updateGame(window, config, lastFrameTime);
         game->ballStatus(values);
         if(ball->getDeltaY() != 0){ ball->collisionWithBorders();}
         game->turn = ball->collisionWithPlayers(player1, player2);

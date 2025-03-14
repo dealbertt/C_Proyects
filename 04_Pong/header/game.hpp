@@ -5,9 +5,8 @@
 #include <SDL2/SDL.h>
 #include "ball.hpp"
 #include "pad.hpp"
+#include "config.hpp"
 
-#define FPS 144
-#define frameDelay 1000 / FPS
 class Game{
     public:
         int goalsPlayer1;
@@ -19,7 +18,7 @@ class Game{
         Ball ball;
         Game(Pad &player1, Pad &player2, Ball &ball);
         void updateScore();
-        void updateGame(SDL_Window *window);
+        void updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime);
 
         int ballStatus(int values[4]);
         

@@ -14,6 +14,7 @@ Config readConfiguration(const char *path){
         else if(strstr(line, "PAD_TIMER")) sscanf(line, "PAD_TIMER=%hu", &config.padTimer);
         else if(strstr(line, "WINDOW_WIDTH")) sscanf(line, "WINDOW_WIDTH=%d", &config.windowWidth);
         else if(strstr(line, "WINDOW_HEIGHT")) sscanf(line, "WINDOW_HEIGHT=%d", &config.windowHeigth);
+        else if(strstr(line, "FPS")) sscanf(line, "FPS=%d", &config.fps);
     }
     fclose(ptr);
     std::cout << "Ball timer: " << config.ballTimer << "\n";

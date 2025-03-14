@@ -8,6 +8,7 @@ typedef struct Config{
     short padTimer;
     int windowWidth;
     int windowHeigth;
+    int fps;
 }Config;
 
 

@@ -17,8 +17,9 @@ void Game::updateScore(){
 
 }
 
-void Game::updateGame(SDL_Window *window){
+void Game::updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime){
     Uint32 frameStart = SDL_GetTicks();
+    Uint32 frameDelay = 1000 / config.fps;
 
     SDL_UpdateWindowSurface(window);
     Uint32 frameTime = SDL_GetTicks() - frameStart;
@@ -35,7 +36,5 @@ int Game::ballStatus(int values[4]){
     //POSITIONS
     values[2] = ball.getX();
     values[3] = ball.getY();
-
-
     return 0;
 }
