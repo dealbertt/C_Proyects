@@ -42,7 +42,9 @@ class Pad {
         //BIT OF BOTH
 
         //PLAYER BEHAVIOUR
-        int playerMoves(float deltaY, SDL_Window *window, SDL_Surface *surface, float deltaTime);
+        int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime);
+        int randomPadPosition();
+        int PadHasTime();
 };
 
 #endif 
