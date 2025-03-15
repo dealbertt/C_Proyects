@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <unistd.h>
 #include <random>
-#include "timer.hpp"
 #include "pad.hpp"
 #include "graphics.h"
 
@@ -27,9 +26,9 @@ class Ball {
         void drawBall(SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update);
         void clearBall(SDL_Window *window,SDL_Surface *surface);
         void updateBall(SDL_Window *window, SDL_Surface *surface, float deltaTime);
-        int chooseDelta();
-        int invertDeltaX();
-        int invertDeltaY();
+        float chooseDelta();
+        void invertDeltaX();
+        void invertDeltaY();
         int collisionWithPlayers(Pad *player1, Pad *player2); 
         int collisionWithBorders();
         int choosePadZone(Pad *player);

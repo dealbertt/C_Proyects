@@ -9,7 +9,6 @@
 #include "header/pad.hpp"
 #include "header/ball.hpp"
 #include "header/graphics.h"
-#include "header/timer.hpp"
 #include "header/game.hpp"
 
 //First C++ proyect, i am planning on reading books and such to get good at it but i wanted
@@ -52,21 +51,13 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     (*ball)->drawBall(*window, *surface, WHITE, false);
     (*ball)->Initialize();
 
-    *player1 = new Pad(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, BRICK_WIDTH, RED);
-    (*player1)->getTimer().setValue(config.padTimer);
-    (*player1)->getTimer().setResetValue(config.padTimer);
-    (*player1)->getTimer().setActivated(false);
+    *player1 = new Pad(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config.padSpeed, BRICK_WIDTH, RED);
     (*player1)->Initialize();
     (*player1)->drawPad(*window, *surface, RED);
-    std::cout << "Player 1 timer value:" << (*player1)->getTimer().getValue() << std::endl;
 
-    *player2 = new Pad(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, 0, PURPLE);
-    (*player2)->getTimer().setValue(config.padTimer);
-    (*player2)->getTimer().setResetValue(config.padTimer);
-    (*player2)->getTimer().setActivated(false);
+    *player2 = new Pad(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config.padSpeed, 0, PURPLE);
     (*player2)->Initialize();
     (*player2)->drawPad(*window, *surface, PURPLE);
-    std::cout << "Player 2 timer value:" << (*player2)->getTimer().getValue() << std::endl;
 
     *game = new Game(**player1, **player2, **ball); 
     if(*game  == NULL){
@@ -121,11 +112,11 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
         if(ball->getDeltaX() == 1){
             //the ball has just collided with player1
             //i now have to give turn to player2
-            player2->playerMoves(ball->getY(), window, surface);
+            player2->playerMoves(ball->getY(), window, surface, deltaTime);
         }else if(ball->getDeltaX() == -1){
             //the ball has just collided with player2
             //i have to give turn to player1
-            player1->playerMoves(ball->getY(), window, surface);
+            player1->playerMoves(ball->getY(), window, surface, deltaTime);
         }
         ball->collisionWithPlayers(player1, player2);
         ball->updateBall(window, surface, deltaTime);

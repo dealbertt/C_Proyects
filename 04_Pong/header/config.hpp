@@ -5,7 +5,7 @@
 #include <string.h>
 typedef struct Config{
     float ballSpeed;
-    short padTimer;
+    float padSpeed;
     int windowWidth;
     int windowHeigth;
     int fps;

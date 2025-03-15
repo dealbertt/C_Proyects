@@ -2,49 +2,47 @@
 #define PAD_H
 #include <SDL2/SDL_stdinc.h>
 #include <iostream>
-#include "timer.hpp"
 #include "graphics.h"
 
-#define PLAYER1_DEFAULT_X 20
-#define PLAYER2_DEFAULT_X (WINDOW_WIDTH - 40) 
-#define PAD_DEFAULT_Y WINDOW_HEIGHT / 2 
+#define PLAYER1_DEFAULT_X 20.0f
+#define PLAYER2_DEFAULT_X (WINDOW_WIDTH - 40.0f) 
+#define PAD_DEFAULT_Y WINDOW_HEIGHT / 2.0f 
 
 
 class Pad {
     private:
-        int xPos;
-        int yPos;
-        int xCollisionCoord;
+        float x;
+        float y;
+        float speed;
+        float xCollisionCoord;
         Uint32 color;
         //timer for movement
-        Timer timer;
 
 
     public:
-        Pad(int x, int y, int xCollisionCoord, Uint32 color);
+        Pad(float x, float y, float speed, float xCollisionCoord, Uint32 color);
         void Initialize();
         void drawPad(SDL_Window *window, SDL_Surface *surface, Uint32 color);
         void clearPad(SDL_Window *window, SDL_Surface *surface);
-        int movePadUp(SDL_Window *window, SDL_Surface *surface);
-        int movePadDown(SDL_Window *window, SDL_Surface *surface);
+        int movePadUp(SDL_Window *window, SDL_Surface *surface, float deltaTime);
+        int movePadDown(SDL_Window *window, SDL_Surface *surface, float deltaTime);
         
 
         //GETTERS
-        int getXpos() const { return xPos; }
-        int getYpos() const { return yPos; }
+        float getXpos() const { return x; }
+        float getYpos() const { return y; }
         int getXcollisionCoord() const { return xCollisionCoord; }
         Uint32 getColor() const { return color; }
 
         //SETTERS
-        void setXpos(int newXpos){ xPos = newXpos; }
-        void setYpos(int newYpos){ yPos = newYpos; }
+        void setXpos(float newXpos){ x= newXpos; }
+        void setYpos(float newYpos){ y= newYpos; }
         void setXcollisionCoord(int newCollision){ xCollisionCoord = newCollision; }
 
         //BIT OF BOTH
-        Timer &getTimer() { return timer;}
 
         //PLAYER BEHAVIOUR
-        int playerMoves(int deltaY, SDL_Window *window, SDL_Surface *surface);
+        int playerMoves(float deltaY, SDL_Window *window, SDL_Surface *surface, float deltaTime);
 };
 
 #endif 
