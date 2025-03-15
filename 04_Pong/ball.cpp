@@ -64,6 +64,8 @@ void Ball::invertDeltaY(){
 
 
 int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
+    // 6.66 pixels / frame
+    // 3.33 pixels / frame
     float margin = 0.5f;
     if(getDeltaX() > 0){
         //moving to the right 
@@ -79,7 +81,6 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
     }else if(getDeltaX() < 0){
         //moving to the left
         if ((getX() <= player1->getXpos() + player1->getXcollisionCoord() + margin) && 
-                (getX() >= player1->getXpos() + player1->getXcollisionCoord() - margin) && 
                 (getY() >= player1->getYpos() && getY() <= (player1->getYpos() + 100))) {
             std::cout << "Collision with Player1!" << std::endl;
             invertDeltaX();
