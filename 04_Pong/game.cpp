@@ -17,8 +17,10 @@ void Game::updateScore(){
 
 }
 
-void Game::updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime){
+float Game::updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime){
     Uint32 frameStart = SDL_GetTicks();
+    float deltaTime = (frameStart - lastFrameTime) / 1000.0f;
+    lastFrameTime = frameStart;
     Uint32 frameDelay = 1000 / config.fps;
 
     SDL_UpdateWindowSurface(window);
@@ -26,6 +28,7 @@ void Game::updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime){
     if(frameDelay > frameTime){
         SDL_Delay(frameDelay - frameTime);
     }
+    return deltaTime;
 }
 
 int Game::ballStatus(int values[4]){

@@ -3,18 +3,18 @@
 #include "header/ball.hpp"
 #include "header/graphics.h"
 
-Ball::Ball(int xPos, int yPos, int deltaX, int deltaY) : xPos(xPos), yPos(yPos), deltaX(deltaX), deltaY(deltaY){}
+Ball::Ball(float x, float y, float deltaX, float deltaY, float speed) : x(x), y(y), deltaX(deltaX), deltaY(deltaY), speed(speed){}
 
 
 void Ball::Initialize(){
-    std::cout << " Ball X position: " << xPos << " Ball Y position: " << yPos << std::endl;
+    std::cout << " Ball X position: " << x<< " Ball Y position: " << y<< std::endl;
     std::cout << " Ball X delta: " << deltaX << " Ball Y delta: " << deltaY << std::endl;
     return;
 }
 
 
 void Ball::drawBall(SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update){
-    drawBrick(xPos, yPos, surface, color);
+    drawBrick(x, y, surface, color);
     if(update){SDL_UpdateWindowSurface(window);}
     return;
 }
@@ -24,25 +24,11 @@ void Ball::clearBall(SDL_Window *window,SDL_Surface *surface){
     return;
 }
 
-void Ball::updateBall(SDL_Window *window, SDL_Surface *surface){
+void Ball::updateBall(SDL_Window *window, SDL_Surface *surface, float deltaTime){
     clearBall(window, surface);
-    if(timer.checkTimer()){
-        if(deltaX > 0){
-            int newPos = getX() + 5;
-            setX(newPos);
-        }else if(deltaX < 0){
-            int newPos = getX() - 5;
-            setX(newPos);
-        }
-
-        if(deltaY > 0){
-            int newPos = getY() - 5;
-            setY(newPos);
-        }else if(deltaY < 0){
-            int newPos = getY() + 5;
-            setY(newPos);
-        }
-    }
+    if (y <= 0 || y >= 600 - BRICK_HEIGHT) { deltaY *= -1; } // Bounce off top/bottom
+    x += speed * deltaX * deltaTime;
+    y += speed * deltaY * deltaTime;
     drawBall(window, surface, WHITE, false);
     return;
 }

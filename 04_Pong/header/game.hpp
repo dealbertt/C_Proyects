@@ -18,7 +18,7 @@ class Game{
         Ball ball;
         Game(Pad &player1, Pad &player2, Ball &ball);
         void updateScore();
-        void updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime);
+        float updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime);
 
         int ballStatus(int values[4]);
         

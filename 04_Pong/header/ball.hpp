@@ -10,24 +10,23 @@
 
 
 
-#define BALL_DEFAULT_X WINDOW_WIDTH / 2
-#define BALL_DEFAULT_Y WINDOW_HEIGHT / 2
+#define BALL_DEFAULT_X WINDOW_WIDTH / 2.0f
+#define BALL_DEFAULT_Y WINDOW_HEIGHT / 2.0f
 
 class Ball {
     private:
-        int xPos;
-        int yPos;
-        int deltaX;
-        int deltaY;
+        float x, y;
+        float deltaX;
+        float deltaY;
+        float speed;
         //include timer for movement
-        Timer timer;
 
     public: 
-        Ball(int xPos, int yPos, int deltaX, int deltaY);
+        Ball(float x, float y, float deltaX, float deltaY, float speed);
         void Initialize();
         void drawBall(SDL_Window *window,SDL_Surface *surface,Uint32 color, bool update);
         void clearBall(SDL_Window *window,SDL_Surface *surface);
-        void updateBall(SDL_Window *window, SDL_Surface *surface);
+        void updateBall(SDL_Window *window, SDL_Surface *surface, float deltaTime);
         int chooseDelta();
         int invertDeltaX();
         int invertDeltaY();
@@ -36,19 +35,16 @@ class Ball {
         int choosePadZone(Pad *player);
 
         //GETTERS
-        int getX() const { return xPos; }
-        int getY() const { return yPos; }
-        int getDeltaX() const { return deltaX; }
-        int getDeltaY() const { return deltaY; }
-        Timer getTimer() const { return timer;}
+        float getX() const { return x; }
+        float getY() const { return y; }
+        float getDeltaX() const { return deltaX; }
+        float getDeltaY() const { return deltaY; }
         
         //SETTERS
-        void setX(int newX) { xPos = newX; }
-        void setY(int newY) { yPos = newY; }
-        void setDeltaX(int newDeltaX) { deltaX = newDeltaX; }
-        void setDeltaY(int newDeltaY) { deltaY = newDeltaY; }
-
-        Timer &getTimer() { return timer;}
+        void setX(float newX) { x= newX; }
+        void setY(float newY) { y= newY; }
+        void setDeltaX(float newDeltaX) { deltaX = newDeltaX; }
+        void setDeltaY(float newDeltaY) { deltaY = newDeltaY; }
 
 
 };

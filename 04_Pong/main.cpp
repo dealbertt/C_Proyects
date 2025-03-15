@@ -46,15 +46,11 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
         return -1;
     }
 
-    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,0);
+    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,0, config.ballSpeed);
     int delta = (*ball)->chooseDelta();
     (*ball)->setDeltaX(delta);  
-    (*ball)->getTimer().setValue(config.ballTimer); 
-    (*ball)->getTimer().setResetValue(config.ballTimer); 
-    (*ball)->getTimer().setActivated(false);
     (*ball)->drawBall(*window, *surface, WHITE, false);
     (*ball)->Initialize();
-    std::cout << "Ball timer value:" << (*ball)->getTimer().getValue()<< std::endl;
 
     *player1 = new Pad(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, BRICK_WIDTH, RED);
     (*player1)->getTimer().setValue(config.padTimer);
@@ -78,7 +74,6 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
         return -1;
     }
 
-    drawBorders(*window, *surface, BLUE);
 
     return 0;
 }
@@ -120,9 +115,8 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
     Uint32 lastFrameTime = SDL_GetTicks();
     while(running){
         //update ball
-        game->updateGame(window, config, lastFrameTime);
+        float deltaTime = game->updateGame(window, config, lastFrameTime);
         game->ballStatus(values);
-        if(ball->getDeltaY() != 0){ ball->collisionWithBorders();}
         game->turn = ball->collisionWithPlayers(player1, player2);
         if(ball->getDeltaX() == 1){
             //the ball has just collided with player1
@@ -134,7 +128,7 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
             player1->playerMoves(ball->getY(), window, surface);
         }
         ball->collisionWithPlayers(player1, player2);
-        ball->updateBall(window, surface);
+        ball->updateBall(window, surface, deltaTime);
         //the moving actions of the players will be made inside the decision functions
         //moves players
         //check for collisions and stuff i guess
