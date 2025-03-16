@@ -21,6 +21,7 @@ class Game{
         float updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime);
 
         int ballStatus(int values[4]);
+        int goalIsScored();
         
 };
 

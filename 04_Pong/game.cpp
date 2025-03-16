@@ -1,4 +1,5 @@
 #include "header/game.hpp"
+#include "header/graphics.h"
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
@@ -39,5 +40,18 @@ int Game::ballStatus(int values[4]){
     //POSITIONS
     values[2] = ball.getX();
     values[3] = ball.getY();
+    return 0;
+}
+
+int Game::goalIsScored(){
+    if((ball.getX() + BRICK_WIDTH) < player1.getXpos()){
+        goalsPlayer2++;
+        std::cout << "Goal for player 2" << std::endl;
+        return 1;
+    }else if(ball.getX() > (player2.getXpos() + BRICK_WIDTH)){
+        goalsPlayer1++;
+        std::cout << "Goal for player 1" << std::endl;
+        return 1;
+    }
     return 0;
 }
