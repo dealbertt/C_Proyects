@@ -113,12 +113,10 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
             //the ball has just collided with player1
             //i now have to give turn to player2
             player2->playerMoves(ball->getY(), window, surface, deltaTime);
-            game->goalIsScored();
         }else if(ball->getDeltaX() == -1){
             //the ball has just collided with player2
             //i have to give turn to player1
             player1->playerMoves(ball->getY(), window, surface, deltaTime);
-            game->goalIsScored();
         }
         ball->collisionWithPlayers(player1, player2);
         ball->updateBall(window, surface, deltaTime);

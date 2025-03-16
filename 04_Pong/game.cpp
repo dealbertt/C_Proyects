@@ -9,15 +9,6 @@ Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(&player1), player2(
     goalsPlayer1 = 0;
 }
 
-void Game::updateScore(){
-    if(ball->getX() == 20){
-        goalsPlayer2++;
-    }else if(ball->getX() == 1000){
-        goalsPlayer1++;
-    }
-
-}
-
 float Game::updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime){
     Uint32 frameStart = SDL_GetTicks();
     float deltaTime = (frameStart - lastFrameTime) / 1000.0f;
@@ -44,7 +35,6 @@ int Game::ballStatus(int values[4]){
 }
 
 int Game::goalIsScored(){
-    std::cout << "Ball x: " << ball->getX() << std::endl;
     if((ball->getX() + BRICK_WIDTH) < player1->getXpos()){
         goalsPlayer2++;
         std::cout << "Goal for player 2" << std::endl;
