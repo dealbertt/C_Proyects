@@ -4,15 +4,15 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
 
-Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(player1), player2(player2), ball(ball){
+Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(&player1), player2(&player2), ball(&ball){
     goalsPlayer1 = 0;
     goalsPlayer1 = 0;
 }
 
 void Game::updateScore(){
-    if(ball.getX() == 20){
+    if(ball->getX() == 20){
         goalsPlayer2++;
-    }else if(ball.getX() == 1000){
+    }else if(ball->getX() == 1000){
         goalsPlayer1++;
     }
 
@@ -34,21 +34,22 @@ float Game::updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime)
 
 int Game::ballStatus(int values[4]){
     //DELTAS
-    values[0] = ball.getDeltaX();
-    values[1] = ball.getDeltaY();
+    values[0] = ball->getDeltaX();
+    values[1] = ball->getDeltaY();
 
     //POSITIONS
-    values[2] = ball.getX();
-    values[3] = ball.getY();
+    values[2] = ball->getX();
+    values[3] = ball->getY();
     return 0;
 }
 
 int Game::goalIsScored(){
-    if((ball.getX() + BRICK_WIDTH) < player1.getXpos()){
+    std::cout << "Ball x: " << ball->getX() << std::endl;
+    if((ball->getX() + BRICK_WIDTH) < player1->getXpos()){
         goalsPlayer2++;
         std::cout << "Goal for player 2" << std::endl;
         return 1;
-    }else if(ball.getX() > (player2.getXpos() + BRICK_WIDTH)){
+    }else if(ball->getX() > (player2->getXpos() + BRICK_WIDTH)){
         goalsPlayer1++;
         std::cout << "Goal for player 1" << std::endl;
         return 1;

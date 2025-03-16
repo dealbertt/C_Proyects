@@ -13,9 +13,9 @@ class Game{
         int goalsPlayer2;
         int turn;
 
-        Pad player1;
-        Pad player2;
-        Ball ball;
+        Pad *player1;
+        Pad *player2;
+        Ball *ball;
         Game(Pad &player1, Pad &player2, Ball &ball);
         void updateScore();
         float updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime);
