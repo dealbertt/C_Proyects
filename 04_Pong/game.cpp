@@ -1,6 +1,9 @@
 #include "header/game.hpp"
 #include "header/graphics.h"
+#include "header/pad.hpp"
 #include <SDL2/SDL_stdinc.h>
+#include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
 
@@ -45,4 +48,23 @@ int Game::goalIsScored(){
         return 1;
     }
     return 0;
+}
+
+void Game::resetGame(Config config, SDL_Window *window, SDL_Surface *surface){
+    SDL_Delay(1000);
+
+    ball->clearBall(window, surface);
+    ball->setX(config.windowWidth / 2.0f);
+    ball->setY(config.windowHeigth / 2.0f);
+
+    player1->clearPad(window, surface);
+    player1->setXpos(PLAYER1_DEFAULT_X);
+
+    player2->clearPad(window, surface);
+    player2->setXpos(PLAYER2_DEFAULT_X);
+
+    SDL_Rect screen = {config.windowWidth, config.windowHeigth, 0, 0};
+    SDL_FillRect(surface, &screen, BLACK);
+    SDL_UpdateWindowSurface(window);
+    return;
 }

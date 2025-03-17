@@ -120,7 +120,10 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
         }
         ball->collisionWithPlayers(player1, player2);
         ball->updateBall(window, surface, deltaTime);
-        game->goalIsScored();
+        if(game->goalIsScored() == 1){
+            //a goal has been scored
+            game->resetGame(config, window, surface); 
+        }
         //the moving actions of the players will be made inside the decision functions
         //moves players
         //check for collisions and stuff i guess

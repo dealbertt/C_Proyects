@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_surface.h>
 #include "ball.hpp"
 #include "pad.hpp"
 #include "config.hpp"
@@ -22,6 +24,7 @@ class Game{
 
         int ballStatus(int values[4]);
         int goalIsScored();
+        void resetGame(Config config, SDL_Window *window, SDL_Surface *surface);
         
 };
 
