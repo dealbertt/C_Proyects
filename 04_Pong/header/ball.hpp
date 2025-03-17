@@ -38,12 +38,14 @@ class Ball {
         float getY() const { return y; }
         float getDeltaX() const { return deltaX; }
         float getDeltaY() const { return deltaY; }
+        float getSpeed() const { return speed; }
         
         //SETTERS
         void setX(float newX) { x= newX; }
         void setY(float newY) { y= newY; }
         void setDeltaX(float newDeltaX) { deltaX = newDeltaX; }
         void setDeltaY(float newDeltaY) { deltaY = newDeltaY; }
+        void setSpeed(float newSpeed) { speed = newSpeed; }
 
 
 };

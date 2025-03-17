@@ -51,20 +51,32 @@ int Game::goalIsScored(){
 }
 
 void Game::resetGame(Config config, SDL_Window *window, SDL_Surface *surface){
-    SDL_Delay(1000);
-
-    ball->clearBall(window, surface);
-    ball->setX(config.windowWidth / 2.0f);
-    ball->setY(config.windowHeigth / 2.0f);
-
-    player1->clearPad(window, surface);
-    player1->setXpos(PLAYER1_DEFAULT_X);
-
-    player2->clearPad(window, surface);
-    player2->setXpos(PLAYER2_DEFAULT_X);
-
+    ball->setSpeed(0.0f);
     SDL_Rect screen = {config.windowWidth, config.windowHeigth, 0, 0};
     SDL_FillRect(surface, &screen, BLACK);
     SDL_UpdateWindowSurface(window);
+
+    ball->clearBall(window, surface);
+    ball->setDeltaX(0.0f);
+    ball->setDeltaY(0.0f);
+    ball->setX(config.windowWidth / 2.0f);
+    ball->setY(config.windowHeigth / 2.0f);
+    std::cout << "Ball x: " << ball->getX() << std::endl;
+    std::cout << "Ball y: " << ball->getY() << std::endl;
+
+    player1->clearPad(window, surface);
+    player1->setYpos(PAD_DEFAULT_Y);
+    player1->drawPad(window, surface, player1->getColor());
+
+    player2->clearPad(window, surface);
+    player2->setYpos(PAD_DEFAULT_Y);
+    player2->drawPad(window, surface, player2->getColor());
+    
+    SDL_Delay(1000);
+
+    int delta = ball->chooseDelta();
+    ball->setDeltaX(delta);
+    ball->setSpeed(config.ballSpeed);
+    ball->drawBall(window, surface, WHITE, false);
     return;
 }
