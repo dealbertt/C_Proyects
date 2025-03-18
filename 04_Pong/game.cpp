@@ -72,7 +72,6 @@ void Game::resetGame(Config config, SDL_Window *window, SDL_Surface *surface){
     player2->setYpos(PAD_DEFAULT_Y);
     player2->drawPad(window, surface, player2->getColor());
     
-    SDL_Delay(1000);
 
     int delta = ball->chooseDelta();
     ball->setDeltaX(delta);
