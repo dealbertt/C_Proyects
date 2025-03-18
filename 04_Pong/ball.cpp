@@ -98,3 +98,4 @@ int Ball::choosePadZone(Pad *player){
     if(getY() >= padY + 60.0f && getY() < padY + 100.0f){setDeltaY(-1.0f);}
     return zone;
 }
+

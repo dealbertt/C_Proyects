@@ -81,3 +81,7 @@ void Game::resetGame(Config config, SDL_Window *window, SDL_Surface *surface){
     ball->drawBall(window, surface, WHITE, false);
     return;
 }
+
+void Game::increaseBallSpeed(Config config){
+    //Work with a timer, if the timer gets to 0 and a goal has not been scored yet, increase the ball speed
+}

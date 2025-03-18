@@ -7,6 +7,7 @@
 #include <SDL2/SDL_surface.h>
 #include "ball.hpp"
 #include "pad.hpp"
+#include "timer.hpp"
 #include "config.hpp"
 
 class Game{
@@ -14,6 +15,7 @@ class Game{
         int goalsPlayer1;
         int goalsPlayer2;
         int turn;
+        TIMER *timer;
 
         Pad *player1;
         Pad *player2;
@@ -25,6 +27,7 @@ class Game{
         int ballStatus(int values[4]);
         int goalIsScored();
         void resetGame(Config config, SDL_Window *window, SDL_Surface *surface);
+        void increaseBallSpeed(Config config);
         
 };
 
