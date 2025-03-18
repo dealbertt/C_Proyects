@@ -64,9 +64,6 @@ void Ball::invertDeltaY(){
 
 
 int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
-    // 6.66 pixels / frame
-    // 3.33 pixels / frame
-
     float margin = 5.0f;
     if(getDeltaX() > 0){
         //moving to the right 

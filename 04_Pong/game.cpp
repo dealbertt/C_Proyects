@@ -9,7 +9,7 @@
 
 Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(&player1), player2(&player2), ball(&ball){
     goalsPlayer1 = 0;
-    goalsPlayer1 = 0;
+    goalsPlayer2 = 0;
 }
 
 float Game::updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime){
@@ -41,10 +41,12 @@ int Game::goalIsScored(){
     if((ball->getX() + BRICK_WIDTH) < player1->getXpos()){
         goalsPlayer2++;
         std::cout << "Goal for player 2" << std::endl;
+        std::cout << "Score: " << goalsPlayer1 << " - " << goalsPlayer2 << std::endl;
         return 1;
     }else if(ball->getX() > (player2->getXpos() + BRICK_WIDTH)){
         goalsPlayer1++;
         std::cout << "Goal for player 1" << std::endl;
+        std::cout << "Score: " << goalsPlayer1 << " - " << goalsPlayer2 << std::endl;
         return 1;
     }
     return 0;
