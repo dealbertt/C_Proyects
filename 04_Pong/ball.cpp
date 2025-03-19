@@ -67,8 +67,7 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
     float margin = 5.0f;
     if(getDeltaX() > 0){
         //moving to the right 
-        if ((getX() + BRICK_WIDTH >= player2->getXpos() + player2->getXcollisionCoord() - margin) && 
-                (getX() <= player2->getXpos() + player2->getXcollisionCoord() + margin) && 
+        if ((getX() + BRICK_WIDTH >= player2->getXpos() - margin) && 
                 (getY() >= player2->getYpos() && getY() <= (player2->getYpos() + 100))) {
             std::cout << "Collision with Player2!" << std::endl;
             invertDeltaX();
