@@ -1,6 +1,7 @@
 #include "header/game.hpp"
 #include "header/graphics.h"
 #include "header/pad.hpp"
+#include "header/timer.hpp"
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_rect.h>
@@ -38,6 +39,13 @@ int Game::ballStatus(int values[4]){
 }
 
 int Game::goalIsScored(){
+    if(checkTimer(&timer)){
+        float oldSpeed = ball->getSpeed();
+        oldSpeed++;
+        ball->setSpeed(oldSpeed);
+        std::cout << "Ball speed: " << ball->getSpeed() << std::endl;
+    }
+
     if((ball->getX() + BRICK_WIDTH) < player1->getXpos()){
         goalsPlayer2++;
         std::cout << "Goal for player 2" << std::endl;
@@ -82,6 +90,3 @@ void Game::resetGame(Config config, SDL_Window *window, SDL_Surface *surface){
     return;
 }
 
-void Game::increaseBallSpeed(Config config){
-    //Work with a timer, if the timer gets to 0 and a goal has not been scored yet, increase the ball speed
-}
