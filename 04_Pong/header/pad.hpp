@@ -15,6 +15,7 @@ class Pad {
         float y;
         float speed;
         float xCollisionCoord;
+        int randomPadPosition;
         Uint32 color;
         //timer for movement
 
@@ -33,6 +34,7 @@ class Pad {
         float getYpos() const { return y; }
         float getSpeed() const { return speed; }
         int getXcollisionCoord() const { return xCollisionCoord; }
+        int getRandomPadPosition() const { return randomPadPosition; }
         Uint32 getColor() const { return color; }
 
         //SETTERS
@@ -40,12 +42,13 @@ class Pad {
         void setYpos(float newYpos){ y= newYpos; }
         void setSpeed(float newSpeed){ speed = newSpeed; }
         void setXcollisionCoord(int newCollision){ xCollisionCoord = newCollision; }
+        void setRandomPadPosition(int newPad){randomPadPosition = newPad; }
 
         //BIT OF BOTH
 
         //PLAYER BEHAVIOUR
         int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime);
-        int randomPadPosition();
+        int assignRandomPadPosition();
         int PadHasTime();
 };
 

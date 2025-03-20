@@ -73,6 +73,9 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
             invertDeltaX();
             //function that choose the pad zone
             choosePadZone(player2);
+            int newPos = player2->assignRandomPadPosition();
+            player2->setRandomPadPosition(newPos);
+            std::cout << "Random Position: " << player2->getRandomPadPosition() << std::endl;
             return 2;
         }
     }else if(getDeltaX() < 0){
@@ -83,6 +86,9 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
             invertDeltaX();
             //function that choose the pad zone
             choosePadZone(player1);
+            int newPos = player1->assignRandomPadPosition();
+            player1->setRandomPadPosition(newPos);
+            std::cout << "Random Position: " << player1->getRandomPadPosition() << std::endl;
             return 1;
         }
     }

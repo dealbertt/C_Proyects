@@ -43,29 +43,29 @@ int Pad::movePadDown(SDL_Window *window, SDL_Surface *surface, float deltaTime){
 }
 
 int Pad::playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime){
-    //DELTA X: values 0 
-    //DELTA Y: values 1 
-    //BALL X: values 2
-    //BALL Y: values 3
     //given that the speed of that pad and the ball are the same, it should alwauys be able to get there
-    //
-    int newPad = randomPadPosition();
+    int Pos = getRandomPadPosition();
+    std::cout << "Random Position: " << Pos << std::endl;
     if(yPos > getYpos()){
-        if(y + newPad < yPos){
+        if(y + Pos < yPos){
             movePadDown(window, surface, deltaTime);
-        }else if(y + newPad > yPos){
+        }else if(y + Pos > yPos){
             movePadUp(window, surface, deltaTime);
         }
         //maybe the pad does not have enough time to actually change to the random position
         //in that case, just move and bounce as it is
         //but if it does  have time, then assign the random value
     }else if(yPos < getYpos()){
-        movePadUp(window, surface, deltaTime);
+        if(y + Pos < yPos){
+            movePadDown(window, surface, deltaTime);
+        }else if(y + Pos > yPos){
+            movePadUp(window, surface, deltaTime);
+        }
     }
     return 0;
 }
 
-int Pad::randomPadPosition(){
+int Pad::assignRandomPadPosition(){
     std::random_device seed;
     std::mt19937 gen{seed()};
     std::uniform_int_distribution<> dist{1,100};
