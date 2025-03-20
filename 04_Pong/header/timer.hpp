@@ -2,8 +2,8 @@
 #define TIMER_HPP
 
 typedef struct{
-    unsigned short value;
-    unsigned short resetValue;
+    int value;
+    int resetValue;
     bool activated;
 }TIMER;
 

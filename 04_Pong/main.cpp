@@ -60,10 +60,11 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     (*player2)->drawPad(*window, *surface, PURPLE);
 
     *game = new Game(**player1, **player2, **ball); 
-    (*game)->timer.value = config.gameSpeed;
-    (*game)->timer.resetValue = config.gameSpeed;
-    (*game)->timer.activated = false;
-    std::cout << "Time value " << (*game)->timer.value << std::endl;
+    (*game)->timer= (TIMER*)malloc(sizeof(TIMER));
+    (*game)->timer->value = config.gameSpeed;
+    (*game)->timer->resetValue = config.gameSpeed;
+    (*game)->timer->activated = false;
+    std::cout << "Time value " << (*game)->timer->value << std::endl;
     if(*game  == NULL){
         perror("Error trying to create Game object\n");
         return -1;

@@ -39,7 +39,7 @@ int Game::ballStatus(int values[4]){
 }
 
 int Game::goalIsScored(){
-    if(checkTimer(&timer) && ball->getSpeed() < player1->getSpeed()){
+    if(checkTimer(timer) && ball->getSpeed() < player1->getSpeed()){
         float oldSpeed = ball->getSpeed();
         oldSpeed++;
         ball->setSpeed(oldSpeed);

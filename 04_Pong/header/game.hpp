@@ -15,7 +15,7 @@ class Game{
         int goalsPlayer1;
         int goalsPlayer2;
         int turn;
-        TIMER timer;
+        TIMER *timer;
 
         Pad *player1;
         Pad *player2;
@@ -28,7 +28,7 @@ class Game{
         int goalIsScored();
         void resetGame(Config config, SDL_Window *window, SDL_Surface *surface);
         void increaseBallSpeed(Config config);
-        TIMER &getTimer() {return timer;}
+        TIMER &getTimer() {return *timer;}
         
 };
 

@@ -6,7 +6,7 @@
 typedef struct Config{
     float ballSpeed;
     float padSpeed;
-    short gameSpeed;
+    int gameSpeed;
     int windowWidth;
     int windowHeigth;
     int fps;
