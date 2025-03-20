@@ -31,12 +31,14 @@ class Pad {
         //GETTERS
         float getXpos() const { return x; }
         float getYpos() const { return y; }
+        float getSpeed() const { return speed; }
         int getXcollisionCoord() const { return xCollisionCoord; }
         Uint32 getColor() const { return color; }
 
         //SETTERS
         void setXpos(float newXpos){ x= newXpos; }
         void setYpos(float newYpos){ y= newYpos; }
+        void setSpeed(float newSpeed){ speed = newSpeed; }
         void setXcollisionCoord(int newCollision){ xCollisionCoord = newCollision; }
 
         //BIT OF BOTH

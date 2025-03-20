@@ -2,12 +2,13 @@
 #define TIMER_HPP
 
 typedef struct{
-    short value;
-    short resetValue;
+    unsigned short value;
+    unsigned short resetValue;
     bool activated;
 }TIMER;
 
 bool checkTimer(TIMER *timer);
+void resetTimer(TIMER *timer);
 
 
 #endif

@@ -39,11 +39,10 @@ int Game::ballStatus(int values[4]){
 }
 
 int Game::goalIsScored(){
-    if(checkTimer(&timer)){
+    if(checkTimer(&timer) && ball->getSpeed() < player1->getSpeed()){
         float oldSpeed = ball->getSpeed();
         oldSpeed++;
         ball->setSpeed(oldSpeed);
-        std::cout << "Ball speed: " << ball->getSpeed() << std::endl;
     }
 
     if((ball->getX() + BRICK_WIDTH) < player1->getXpos()){
