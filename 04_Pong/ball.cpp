@@ -64,7 +64,8 @@ void Ball::invertDeltaY(){
 
 
 int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
-    float margin = 5.0f;
+    float baseMargin = 2.5f;
+    float margin = baseMargin + (getSpeed() / 100.0f);
     if(getDeltaX() > 0){
         //moving to the right 
         if ((getX() + BRICK_WIDTH >= player2->getXpos() - margin) && 
