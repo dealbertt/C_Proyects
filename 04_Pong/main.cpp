@@ -98,21 +98,20 @@ int main(){
     gameLoop(window, surface, player1, player2, ball, game);
     SDL_Delay(1000);
     SDL_Quit();
+    free(game->timer);
     delete player1; 
     delete player2; 
     delete ball; 
-
+    delete game;
 
     return 0;
 }
 
 void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game){
-    int values[4];
     Uint32 lastFrameTime = SDL_GetTicks();
     while(running){
         //update ball
         float deltaTime = game->updateGame(window, config, lastFrameTime);
-        game->ballStatus(values);
         game->turn = ball->collisionWithPlayers(player1, player2);
         if(ball->getDeltaX() == 1){
             //the ball has just collided with player1

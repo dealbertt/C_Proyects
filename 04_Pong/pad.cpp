@@ -45,7 +45,6 @@ int Pad::movePadDown(SDL_Window *window, SDL_Surface *surface, float deltaTime){
 int Pad::playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime){
     //given that the speed of that pad and the ball are the same, it should alwauys be able to get there
     int Pos = getRandomPadPosition();
-    std::cout << "Random Position: " << Pos << std::endl;
     if(yPos > getYpos()){
         if(y + Pos < yPos){
             movePadDown(window, surface, deltaTime);

@@ -75,7 +75,6 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
             choosePadZone(player2);
             int newPos = player2->assignRandomPadPosition();
             player2->setRandomPadPosition(newPos);
-            std::cout << "Random Position: " << player2->getRandomPadPosition() << std::endl;
             return 2;
         }
     }else if(getDeltaX() < 0){
@@ -88,7 +87,6 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
             choosePadZone(player1);
             int newPos = player1->assignRandomPadPosition();
             player1->setRandomPadPosition(newPos);
-            std::cout << "Random Position: " << player1->getRandomPadPosition() << std::endl;
             return 1;
         }
     }
@@ -98,9 +96,15 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
 int Ball::choosePadZone(Pad *player){
     int zone = 0;
     float padY = player->getYpos();
-    if(getY() >= padY && getY() < padY + 45.0f){setDeltaY(1.0f);}
-    if(getY() >= padY + 45.0f && getY() < padY + 55.0f){;}
-    if(getY() >= padY + 55.0f && getY() < padY + 100.0f){setDeltaY(-1.0f);}
+    if(getY() >= padY && getY() < padY + 45.0f){
+        setDeltaY(1.0f);
+        return 0;
+    }
+    if(getY() >= padY + 45.0f && getY() < padY + 55.0f){return 1;}
+    if(getY() >= padY + 55.0f && getY() < padY + 100.0f){
+        setDeltaY(-1.0f);
+        return 2;
+    }
     return zone;
 }
 
