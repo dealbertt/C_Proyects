@@ -45,7 +45,7 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
         return -1;
     }
 
-    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,0, config.ballSpeed);
+    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,1, config.ballSpeed);
     int delta = (*ball)->chooseDelta();
     (*ball)->setDeltaX(delta);  
     (*ball)->drawBall(*window, *surface, WHITE, false);

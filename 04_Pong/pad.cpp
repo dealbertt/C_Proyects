@@ -35,6 +35,7 @@ int Pad::movePadUp(SDL_Window *window, SDL_Surface *surface, float deltaTime){
 
 int Pad::movePadDown(SDL_Window *window, SDL_Surface *surface, float deltaTime){
     if(y <= WINDOW_HEIGHT - 100){
+        previousY = y;
         clearPad(window, surface);
         y += speed * deltaTime;
         drawPad(window, surface, color);
@@ -71,3 +72,4 @@ int Pad::assignRandomPadPosition(){
     int guess = dist(gen);
     return guess;
 }
+

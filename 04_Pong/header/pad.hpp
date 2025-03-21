@@ -13,6 +13,7 @@ class Pad {
     private:
         float x;
         float y;
+        float previousY;
         float speed;
         float xCollisionCoord;
         int randomPadPosition;
@@ -32,6 +33,7 @@ class Pad {
         //GETTERS
         float getXpos() const { return x; }
         float getYpos() const { return y; }
+        float getPreviousY() const { return previousY; }
         float getSpeed() const { return speed; }
         int getXcollisionCoord() const { return xCollisionCoord; }
         int getRandomPadPosition() const { return randomPadPosition; }
@@ -40,6 +42,7 @@ class Pad {
         //SETTERS
         void setXpos(float newXpos){ x= newXpos; }
         void setYpos(float newYpos){ y= newYpos; }
+        void setPreviousY(float oldYpos){ previousY = oldYpos; }
         void setSpeed(float newSpeed){ speed = newSpeed; }
         void setXcollisionCoord(int newCollision){ xCollisionCoord = newCollision; }
         void setRandomPadPosition(int newPad){randomPadPosition = newPad; }

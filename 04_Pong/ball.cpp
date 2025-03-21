@@ -97,14 +97,21 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
 int Ball::choosePadZone(Pad *player){
     int zone = 0;
     float padY = player->getYpos();
-    if(getY() >= padY && getY() < padY + 45.0f){
-        setDeltaY(1.0f);
+    float state = player->getPreviousY() - getY();
+    if(state > 0){
+        //pad is going up
+        if(getDeltaY() == -1.0f){
+            //ball is going down
+            setDeltaY(1.0f);
+        }
+    }else if(state < 0){
+        //pad is going down
+        if(getDeltaY() == 1.0f){
+            //ball is going up
+            setDeltaY(-1.0f);
+        }
+    }else{
         return 0;
-    }
-    if(getY() >= padY + 45.0f && getY() < padY + 55.0f){return 1;}
-    if(getY() >= padY + 55.0f && getY() < padY + 100.0f){
-        setDeltaY(-1.0f);
-        return 2;
     }
     return zone;
 }
