@@ -84,6 +84,7 @@ void Game::resetGame(const Config &config, SDL_Window *window, SDL_Surface *surf
 
     int delta = ball->chooseDelta();
     ball->setDeltaX(delta);
+    ball->setDeltaY(1.0f);
     ball->setSpeed(config.ballSpeed);
     ball->drawBall(window, surface, WHITE, false);
     return;

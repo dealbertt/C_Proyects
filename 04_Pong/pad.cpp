@@ -26,6 +26,7 @@ void Pad::clearPad(SDL_Window *window, SDL_Surface *surface){
  
 int Pad::movePadUp(SDL_Window *window, SDL_Surface *surface, float deltaTime){
     if(y >= 0){
+        previousY = y;
         clearPad(window, surface);
         y -= speed * deltaTime;
         drawPad(window, surface, color);
