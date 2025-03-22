@@ -13,11 +13,11 @@ Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(&player1), player2(
     goalsPlayer2 = 0;
 }
 
-float Game::updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime){
+float Game::updateGame(SDL_Window *window,const Config *config, Uint32 &lastFrameTime){
     Uint32 frameStart = SDL_GetTicks();
     float deltaTime = (frameStart - lastFrameTime) / 1000.0f;
     lastFrameTime = frameStart;
-    Uint32 frameDelay = 1000 / config.fps;
+    Uint32 frameDelay = 1000 / config->fps;
 
     SDL_UpdateWindowSurface(window);
     Uint32 frameTime = SDL_GetTicks() - frameStart;
@@ -59,17 +59,17 @@ int Game::goalIsScored(){
     return 0;
 }
 
-void Game::resetGame(Config config, SDL_Window *window, SDL_Surface *surface){
+void Game::resetGame(const Config *config, SDL_Window *window, SDL_Surface *surface){
     ball->setSpeed(0.0f);
-    SDL_Rect screen = {config.windowWidth, config.windowHeigth, 0, 0};
+    SDL_Rect screen = {config->windowWidth, config->windowHeigth, 0, 0};
     SDL_FillRect(surface, &screen, BLACK);
     SDL_UpdateWindowSurface(window);
 
     ball->clearBall(window, surface);
     ball->setDeltaX(0.0f);
     ball->setDeltaY(0.0f);
-    ball->setX(config.windowWidth / 2.0f);
-    ball->setY(config.windowHeigth / 2.0f);
+    ball->setX(config->windowWidth / 2.0f);
+    ball->setY(config->windowHeigth / 2.0f);
     std::cout << "Ball x: " << ball->getX() << std::endl;
     std::cout << "Ball y: " << ball->getY() << std::endl;
 
@@ -84,7 +84,7 @@ void Game::resetGame(Config config, SDL_Window *window, SDL_Surface *surface){
 
     int delta = ball->chooseDelta();
     ball->setDeltaX(delta);
-    ball->setSpeed(config.ballSpeed);
+    ball->setSpeed(config->ballSpeed);
     ball->drawBall(window, surface, WHITE, false);
     return;
 }

@@ -13,5 +13,5 @@ typedef struct Config{
 }Config;
 
 
-Config readConfiguration( const char *path);
+Config *readConfiguration( const char *path);
 #endif

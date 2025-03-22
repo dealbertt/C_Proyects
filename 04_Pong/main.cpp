@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_hints.h>
+#include <string.h>
 
 
 //Headers created for the program
@@ -24,7 +25,7 @@
 //TODO: Chna
 bool running = true;
 
-Config config;
+Config *config;
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
 void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game);
@@ -33,7 +34,7 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
 int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **player2, Ball **ball, Game **game){
     config = readConfiguration("config.txt");
     
-    *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, config.windowWidth, config.windowHeigth, 0);
+    *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, config->windowWidth, config->windowHeigth, 0);
     if(*window == NULL){
         perror("Error while trying to created SDL Window\n");
         return  -1;
@@ -45,24 +46,24 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
         return -1;
     }
 
-    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,1, config.ballSpeed);
+    *ball = new Ball(BALL_DEFAULT_X, BALL_DEFAULT_Y,1,1, config->ballSpeed);
     int delta = (*ball)->chooseDelta();
     (*ball)->setDeltaX(delta);  
     (*ball)->drawBall(*window, *surface, WHITE, false);
     (*ball)->Initialize();
 
-    *player1 = new Pad(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config.padSpeed, BRICK_WIDTH, RED);
+    *player1 = new Pad(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED);
     (*player1)->Initialize();
     (*player1)->drawPad(*window, *surface, RED);
 
-    *player2 = new Pad(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config.padSpeed, 0, PURPLE);
+    *player2 = new Pad(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, 0, PURPLE);
     (*player2)->Initialize();
     (*player2)->drawPad(*window, *surface, PURPLE);
 
     *game = new Game(**player1, **player2, **ball); 
     (*game)->timer= (TIMER*)malloc(sizeof(TIMER));
-    (*game)->timer->value = config.gameSpeed;
-    (*game)->timer->resetValue = config.gameSpeed;
+    (*game)->timer->value = config->gameSpeed;
+    (*game)->timer->resetValue = config->gameSpeed;
     (*game)->timer->activated = false;
     std::cout << "Time value " << (*game)->timer->value << std::endl;
     if(*game  == NULL){
@@ -104,6 +105,7 @@ int main(){
     delete ball; 
     delete game;
 
+    free(config);
     return 0;
 }
 

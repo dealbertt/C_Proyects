@@ -22,11 +22,11 @@ class Game{
         Ball *ball;
         Game(Pad &player1, Pad &player2, Ball &ball);
         void updateScore();
-        float updateGame(SDL_Window *window, Config config, Uint32 &lastFrameTime);
+        float updateGame(SDL_Window *window,const Config *config, Uint32 &lastFrameTime);
 
         int ballStatus(int values[4]);
         int goalIsScored();
-        void resetGame(Config config, SDL_Window *window, SDL_Surface *surface);
+        void resetGame(const Config *config, SDL_Window *window, SDL_Surface *surface);
         void increaseBallSpeed(Config config);
         TIMER &getTimer() {return *timer;}
         
