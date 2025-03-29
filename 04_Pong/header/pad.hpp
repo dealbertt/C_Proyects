@@ -57,11 +57,12 @@ class Bot : public Pad{
 };
 
 class Player : public Pad{
-
+    protected:
+        int typePlayer;
     public:
     //i guess keyboard or input functions to move the pad and stuff
         Player(float x, float y, float speed, float xCollisionCoord, Uint32 color)
-            : Pad(x, y, speed, xCollisionCoord, color) {} // ✅ Correct
+            : Pad(x, y, speed, xCollisionCoord, color) {} 
 
 };
 #endif 

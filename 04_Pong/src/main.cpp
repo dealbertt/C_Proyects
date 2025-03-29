@@ -29,13 +29,20 @@ bool running = true;
 
 int mode;
 
+Ball *ball = nullptr;
+
+Pad *player1 = nullptr;
+Pad *player2 = nullptr;
+
+Game *game = nullptr;
+
 Config *config;
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
 void gameLoop(SDL_Window *window, SDL_Surface *surface, Bot *player1, Bot *player2, Ball *ball, Game *game);
 
 
-int initGame(SDL_Window **window, SDL_Surface **surface, Bot **player1, Bot **player2, Ball **ball, Game **game){
+int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **player2, Ball **ball, Game **game){
     config = readConfiguration("config/config.txt");
     
     *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, config->windowWidth, config->windowHeigth, 0);
@@ -92,14 +99,6 @@ int main(int argc, char **argv){
     
     SDL_SetHint(SDL_HINT_NO_SIGNAL_HANDLERS, "1");
     SDL_Init(SDL_INIT_VIDEO);
-
-
-
-    Ball *ball = nullptr;
-    Bot *player1 = nullptr;
-    Bot *player2 = nullptr;
-    Game *game = nullptr;
-
 
     if (initGame(&window, &surface, &player1, &player2, &ball, &game) != 0) {
         std::cerr << "Failed to initialize game!" << std::endl;
