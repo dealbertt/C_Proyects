@@ -43,18 +43,22 @@ class Pad {
         void setPreviousY(float oldYpos){ previousY = oldYpos; }
         void setSpeed(float newSpeed){ speed = newSpeed; }
         void setXcollisionCoord(int newCollision){ xCollisionCoord = newCollision; }
+
+        virtual int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime) = 0; //Virtual method 
 };
 
 class Bot : public Pad{
         int randomPadPosition;
 
     public:
-        int getRandomPadPosition() const { return randomPadPosition; }
-        void setRandomPadPosition(int newPad){randomPadPosition = newPad; }
-        int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime);
-        int assignRandomPadPosition();
         Bot(float x, float y, float speed, float xCollisionCoord, Uint32 color) 
             : Pad(x, y, speed, xCollisionCoord, color), randomPadPosition(0) {}
+        
+        int getRandomPadPosition() const { return randomPadPosition; }
+        void setRandomPadPosition(int newPad){randomPadPosition = newPad; }
+        int assignRandomPadPosition();
+
+        int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime) override; //Virtual method 
 };
 
 class Player : public Pad{
