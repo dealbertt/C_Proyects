@@ -31,5 +31,5 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 # Clean the build files (DOES NOT DELETE SOURCE FILES)
 clean:
-	rm -f $(OBJ_DIR) $(TARGET)
+	rm -rf $(OBJ_DIR) $(TARGET)
 

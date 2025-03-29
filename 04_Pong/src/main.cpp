@@ -1,9 +1,11 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
+#include <bits/getopt_core.h>
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_hints.h>
 #include <string.h>
+#include <sys/types.h>
 
 
 //Headers created for the program
@@ -21,9 +23,11 @@
 //- Predict where the ball might be going based on that snapshot
 //- Move the pad based on that prediction
 
+void handleArgs(char **argv);
 
-//TODO: Chna
 bool running = true;
+
+int mode;
 
 Config *config;
 
@@ -75,7 +79,16 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     return 0;
 }
 
-int main(){
+int main(int argc, char **argv){
+
+    if(argc > 1){
+        handleArgs(argv);
+    }else{
+        std::cout << "Please specify the right parameters" << std::endl;
+        std::cout << "-mode {introduce mode}" << std::endl;
+        exit(1);
+    }
+
     SDL_Window *window = NULL;
     SDL_Surface *surface = NULL;
     
@@ -88,6 +101,7 @@ int main(){
     Pad *player1 = nullptr;
     Pad *player2 = nullptr;
     Game *game = nullptr;
+
 
     if (initGame(&window, &surface, &player1, &player2, &ball, &game) != 0) {
         std::cerr << "Failed to initialize game!" << std::endl;
@@ -137,4 +151,12 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
 
     return;
 
+}
+
+void handleArgs(char **argv){
+    if(strcmp(argv[1], "-mode") == 0){
+        std::cout << "Parameter value: " << argv[1] << std::endl;
+        std::cout << "Mode: " << argv[2] << std::endl;
+    }
+    return;
 }
