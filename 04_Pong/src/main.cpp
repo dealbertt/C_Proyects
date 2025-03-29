@@ -32,10 +32,10 @@ int mode;
 Config *config;
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
-void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game);
+void gameLoop(SDL_Window *window, SDL_Surface *surface, Bot *player1, Bot *player2, Ball *ball, Game *game);
 
 
-int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **player2, Ball **ball, Game **game){
+int initGame(SDL_Window **window, SDL_Surface **surface, Bot **player1, Bot **player2, Ball **ball, Game **game){
     config = readConfiguration("config/config.txt");
     
     *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, config->windowWidth, config->windowHeigth, 0);
@@ -56,11 +56,11 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     (*ball)->drawBall(*window, *surface, WHITE, false);
     (*ball)->Initialize();
 
-    *player1 = new Pad(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED);
+    *player1 = new Bot(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED);
     (*player1)->Initialize();
     (*player1)->drawPad(*window, *surface, RED);
 
-    *player2 = new Pad(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, 0, PURPLE);
+    *player2 = new Bot(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, 0, PURPLE);
     (*player2)->Initialize();
     (*player2)->drawPad(*window, *surface, PURPLE);
 
@@ -74,8 +74,6 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
         perror("Error trying to create Game object\n");
         return -1;
     }
-
-
     return 0;
 }
 
@@ -98,8 +96,8 @@ int main(int argc, char **argv){
 
 
     Ball *ball = nullptr;
-    Pad *player1 = nullptr;
-    Pad *player2 = nullptr;
+    Bot *player1 = nullptr;
+    Bot *player2 = nullptr;
     Game *game = nullptr;
 
 
@@ -123,7 +121,7 @@ int main(int argc, char **argv){
     return 0;
 }
 
-void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game){
+void gameLoop(SDL_Window *window, SDL_Surface *surface, Bot *player1, Bot *player2, Ball *ball, Game *game){
     Uint32 lastFrameTime = SDL_GetTicks();
     while(running){
         //update ball

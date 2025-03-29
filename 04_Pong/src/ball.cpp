@@ -63,7 +63,7 @@ void Ball::invertDeltaY(){
 }
 
 
-int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
+int Ball::collisionWithPlayers(Bot *player1, Bot *player2){
     float baseMargin = 2.5f;
     float margin = baseMargin + (getSpeed() / 100.0f);
     if(getDeltaX() > 0){

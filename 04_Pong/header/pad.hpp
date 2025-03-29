@@ -1,7 +1,5 @@
 #ifndef PAD_H
 #define PAD_H
-#include <SDL2/SDL_stdinc.h>
-#include <iostream>
 #include "graphics.h"
 
 #define PLAYER1_DEFAULT_X 20.0f
@@ -10,19 +8,19 @@
 
 
 class Pad {
-    private:
+    protected:
         float x;
         float y;
         float previousY;
         float speed;
         float xCollisionCoord;
-        int randomPadPosition;
         Uint32 color;
         //timer for movement
 
 
     public:
-        Pad(float x, float y, float speed, float xCollisionCoord, Uint32 color);
+         Pad(float x, float y, float speed, float xCollisionCoord, Uint32 color) 
+        : x(x), y(y), speed(speed), xCollisionCoord(xCollisionCoord), color(color) {}
         void Initialize();
         void drawPad(SDL_Window *window, SDL_Surface *surface, Uint32 color);
         void clearPad(SDL_Window *window, SDL_Surface *surface);
@@ -36,7 +34,6 @@ class Pad {
         float getPreviousY() const { return previousY; }
         float getSpeed() const { return speed; }
         int getXcollisionCoord() const { return xCollisionCoord; }
-        int getRandomPadPosition() const { return randomPadPosition; }
         Uint32 getColor() const { return color; }
 
         //SETTERS
@@ -45,14 +42,26 @@ class Pad {
         void setPreviousY(float oldYpos){ previousY = oldYpos; }
         void setSpeed(float newSpeed){ speed = newSpeed; }
         void setXcollisionCoord(int newCollision){ xCollisionCoord = newCollision; }
-        void setRandomPadPosition(int newPad){randomPadPosition = newPad; }
-
-        //BIT OF BOTH
-
-        //PLAYER BEHAVIOUR
-        int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime);
-        int assignRandomPadPosition();
-        int PadHasTime();
 };
 
+class Bot : public Pad{
+        int randomPadPosition;
+
+    public:
+        int getRandomPadPosition() const { return randomPadPosition; }
+        void setRandomPadPosition(int newPad){randomPadPosition = newPad; }
+        int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime);
+        int assignRandomPadPosition();
+        Bot(float x, float y, float speed, float xCollisionCoord, Uint32 color) 
+            : Pad(x, y, speed, xCollisionCoord, color), randomPadPosition(0) {}
+};
+
+class Player : public Pad{
+
+    public:
+    //i guess keyboard or input functions to move the pad and stuff
+        Player(float x, float y, float speed, float xCollisionCoord, Uint32 color)
+            : Pad(x, y, speed, xCollisionCoord, color) {} // ✅ Correct
+
+};
 #endif 
