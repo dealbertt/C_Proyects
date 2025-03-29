@@ -32,7 +32,7 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
 
 
 int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **player2, Ball **ball, Game **game){
-    config = readConfiguration("config.txt");
+    config = readConfiguration("config/config.txt");
     
     *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, config->windowWidth, config->windowHeigth, 0);
     if(*window == NULL){
