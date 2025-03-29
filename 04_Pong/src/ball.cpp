@@ -63,9 +63,11 @@ void Ball::invertDeltaY(){
 }
 
 
-int Ball::collisionWithPlayers(Bot *player1, Bot *player2){
+int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
     float baseMargin = 2.5f;
     float margin = baseMargin + (getSpeed() / 100.0f);
+    Bot *bot1 = dynamic_cast<Bot *>(player1);
+    Bot *bot2 = dynamic_cast<Bot *>(player2);
     if(getDeltaX() > 0){
         //moving to the right 
         if ((getX() + BRICK_WIDTH >= player2->getXpos() - margin) && 
@@ -74,8 +76,8 @@ int Ball::collisionWithPlayers(Bot *player1, Bot *player2){
             invertDeltaX();
             //function that choose the pad zone
             choosePadZone(player2);
-            int newPos = player2->assignRandomPadPosition();
-            player2->setRandomPadPosition(newPos);
+            int newPos = bot2->assignRandomPadPosition();
+            bot2->setRandomPadPosition(newPos);
             return 2;
         }
     }else if(getDeltaX() < 0){
@@ -86,8 +88,8 @@ int Ball::collisionWithPlayers(Bot *player1, Bot *player2){
             invertDeltaX();
             //function that choose the pad zone
             choosePadZone(player1);
-            int newPos = player1->assignRandomPadPosition();
-            player1->setRandomPadPosition(newPos);
+            int newPos = bot1->assignRandomPadPosition();
+            bot1->setRandomPadPosition(newPos);
             return 1;
         }
     }

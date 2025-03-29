@@ -19,6 +19,7 @@ class Pad {
 
 
     public:
+         virtual ~Pad() = default;
          Pad(float x, float y, float speed, float xCollisionCoord, Uint32 color) 
         : x(x), y(y), speed(speed), xCollisionCoord(xCollisionCoord), color(color) {}
         void Initialize();

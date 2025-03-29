@@ -39,7 +39,7 @@ Game *game = nullptr;
 Config *config;
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
-void gameLoop(SDL_Window *window, SDL_Surface *surface, Bot *player1, Bot *player2, Ball *ball, Game *game);
+void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game);
 
 
 int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **player2, Ball **ball, Game **game){
@@ -120,7 +120,7 @@ int main(int argc, char **argv){
     return 0;
 }
 
-void gameLoop(SDL_Window *window, SDL_Surface *surface, Bot *player1, Bot *player2, Ball *ball, Game *game){
+void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *player2, Ball *ball, Game *game){
     Uint32 lastFrameTime = SDL_GetTicks();
     while(running){
         //update ball
