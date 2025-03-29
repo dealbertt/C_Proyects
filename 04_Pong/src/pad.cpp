@@ -2,8 +2,8 @@
 #include <SDL2/SDL_surface.h>
 #include <iostream>
 #include <random>
-#include "header/pad.hpp"
-#include "header/graphics.h"
+#include "../header/pad.hpp"
+#include "../header/graphics.h"
 
 Pad::Pad(float x, float y, float speed, float xCollisionCoord, Uint32 color) : x(x), y(y), speed(speed), xCollisionCoord(xCollisionCoord), color(color){}
 

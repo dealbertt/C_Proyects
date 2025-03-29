@@ -1,4 +1,4 @@
-#include "header/graphics.h"
+#include "../header/graphics.h"
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_video.h>

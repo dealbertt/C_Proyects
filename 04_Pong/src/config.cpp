@@ -1,4 +1,4 @@
-#include "header/config.hpp"
+#include "../header/config.hpp"
 
 Config *readConfiguration(const char *path){
     FILE *ptr = fopen(path, "r");

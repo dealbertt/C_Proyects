@@ -7,10 +7,10 @@
 
 
 //Headers created for the program
-#include "header/pad.hpp"
-#include "header/ball.hpp"
-#include "header/graphics.h"
-#include "header/game.hpp"
+#include "../header/pad.hpp"
+#include "../header/ball.hpp"
+#include "../header/graphics.h"
+#include "../header/game.hpp"
 
 //First C++ proyect, i am planning on reading books and such to get good at it but i wanted
 //to first see what i know and use Chatgpt a little bit to help me on the basics of the language

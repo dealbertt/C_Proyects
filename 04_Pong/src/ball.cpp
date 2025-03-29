@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ostream>
-#include "header/ball.hpp"
-#include "header/graphics.h"
+#include "../header/ball.hpp"
+#include "../header/graphics.h"
 
 Ball::Ball(float x, float y, float deltaX, float deltaY, float speed) : x(x), y(y), deltaX(deltaX), deltaY(deltaY), speed(speed){}
 

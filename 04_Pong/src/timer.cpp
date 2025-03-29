@@ -1,5 +1,5 @@
 #include <iostream>
-#include "header/timer.hpp"
+#include "../header/timer.hpp"
 
 
 bool checkTimer(TIMER *timer){
@@ -10,7 +10,6 @@ bool checkTimer(TIMER *timer){
        timer->value --; 
        return false;
     }
-
     return false;
 }
 

@@ -1,7 +1,7 @@
-#include "header/game.hpp"
-#include "header/graphics.h"
-#include "header/pad.hpp"
-#include "header/timer.hpp"
+#include "../header/game.hpp"
+#include "../header/graphics.h"
+#include "../header/pad.hpp"
+#include "../header/timer.hpp"
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_rect.h>
