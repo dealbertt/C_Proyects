@@ -1,4 +1,5 @@
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_scancode.h>
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
 
@@ -95,10 +96,18 @@ int Player::playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, fl
 
     const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-    if (state[SDL_SCANCODE_UP]) {
-        movePadUp(window, surface, deltaTime);
-    }else if (state[SDL_SCANCODE_DOWN]) {
-        movePadDown(window, surface, deltaTime);
+    if(getTypePlayer() == 1){
+        if (state[SDL_SCANCODE_W]) {
+            movePadUp(window, surface, deltaTime);
+        }else if (state[SDL_SCANCODE_S]) {
+            movePadDown(window, surface, deltaTime);
+        }
+    }else if(getTypePlayer() == 2){
+        if (state[SDL_SCANCODE_UP]) {
+            movePadUp(window, surface, deltaTime);
+        }else if (state[SDL_SCANCODE_DOWN]) {
+            movePadDown(window, surface, deltaTime);
+        }
     }
 
     return 0;

@@ -22,6 +22,7 @@ class Pad {
          virtual ~Pad() = default;
          Pad(float x, float y, float speed, float xCollisionCoord, Uint32 color) 
         : x(x), y(y), speed(speed), xCollisionCoord(xCollisionCoord), color(color) {}
+
          virtual void Initialize() = 0;
         void drawPad(SDL_Window *window, SDL_Surface *surface, Uint32 color);
         void clearPad(SDL_Window *window, SDL_Surface *surface);
@@ -66,9 +67,11 @@ class Player : public Pad{
     protected:
         int typePlayer;
     public:
+        int getTypePlayer(){ return typePlayer; }
+        void setTypePlayer(int newType){ typePlayer = newType;}
     //i guess keyboard or input functions to move the pad and stuff
-        Player(float x, float y, float speed, float xCollisionCoord, Uint32 color)
-            : Pad(x, y, speed, xCollisionCoord, color) {} 
+        Player(float x, float y, float speed, float xCollisionCoord, Uint32 color, int typePlayer)
+            : Pad(x, y, speed, xCollisionCoord, color), typePlayer(typePlayer) {} 
 
         void Initialize() override;
         int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime) override; //Virtual method 

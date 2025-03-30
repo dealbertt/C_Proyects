@@ -69,7 +69,7 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     if(mode == 1){
 
         //real player vs Bot
-        *player1 = new Player(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED);
+        *player1 = new Player(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED, 1);
         (*player1)->Initialize();
         (*player1)->drawPad(*window, *surface, RED);
 
@@ -79,11 +79,11 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     }else if(mode == 2){
 
         //real player vs real player 
-        *player1 = new Player(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED);
+        *player1 = new Player(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED, 1);
         (*player1)->Initialize();
         (*player1)->drawPad(*window, *surface, RED);
 
-        *player2 = new Player(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, 0, PURPLE);
+        *player2 = new Player(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, 0, PURPLE, 2);
         (*player2)->Initialize();
         (*player2)->drawPad(*window, *surface, PURPLE);
     }else if(mode == 3){
