@@ -88,25 +88,19 @@ void Player::Initialize(){
 
 int Player::playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime){
     //given that the speed of that pad and the ball are the same, it should alwauys be able to get there
-    //whatever
+    //whatever  
+    
     SDL_Event event;
     SDL_PollEvent(&event);
 
-    if(event.type == SDL_KEYDOWN){
-        switch(event.key.keysym.sym){
-            case SDLK_s:
-                movePadDown(window, surface, deltaTime);
-                movePadDown(window, surface, deltaTime);
-                movePadDown(window, surface, deltaTime);
-                break;
-            case SDLK_w:
-                movePadUp(window, surface, deltaTime);
-                movePadUp(window, surface, deltaTime);
-                movePadUp(window, surface, deltaTime);
-                break;
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-        }
+    if (state[SDL_SCANCODE_UP]) {
+        movePadUp(window, surface, deltaTime);
+    }else if (state[SDL_SCANCODE_DOWN]) {
+        movePadDown(window, surface, deltaTime);
     }
 
     return 0;
 }
+
