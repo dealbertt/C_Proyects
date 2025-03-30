@@ -72,5 +72,6 @@ class Player : public Pad{
 
         void Initialize() override;
         int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime) override; //Virtual method 
+        
 };
 #endif 

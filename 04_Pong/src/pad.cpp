@@ -1,7 +1,13 @@
+#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
+
+#include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_keyboard.h>
+
 #include <iostream>
 #include <random>
+
 #include "../header/pad.hpp"
 #include "../header/graphics.h"
 
@@ -83,5 +89,24 @@ void Player::Initialize(){
 int Player::playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime){
     //given that the speed of that pad and the ball are the same, it should alwauys be able to get there
     //whatever
+    SDL_Event event;
+    SDL_PollEvent(&event);
+
+    if(event.type == SDL_KEYDOWN){
+        switch(event.key.keysym.sym){
+            case SDLK_s:
+                movePadDown(window, surface, deltaTime);
+                movePadDown(window, surface, deltaTime);
+                movePadDown(window, surface, deltaTime);
+                break;
+            case SDLK_w:
+                movePadUp(window, surface, deltaTime);
+                movePadUp(window, surface, deltaTime);
+                movePadUp(window, surface, deltaTime);
+                break;
+
+        }
+    }
+
     return 0;
 }
