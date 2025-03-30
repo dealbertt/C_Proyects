@@ -29,7 +29,7 @@ class Ball {
         float chooseDelta();
         void invertDeltaX();
         void invertDeltaY();
-        int collisionWithPlayers(Pad *player1, Pad *player2); 
+        int collisionWithPlayers(Pad *player1, Pad *player2, int mode); 
         int collisionWithBorders();
         int choosePadZone(Pad *player);
 

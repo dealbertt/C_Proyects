@@ -63,11 +63,17 @@ void Ball::invertDeltaY(){
 }
 
 
-int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
+int Ball::collisionWithPlayers(Pad *player1, Pad *player2, int mode){
     float baseMargin = 2.5f;
     float margin = baseMargin + (getSpeed() / 100.0f);
-    Bot *bot1 = dynamic_cast<Bot *>(player1);
-    Bot *bot2 = dynamic_cast<Bot *>(player2);
+    Bot *bot1;
+    Bot *bot2;
+    if(mode == 1){
+        bot2 = dynamic_cast<Bot *>(player2);
+    }else if(mode == 3){
+        bot2 = dynamic_cast<Bot *>(player2);
+        bot1 = dynamic_cast<Bot *>(player1);
+    }
     if(getDeltaX() > 0){
         //moving to the right 
         if ((getX() + BRICK_WIDTH >= player2->getXpos() - margin) && 
@@ -76,8 +82,10 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
             invertDeltaX();
             //function that choose the pad zone
             choosePadZone(player2);
-            int newPos = bot2->assignRandomPadPosition();
-            bot2->setRandomPadPosition(newPos);
+            if(mode == 1 || mode == 3){
+                int newPos = bot2->assignRandomPadPosition();
+                bot2->setRandomPadPosition(newPos);
+            }
             return 2;
         }
     }else if(getDeltaX() < 0){
@@ -88,8 +96,10 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
             invertDeltaX();
             //function that choose the pad zone
             choosePadZone(player1);
-            int newPos = bot1->assignRandomPadPosition();
-            bot1->setRandomPadPosition(newPos);
+            if(mode == 3){
+                int newPos = bot1->assignRandomPadPosition();
+                bot1->setRandomPadPosition(newPos);
+            }
             return 1;
         }
     }
@@ -98,7 +108,6 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2){
 
 int Ball::choosePadZone(Pad *player){
     int zone = 0;
-    float padY = player->getYpos();
     float state = player->getPreviousY() - getY();
     if(state > 0){
         //pad is going up

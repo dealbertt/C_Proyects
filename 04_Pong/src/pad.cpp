@@ -5,10 +5,6 @@
 #include "../header/pad.hpp"
 #include "../header/graphics.h"
 
-void Pad::Initialize(){
-    std::cout << " Pad X position: " << x<< " Pad Y position: " << y<< std::endl;
-    return;
-}
 
 void Pad::drawPad(SDL_Window *window, SDL_Surface *surface, Uint32 color){ 
     drawColumn((int)x, (int)y, window, surface, color);
@@ -72,3 +68,20 @@ int Bot::assignRandomPadPosition(){
     return guess;
 }
 
+void Bot::Initialize(){
+    std::cout << "Bot initialized" << std::endl;
+    std::cout << " Pad X position: " << x<< " Pad Y position: " << y<< std::endl;
+    return;
+}
+
+void Player::Initialize(){
+    std::cout << "Player initialized" << std::endl;
+    std::cout << " Pad X position: " << x<< " Pad Y position: " << y<< std::endl;
+    return;
+}
+
+int Player::playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime){
+    //given that the speed of that pad and the ball are the same, it should alwauys be able to get there
+    //whatever
+    return 0;
+}

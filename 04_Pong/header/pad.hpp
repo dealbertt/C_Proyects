@@ -22,7 +22,7 @@ class Pad {
          virtual ~Pad() = default;
          Pad(float x, float y, float speed, float xCollisionCoord, Uint32 color) 
         : x(x), y(y), speed(speed), xCollisionCoord(xCollisionCoord), color(color) {}
-        void Initialize();
+         virtual void Initialize() = 0;
         void drawPad(SDL_Window *window, SDL_Surface *surface, Uint32 color);
         void clearPad(SDL_Window *window, SDL_Surface *surface);
         int movePadUp(SDL_Window *window, SDL_Surface *surface, float deltaTime);
@@ -59,6 +59,7 @@ class Bot : public Pad{
         int assignRandomPadPosition();
 
         int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime) override; //Virtual method 
+        void Initialize() override;
 };
 
 class Player : public Pad{
@@ -69,5 +70,7 @@ class Player : public Pad{
         Player(float x, float y, float speed, float xCollisionCoord, Uint32 color)
             : Pad(x, y, speed, xCollisionCoord, color) {} 
 
+        void Initialize() override;
+        int playerMoves(float yPos, SDL_Window *window, SDL_Surface *surface, float deltaTime) override; //Virtual method 
 };
 #endif 

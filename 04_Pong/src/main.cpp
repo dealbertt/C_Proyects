@@ -28,6 +28,9 @@ void handleArgs(char **argv);
 bool running = true;
 
 int mode;
+//mode 1: player vs Bot
+//mode 2: player vs player
+//mode 3: Bot vs Bot
 
 Ball *ball = nullptr;
 
@@ -63,13 +66,39 @@ int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **pl
     (*ball)->drawBall(*window, *surface, WHITE, false);
     (*ball)->Initialize();
 
-    *player1 = new Bot(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED);
-    (*player1)->Initialize();
-    (*player1)->drawPad(*window, *surface, RED);
+    if(mode == 1){
 
-    *player2 = new Bot(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, 0, PURPLE);
-    (*player2)->Initialize();
-    (*player2)->drawPad(*window, *surface, PURPLE);
+        //real player vs Bot
+        *player1 = new Player(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED);
+        (*player1)->Initialize();
+        (*player1)->drawPad(*window, *surface, RED);
+
+        *player2 = new Bot(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, 0, PURPLE);
+        (*player2)->Initialize();
+        (*player2)->drawPad(*window, *surface, PURPLE);
+    }else if(mode == 2){
+
+        //real player vs real player 
+        *player1 = new Player(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED);
+        (*player1)->Initialize();
+        (*player1)->drawPad(*window, *surface, RED);
+
+        *player2 = new Player(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, 0, PURPLE);
+        (*player2)->Initialize();
+        (*player2)->drawPad(*window, *surface, PURPLE);
+    }else if(mode == 3){
+
+        //Bot vs Bot
+        *player1 = new Bot(PLAYER1_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, BRICK_WIDTH, RED);
+        (*player1)->Initialize();
+        (*player1)->drawPad(*window, *surface, RED);
+
+        *player2 = new Bot(PLAYER2_DEFAULT_X, PAD_DEFAULT_Y, config->padSpeed, 0, PURPLE);
+        (*player2)->Initialize();
+        (*player2)->drawPad(*window, *surface, PURPLE);
+
+    }
+
 
     *game = new Game(**player1, **player2, **ball); 
     (*game)->timer= (TIMER*)malloc(sizeof(TIMER));
@@ -108,15 +137,17 @@ int main(int argc, char **argv){
 
     SDL_UpdateWindowSurface(window);
     gameLoop(window, surface, player1, player2, ball, game);
-    SDL_Delay(1000);
-    SDL_Quit();
+
+
     free(game->timer);
+
     delete player1; 
     delete player2; 
     delete ball; 
     delete game;
 
     free(config);
+    SDL_Quit();
     return 0;
 }
 
@@ -125,7 +156,7 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
     while(running){
         //update ball
         float deltaTime = game->updateGame(window, *config, lastFrameTime);
-        game->turn = ball->collisionWithPlayers(player1, player2);
+        game->turn = ball->collisionWithPlayers(player1, player2, mode);
         if(ball->getDeltaX() == 1){
             //the ball has just collided with player1
             //i now have to give turn to player2
@@ -135,7 +166,7 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
             //i have to give turn to player1
             player1->playerMoves(ball->getY(), window, surface, deltaTime);
         }
-        ball->collisionWithPlayers(player1, player2);
+        ball->collisionWithPlayers(player1, player2, mode);
         ball->updateBall(window, surface, deltaTime);
         if(game->goalIsScored() == 1){
             //a goal has been scored
@@ -154,6 +185,11 @@ void handleArgs(char **argv){
     if(strcmp(argv[1], "-mode") == 0){
         std::cout << "Parameter value: " << argv[1] << std::endl;
         std::cout << "Mode: " << argv[2] << std::endl;
+        mode = atoi(argv[2]);
+        if(mode == 0 || mode > 3){
+            std::cout << "Please introduce a valid mode {1,2,3}" << std::endl;
+            exit(1);
+        }
     }
     return;
 }
