@@ -158,6 +158,8 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
     Uint32 lastFrameTime = SDL_GetTicks();
     while(running){
         //update ball
+        game->displayScore(surface);
+
         float deltaTime = game->updateGame(window, *config, lastFrameTime);
         game->turn = ball->collisionWithPlayers(player1, player2, mode);
         if(ball->getDeltaX() == 1){
@@ -181,7 +183,6 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
             //a goal has been scored
             game->resetGame(*config, window, surface); 
         }
-        game->displayScore(surface);
         //the moving actions of the players will be made inside the decision functions
         //moves players
         //check for collisions and stuff i guess

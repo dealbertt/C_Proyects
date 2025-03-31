@@ -10,6 +10,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <filesystem>
+#include <string>
 
 Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(&player1), player2(&player2), ball(&ball){
     goalsPlayer1 = 0;
@@ -107,13 +108,16 @@ void Game::displayScore(SDL_Surface *mainSurface){
         return;
     }
 
-    std::string score = std::to_string(goalsPlayer2);
+    std::string score1 = std::to_string(goalsPlayer1);
+    std::string score2 = std::to_string(goalsPlayer2);
+    std::string totalScore = score1 + " - " + score2;
 
     SDL_Surface *textSurface = NULL;
-    textSurface = TTF_RenderText_Solid(font, score.c_str(), textColor);
+    textSurface = TTF_RenderText_Solid(font, totalScore.c_str(), textColor);
 
-    SDL_Rect textRect = {WINDOW_WIDTH / 2, 100, 100, 100};
+    SDL_Rect textRect = {(WINDOW_WIDTH / 2) - 30, 50, 100, 100};
     SDL_FillRect(mainSurface, &textRect, BLACK);
+
     SDL_BlitSurface(textSurface, NULL, mainSurface, &textRect);
     SDL_FreeSurface(textSurface);
 
