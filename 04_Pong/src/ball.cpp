@@ -111,16 +111,20 @@ int Ball::choosePadZone(Pad *player){
     float state = player->getPreviousY() - getY();
     if(state > 0){
         //pad is going up
+        /*
         if(getDeltaY() == -1.0f){
             //ball is going down
             setDeltaY(1.0f);
         }
+        */
     }else if(state < 0){
         //pad is going down
+        /*
         if(getDeltaY() == 1.0f){
             //ball is going up
             setDeltaY(-1.0f);
         }
+        */
     }else{
         return 0;
     }

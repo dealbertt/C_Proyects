@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_hints.h>
+#include <SDL2/SDL_ttf.h>
 #include <string.h>
 #include <sys/types.h>
 
@@ -47,6 +48,8 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
 
 int initGame(SDL_Window **window, SDL_Surface **surface, Pad **player1, Pad **player2, Ball **ball, Game **game){
     config = readConfiguration("config/config.txt");
+
+    TTF_Init();
     
     *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, config->windowWidth, config->windowHeigth, 0);
     if(*window == NULL){
@@ -178,6 +181,7 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
             //a goal has been scored
             game->resetGame(*config, window, surface); 
         }
+        game->displayScore(surface);
         //the moving actions of the players will be made inside the decision functions
         //moves players
         //check for collisions and stuff i guess

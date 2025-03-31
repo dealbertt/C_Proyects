@@ -7,6 +7,9 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
+#include <SDL2/SDL_ttf.h>
+#include <iostream>
+#include <filesystem>
 
 Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(&player1), player2(&player2), ball(&ball){
     goalsPlayer1 = 0;
@@ -90,3 +93,32 @@ void Game::resetGame(const Config &config, SDL_Window *window, SDL_Surface *surf
     return;
 }
 
+void Game::displayScore(SDL_Surface *mainSurface){
+    TTF_Init();
+
+    int fontSize = 24;
+    SDL_Color textColor = {255, 255, 255};
+    std::string fontPath = "fonts/JetBrainsMonoNerdFont-Regular.ttf";
+    TTF_Font *font = TTF_OpenFont(fontPath.c_str(), fontSize);
+
+    if(font == NULL){
+        std::cerr << "Failed to load the font" << std::endl;
+        std::cerr << "SDL_TTF Error: " << TTF_GetError() << "\n";
+        return;
+    }
+
+    std::string score = std::to_string(goalsPlayer2);
+
+    SDL_Surface *textSurface = NULL;
+    textSurface = TTF_RenderText_Solid(font, score.c_str(), textColor);
+
+    SDL_Rect textRect = {WINDOW_WIDTH / 2, 100, 100, 100};
+    SDL_FillRect(mainSurface, &textRect, BLACK);
+    SDL_BlitSurface(textSurface, NULL, mainSurface, &textRect);
+    SDL_FreeSurface(textSurface);
+
+    TTF_CloseFont(font);
+
+
+    return;
+}

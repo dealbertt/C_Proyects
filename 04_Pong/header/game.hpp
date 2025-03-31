@@ -28,6 +28,7 @@ class Game{
         int goalIsScored();
         void resetGame(const Config &config, SDL_Window *window, SDL_Surface *surface);
         TIMER &getTimer() {return *timer;}
+        void displayScore(SDL_Surface *mainSurface);
         
 };
 

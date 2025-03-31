@@ -1,7 +1,7 @@
 # Compiler
 CXX = g++  # C++ compiler
 CC = gcc   # C compiler
-CXXFLAGS = -Wall -std=c++17 $(shell pkg-config --cflags sdl2)
+CXXFLAGS = -Wall -std=c++17 $(shell pkg-config --cflags sdl2) -lSDL2_ttf
 CFLAGS = -Wall $(shell pkg-config --cflags sdl2)  # C compiler flags
 LDFLAGS = $(shell pkg-config --libs sdl2)  # SDL2 linking flags
 
