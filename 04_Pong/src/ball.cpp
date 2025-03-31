@@ -78,7 +78,6 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2, int mode){
         //moving to the right 
         if ((getX() + BRICK_WIDTH >= player2->getXpos() - margin) && 
                 (getY() >= player2->getYpos() && getY() <= (player2->getYpos() + 100))) {
-            std::cout << "Collision with Player2!" << std::endl;
             invertDeltaX();
             //function that choose the pad zone
             choosePadZone(player2);
@@ -92,7 +91,6 @@ int Ball::collisionWithPlayers(Pad *player1, Pad *player2, int mode){
         //moving to the left
         if ((getX() <= player1->getXpos() + player1->getXcollisionCoord() + margin) && 
                 (getY() >= player1->getYpos() && getY() <= (player1->getYpos() + 100))) {
-            std::cout << "Collision with Player1!" << std::endl;
             invertDeltaX();
             //function that choose the pad zone
             choosePadZone(player1);

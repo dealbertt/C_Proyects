@@ -1,7 +1,5 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
-#include <bits/getopt_core.h>
-#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_hints.h>
 #include <SDL2/SDL_ttf.h>
@@ -150,6 +148,8 @@ int main(int argc, char **argv){
     delete game;
 
     free(config);
+
+    TTF_Quit();
     SDL_Quit();
     return 0;
 }
@@ -158,8 +158,8 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
     Uint32 lastFrameTime = SDL_GetTicks();
     while(running){
         //update ball
-        game->displayScore(surface);
 
+        game->displayScore(surface, window);
         float deltaTime = game->updateGame(window, *config, lastFrameTime);
         game->turn = ball->collisionWithPlayers(player1, player2, mode);
         if(ball->getDeltaX() == 1){
@@ -179,10 +179,14 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
         }
         ball->collisionWithPlayers(player1, player2, mode);
         ball->updateBall(window, surface, deltaTime);
+
         if(game->goalIsScored() == 1){
             //a goal has been scored
             game->resetGame(*config, window, surface); 
         }
+        if(game->isGameFinished(surface))
+            return;
+        
         //the moving actions of the players will be made inside the decision functions
         //moves players
         //check for collisions and stuff i guess

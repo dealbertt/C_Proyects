@@ -1,20 +1,20 @@
-#include "../header/game.hpp"
-#include "../header/graphics.h"
-#include "../header/pad.hpp"
-#include "../header/timer.hpp"
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_ttf.h>
-#include <iostream>
-#include <filesystem>
-#include <string>
+
+#include "../header/game.hpp"
+#include "../header/graphics.h"
+#include "../header/pad.hpp"
+#include "../header/timer.hpp"
 
 Game::Game(Pad &player1, Pad &player2, Ball &ball) : player1(&player1), player2(&player2), ball(&ball){
     goalsPlayer1 = 0;
     goalsPlayer2 = 0;
+    maxGoals = 3;
 }
 
 float Game::updateGame(SDL_Window *window,const Config &config, Uint32 &lastFrameTime){
@@ -94,7 +94,7 @@ void Game::resetGame(const Config &config, SDL_Window *window, SDL_Surface *surf
     return;
 }
 
-void Game::displayScore(SDL_Surface *mainSurface){
+void Game::displayScore(SDL_Surface *mainSurface, SDL_Window *window){
     TTF_Init();
 
     int fontSize = 24;
@@ -115,14 +115,28 @@ void Game::displayScore(SDL_Surface *mainSurface){
     SDL_Surface *textSurface = NULL;
     textSurface = TTF_RenderText_Solid(font, totalScore.c_str(), textColor);
 
-    SDL_Rect textRect = {(WINDOW_WIDTH / 2) - 30, 50, 100, 100};
+    SDL_Rect textRect = {(WINDOW_WIDTH / 2) - 30, 50, 50, 50};
+
     SDL_FillRect(mainSurface, &textRect, BLACK);
 
     SDL_BlitSurface(textSurface, NULL, mainSurface, &textRect);
+
     SDL_FreeSurface(textSurface);
 
     TTF_CloseFont(font);
 
-
     return;
+}
+
+bool Game::isGameFinished(SDL_Surface *mainSurface){
+    if(goalsPlayer1 == maxGoals){
+        std::cout << "Player 1 Wins!!" << std::endl;
+        return true; 
+    }else if(goalsPlayer2 == maxGoals){
+        std::cout << "Player 2 Wins!!" << std::endl;
+        return true;
+
+    }
+
+    return false;
 }
