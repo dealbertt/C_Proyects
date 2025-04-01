@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_hints.h>
 #include <SDL2/SDL_ttf.h>
+
 #include <string.h>
 #include <sys/types.h>
 
