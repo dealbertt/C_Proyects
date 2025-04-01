@@ -23,6 +23,10 @@ float Game::updateGame(SDL_Window *window,const Config &config, Uint32 &lastFram
     lastFrameTime = frameStart;
     Uint32 frameDelay = 1000 / config.fps;
 
+    SDL_Rect rect = {(WINDOW_WIDTH /2) - 5, 0, 10, WINDOW_HEIGHT};
+    SDL_Surface *surface = SDL_GetWindowSurface(window);
+    SDL_FillRect(surface, &rect, WHITE);
+
     SDL_UpdateWindowSurface(window);
     Uint32 frameTime = SDL_GetTicks() - frameStart;
     if(frameDelay > frameTime){
@@ -110,14 +114,12 @@ void Game::displayScore(SDL_Surface *mainSurface, SDL_Window *window){
 
     std::string score1 = std::to_string(goalsPlayer1);
     std::string score2 = std::to_string(goalsPlayer2);
-    std::string totalScore = score1 + " - " + score2;
+    std::string totalScore = score1 + "  " + score2;
 
     SDL_Surface *textSurface = NULL;
     textSurface = TTF_RenderText_Solid(font, totalScore.c_str(), textColor);
 
     SDL_Rect textRect = {(WINDOW_WIDTH / 2) - 30, 50, 50, 50};
-
-    SDL_FillRect(mainSurface, &textRect, BLACK);
 
     SDL_BlitSurface(textSurface, NULL, mainSurface, &textRect);
 
@@ -128,15 +130,47 @@ void Game::displayScore(SDL_Surface *mainSurface, SDL_Window *window){
     return;
 }
 
-bool Game::isGameFinished(SDL_Surface *mainSurface){
+bool Game::isGameFinished(SDL_Surface *mainSurface, SDL_Window *window){
+    std::string message;
+    SDL_Rect rect = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
     if(goalsPlayer1 == maxGoals){
         std::cout << "Player 1 Wins!!" << std::endl;
-        return true; 
+        message = "Player 1 Wins!!!";
+        //red
+        SDL_FillRect(mainSurface, &rect, RED);
     }else if(goalsPlayer2 == maxGoals){
         std::cout << "Player 2 Wins!!" << std::endl;
-        return true;
-
+        message = "Player 2 Wins!!!";
+        SDL_FillRect(mainSurface, &rect, PURPLE);
+    }else{
+        return false;
     }
 
+    TTF_Init();
+
+    int fontSize = 24;
+    SDL_Color textColor = {0, 0, 0};
+    std::string fontPath = "fonts/JetBrainsMonoNerdFont-Regular.ttf";
+    TTF_Font *font = TTF_OpenFont(fontPath.c_str(), fontSize);
+
+    if(font == NULL){
+        std::cerr << "Failed to load the font" << std::endl;
+        std::cerr << "SDL_TTF Error: " << TTF_GetError() << "\n";
+        return false;
+    }
+
+    SDL_Surface *textSurface = NULL;
+    textSurface = TTF_RenderText_Solid(font, message.c_str(), textColor);
+
+    SDL_Rect textRect = {(WINDOW_WIDTH / 2) - 30, 50, 50, 50};
+
+    SDL_BlitSurface(textSurface, NULL, mainSurface, &textRect);
+
+    SDL_UpdateWindowSurface(window);
+    SDL_FreeSurface(textSurface);
+
+    TTF_CloseFont(font);
+
+    SDL_Delay(1000);
     return false;
 }

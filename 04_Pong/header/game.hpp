@@ -31,7 +31,7 @@ class Game{
         void resetGame(const Config &config, SDL_Window *window, SDL_Surface *surface);
         TIMER &getTimer() {return *timer;}
         void displayScore(SDL_Surface *mainSurface, SDL_Window *window);
-        bool isGameFinished(SDL_Surface *surface);
+        bool isGameFinished(SDL_Surface *surface, SDL_Window *window);
         
 };
 

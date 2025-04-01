@@ -185,8 +185,8 @@ void gameLoop(SDL_Window *window, SDL_Surface *surface, Pad *player1, Pad *playe
             //a goal has been scored
             game->resetGame(*config, window, surface); 
         }
-        if(game->isGameFinished(surface))
-            return;
+        if(game->isGameFinished(surface, window))
+            running = false;
         
         //the moving actions of the players will be made inside the decision functions
         //moves players
