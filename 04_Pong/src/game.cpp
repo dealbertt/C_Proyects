@@ -167,10 +167,10 @@ bool Game::isGameFinished(SDL_Surface *mainSurface, SDL_Window *window){
     SDL_BlitSurface(textSurface, NULL, mainSurface, &textRect);
 
     SDL_UpdateWindowSurface(window);
+
     SDL_FreeSurface(textSurface);
 
     TTF_CloseFont(font);
 
-    SDL_Delay(1000);
-    return false;
+    return true;
 }
