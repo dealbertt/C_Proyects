@@ -1,10 +1,10 @@
 #include <iostream>
 #include <unistd.h>
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_rect.h>
-#include <SDL2/SDL_video.h>
-#include <SDL2/SDL_surface.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_rect.h>
+#include <SDL3/SDL_video.h>
+#include <SDL3/SDL_surface.h>
 
 #include "../header/config.hpp"
 
@@ -12,7 +12,8 @@ Config *config;
 
 int loop(SDL_Window *window, SDL_Surface *surface);
 int initObjects(SDL_Window **window, SDL_Surface **surface){
-    *window = SDL_CreateWindow("Sorting Algorithim Visualizer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, config->windowWidth, config->windowHeigth, 0);
+    *window = SDL_CreateWindow("Sorting Algorithim Visualizer", config->windowWidth, config->windowHeigth, 0);
+    SDL_SetWindowPosition(*window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
     if(window == NULL){
         std::cout << "Error while trying to create the window" << std::endl;
         return -1;
@@ -43,11 +44,12 @@ int main(){
 }
 
 int loop(SDL_Window *window, SDL_Surface *surface){
-    int x = 0, y = config->windowHeigth;
+    //Array of SDL_Rects and then we can use SDL_FillSurfaceRects to fill them all
+    int x = 0, y = config->windowHeigth - 500;
 
     for(int i = 0; i < config->numberElements; i++){
-        SDL_Rect rect = {x, config->windowHeigth - 500, 15, 500};
-        SDL_FillRect(surface, &rect, 0xFFFFFF);
+        SDL_Rect rect = {x, y, 15, 500};
+        SDL_FillSurfaceRect(surface, &rect, 0xFFFFFF);
         SDL_UpdateWindowSurface(window);
 
         x += 17;
