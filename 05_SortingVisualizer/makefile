@@ -10,9 +10,7 @@ SRC = $(SRC_DIR)/main.cpp $(SRC_DIR)/config.cpp $(SRC_DIR)/array.cpp
 
 OBJ_DIR = obj
 OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)  # Convert .cpp to .o
-OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)  # Convert .c to .o
 
-# Target executable
 TARGET = Visual
 
 # Build the executable
