@@ -6,7 +6,7 @@ LDFLAGS = $(shell pkg-config --libs sdl3)  # SDL2 linking flags
 
 # Source and Object Files
 SRC_DIR = src
-SRC = $(SRC_DIR)/main.cpp $(SRC_DIR)/config.cpp 
+SRC = $(SRC_DIR)/main.cpp $(SRC_DIR)/config.cpp $(SRC_DIR)/array.cpp
 
 OBJ_DIR = obj
 OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)  # Convert .cpp to .o
