@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unistd.h>
+#include <signal.h>
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_rect.h>
@@ -7,11 +8,13 @@
 #include <SDL3/SDL_surface.h>
 
 #include "../header/config.hpp"
-#include "../header/array.hpp"
+#include "../header/sorting.hpp"
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
 
 Config *config;
+
+std::vector<array_member> vector;
 
 int loop(SDL_Window *window, SDL_Surface *surface);
 
@@ -31,6 +34,9 @@ int initObjects(SDL_Window **window, SDL_Surface **surface){
         return -1;
     }
 
+    vector.resize(config->numberElements);
+
+    signal(SIGINT, exit);
     return 0;
 }
 
@@ -53,8 +59,14 @@ int main(){
 }
 
 int loop(SDL_Window *window, SDL_Surface *surface){
-    //Array of SDL_Rects and then we can use SDL_FillSurfaceRects to fill them all
 
-    initializeArray(window);
+    //Array of SDL_Rects and then we can use SDL_FillSurfaceRects to fill them all
+    initializeArray(window, vector);
+    bubbleSort(vector, window);
     return 0;
+}
+
+void exit(){
+    SDL_Quit();
+    exit(2);
 }
