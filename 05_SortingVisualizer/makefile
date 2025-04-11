@@ -1,7 +1,6 @@
 CXX = g++  # C++ compiler
 CC = gcc   # C compiler
-CXXFLAGS = -Wall -std=c++17 $(shell pkg-config --cflags sdl3) 
-CFLAGS = -Wall $(shell pkg-config --cflags sdl3)  # C compiler flags
+CXXFLAGS = -Wall -Werror -std=c++17 $(shell pkg-config --cflags sdl3) 
 LDFLAGS = $(shell pkg-config --libs sdl3)  # SDL2 linking flags
 
 # Source and Object Files
@@ -21,11 +20,6 @@ $(TARGET): $(OBJ)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# Rule to compile C source files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean the build files (DOES NOT DELETE SOURCE FILES)
 clean:

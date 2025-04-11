@@ -14,6 +14,7 @@
 Config *config;
 
 int loop(SDL_Window *window, SDL_Surface *surface);
+
 int initObjects(SDL_Window **window, SDL_Surface **surface){
     *window = SDL_CreateWindow("Sorting Algorithim Visualizer", config->windowWidth, config->windowHeigth, 0);
 
@@ -34,7 +35,7 @@ int initObjects(SDL_Window **window, SDL_Surface **surface){
 }
 
 int main(){
-    config = readConfiguration("config/config.txt");
+    config = readConfiguration("config/config.txt"); //load the config.txt into an struct
 
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -43,8 +44,11 @@ int main(){
 
     initObjects(&window, &surface);
 
-    SDL_UpdateWindowSurface(window);
+    SDL_UpdateWindowSurface(window); //First Update to get the window working
+
     loop(window, surface);
+
+    SDL_Quit();
     return 0;
 }
 
