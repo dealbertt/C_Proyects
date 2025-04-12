@@ -22,4 +22,6 @@ int highlightValue(array_member value, SDL_Window *window);
 
 int updateValueColumn(array_member &value, SDL_Window *window);
 int clearValueColumn(array_member &value, SDL_Window *window);
+
+int displayUpdates(std::vector<array_member> &vector, SDL_Window *window);
 #endif 
