@@ -1,3 +1,4 @@
+#include <SDL3/SDL_error.h>
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
@@ -19,14 +20,13 @@ std::vector<array_member> vector;
 int loop(SDL_Window *window, SDL_Surface *surface);
 
 int initObjects(SDL_Window **window, SDL_Surface **surface){
-    *window = SDL_CreateWindow("Sorting Algorithim Visualizer", config->windowWidth, config->windowHeigth, 0);
-
-    SDL_SetWindowPosition(*window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-
+    *window = SDL_CreateWindow("Sorting Algorithim Visualizer", config->windowWidth, config->windowHeigth, SDL_WINDOW_RESIZABLE);
     if(window == NULL){
-        std::cout << "Error while trying to create the window" << std::endl;
+        std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
+
+    SDL_SetWindowPosition(*window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
     *surface = SDL_GetWindowSurface(*window);
     if(surface == NULL){
