@@ -37,7 +37,7 @@ void bubbleSort(std::vector<array_member> &vector, SDL_Window *window){
     auto a = std::chrono::high_resolution_clock::now();
 
     int comparison = 0;
-    int swaps = 0;
+    int accesses = 0;
 
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size - 1; j++){
@@ -47,16 +47,16 @@ void bubbleSort(std::vector<array_member> &vector, SDL_Window *window){
             if(vector[j].value > vector[j + 1].value){
 
                 swapElements(vector, j, j + 1, window);
-                swaps ++;
+                accesses += 3;
             }
-            comparison++;
+            accesses += 2;
         }
     }
 
     auto b = std::chrono::high_resolution_clock::now();
 
     std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::seconds>(b - a).count() << " seconds" << std::endl;
-    std::cout << "Number of swaps: " << swaps << std::endl;
+    std::cout << "Number of array accesses: " << accesses << std::endl;
     std::cout << "Number of comparisons: " << comparison << std::endl;
 
     showSortedArray(vector, window);
@@ -76,7 +76,7 @@ void selectionSort(std::vector<array_member>&vector, SDL_Window *window){
             }
         }
         //swap the ith value for the min value
-        swapElements(vector, min, i, window);
+        swapElements(vector, i, min, window);
     }
     showSortedArray(vector, window);
 
