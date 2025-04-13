@@ -64,9 +64,16 @@ int clearValueColumn(array_member &value, SDL_Window *window){
     return 0;
 }
 
-int displayUpdates(std::vector<array_member> &vector, SDL_Window *window){
 
+int showSortedArray(std::vector<array_member> &vector, SDL_Window *window){
     SDL_Surface *surface = SDL_GetWindowSurface(window);
-    SDL_FillSurfaceRect(surface, 0, 0);
+    int size = (int)vector.size();
+
+    for(int i = 0; i < size; i++){
+        SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFF0000);
+        SDL_UpdateWindowSurface(window);
+        SDL_Delay(10);
+    }
+    std::cout << "Array of size: " << size << " sorted!" << std::endl;
     return 0;
 }
