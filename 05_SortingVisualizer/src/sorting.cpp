@@ -18,6 +18,7 @@ int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL
     vector[member1].value = vector[member2].value;
     vector[member1].rect.y = vector[member2].rect.y;
     vector[member1].rect.h = vector[member2].rect.h;
+
     vector[member2].value = aux[0];
     vector[member2].rect.y= aux[1];
     vector[member2].rect.h= aux[2];
@@ -66,16 +67,16 @@ void selectionSort(std::vector<array_member>&vector, SDL_Window *window){
     int size = (int)vector.size();
 
     auto a = std::chrono::high_resolution_clock::now();
-    for(int i = 0; i < size - 2; i++){
+    for(int i = 0; i < size - 1; i++){
         int min = i;
-        for(int j = i + 1; j < size - 1; j++){
+        for(int j = i + 1; j < size; j++){
             highlightValue(vector[j], window);
             if(vector[j].value < vector[min].value){
                 min = j;
             }
         }
         //swap the ith value for the min value
-        swapElements(vector, i, min, window);
+        swapElements(vector, min, i, window);
     }
     showSortedArray(vector, window);
 

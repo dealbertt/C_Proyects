@@ -62,8 +62,8 @@ int loop(SDL_Window *window, SDL_Surface *surface){
 
     //Array of SDL_Rects and then we can use SDL_FillSurfaceRects to fill them all
     initializeArray(window, vector);
-    bubbleSort(vector, window);
-    //selectionSort(vector, window);
+    //bubbleSort(vector, window);
+    selectionSort(vector, window);
     return 0;
 }
 

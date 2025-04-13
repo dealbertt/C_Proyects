@@ -21,6 +21,7 @@ int initializeArray(SDL_Window *window, std::vector<array_member> &vector){
     int width = config->windowWidth / config->numberElements;
     std::cout << "Optimum width i guess: " << width << std::endl;
 
+
     SDL_Surface *surface = SDL_GetWindowSurface(window);
     for(int i = 0; i < (int)vector.size(); i++){
         int guess = dist(gen);
@@ -28,7 +29,7 @@ int initializeArray(SDL_Window *window, std::vector<array_member> &vector){
         vector[i].rect  = {x, config->windowHeigth - guess, 8, guess};
         SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
 
-        x += (width + 2);
+        x += (width);
     }
     std::cout << "Vector initialized Correctly" << std::endl;
     return 0;
