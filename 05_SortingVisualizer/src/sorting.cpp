@@ -4,11 +4,35 @@
 #include <chrono>
 #include "../header/sorting.hpp"
 
+
+int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window){
+    int aux[3];
+
+    clearValueColumn(vector[member1], window);
+    clearValueColumn(vector[member2], window);
+
+    aux[0] = vector[member1].value;
+    aux[1] = vector[member1].rect.y;
+    aux[2] = vector[member1].rect.h;
+
+    vector[member1].value = vector[member2].value;
+    vector[member1].rect.y = vector[member2].rect.y;
+    vector[member1].rect.h = vector[member2].rect.h;
+    vector[member2].value = aux[0];
+    vector[member2].rect.y= aux[1];
+    vector[member2].rect.h= aux[2];
+
+
+    updateValueColumn(vector[member1], window);
+    updateValueColumn(vector[member2], window);
+
+    SDL_UpdateWindowSurface(window); //Only updates the surface if a swap is made
+    return 0;
+}
 void bubbleSort(std::vector<array_member> &vector, SDL_Window *window){
 
     int size = vector.size();
 
-    int aux[3];
     auto a = std::chrono::high_resolution_clock::now();
 
     int comparison = 0;
@@ -21,25 +45,7 @@ void bubbleSort(std::vector<array_member> &vector, SDL_Window *window){
 
             if(vector[j].value > vector[j + 1].value){
 
-                clearValueColumn(vector[j], window);
-                clearValueColumn(vector[j + 1], window);
-
-                aux[0] = vector[j].value;
-                aux[1] = vector[j].rect.y;
-                aux[2] = vector[j].rect.h;
-                
-                vector[j].value = vector[j + 1].value;
-                vector[j].rect.y = vector[j + 1].rect.y;
-                vector[j].rect.h = vector[j + 1].rect.h;
-
-                vector[j + 1].value = aux[0];
-                vector[j + 1].rect.y= aux[1];
-                vector[j + 1].rect.h= aux[2];
-
-                updateValueColumn(vector[j], window);
-                updateValueColumn(vector[j + 1], window);
-
-                SDL_UpdateWindowSurface(window); //Only updates the surface if a swap is made
+                swapElements(vector, j, j + 1, window);
                 swaps ++;
             }
             comparison++;
@@ -55,4 +61,28 @@ void bubbleSort(std::vector<array_member> &vector, SDL_Window *window){
     showSortedArray(vector, window);
     //The sorting itself works, its now time to actually display it on the screen
 }
+
+void selectionSort(std::vector<array_member>&vector, SDL_Window *window){
+    int size = (int)vector.size();
+
+    auto a = std::chrono::high_resolution_clock::now();
+    for(int i = 0; i < size - 2; i++){
+        int min = i;
+        for(int j = i + 1; j < size - 1; j++){
+            highlightValue(vector[j], window);
+            if(vector[j].value < vector[min].value){
+                min = j;
+            }
+        }
+        //swap the ith value for the min value
+        swapElements(vector, i, min, window);
+    }
+    showSortedArray(vector, window);
+
+    auto b = std::chrono::high_resolution_clock::now();
+
+    std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::seconds>(b - a).count() << " seconds" << std::endl;
+
+}
+
 
