@@ -5,11 +5,11 @@
 #include "../header/sorting.hpp"
 
 
-int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window){
+int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer){
     int aux[3];
 
-    clearValueColumn(vector[member1], window);
-    clearValueColumn(vector[member2], window);
+    clearValueColumn(window, renderer, vector[member1]);
+    clearValueColumn(window, renderer, vector[member2]);
 
     aux[0] = vector[member1].value;
     aux[1] = vector[member1].rect.y;
@@ -24,13 +24,13 @@ int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL
     vector[member2].rect.h= aux[2];
 
 
-    updateValueColumn(vector[member1], window);
-    updateValueColumn(vector[member2], window);
+    updateValueColumn(window, renderer, vector[member1]);
+    updateValueColumn(window, renderer, vector[member2]);
 
     SDL_UpdateWindowSurface(window); //Only updates the surface if a swap is made
     return 0;
 }
-void bubbleSort(std::vector<array_member> &vector, SDL_Window *window){
+void bubbleSort(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
 
     int size = vector.size();
 
@@ -42,11 +42,11 @@ void bubbleSort(std::vector<array_member> &vector, SDL_Window *window){
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size - 1; j++){
 
-            highlightValue(vector[j], window);
+            highlightValue(window, renderer, vector[j]);
 
             if(vector[j].value > vector[j + 1].value){
 
-                swapElements(vector, j, j + 1, window);
+                swapElements(vector, j, j + 1, window, renderer);
                 accesses += 3;
             }
             accesses += 2;
@@ -63,20 +63,20 @@ void bubbleSort(std::vector<array_member> &vector, SDL_Window *window){
     //The sorting itself works, its now time to actually display it on the screen
 }
 
-void selectionSort(std::vector<array_member>&vector, SDL_Window *window){
+void selectionSort(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
     int size = (int)vector.size();
 
     auto a = std::chrono::high_resolution_clock::now();
     for(int i = 0; i < size - 1; i++){
         int min = i;
         for(int j = i + 1; j < size; j++){
-            highlightValue(vector[j], window);
+            highlightValue(window, renderer, vector[j]);
             if(vector[j].value < vector[min].value){
                 min = j;
             }
         }
         //swap the ith value for the min value
-        swapElements(vector, i, min, window);
+        swapElements(vector, i, min, window, renderer);
     }
     showSortedArray(vector, window);
 

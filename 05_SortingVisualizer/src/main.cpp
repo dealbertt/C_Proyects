@@ -1,10 +1,10 @@
-#include <SDL3/SDL_error.h>
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_rect.h>
+#include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3/SDL_surface.h>
 
@@ -17,9 +17,9 @@ Config *config;
 
 std::vector<array_member> vector;
 
-int loop(SDL_Window *window, SDL_Surface *surface);
+int loop(SDL_Window *window, SDL_Renderer *renderer);
 
-int initObjects(SDL_Window **window, SDL_Surface **surface){
+int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     *window = SDL_CreateWindow("Sorting Algorithim Visualizer", config->windowWidth, config->windowHeigth, SDL_WINDOW_RESIZABLE);
     if(window == NULL){
         std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
@@ -28,10 +28,13 @@ int initObjects(SDL_Window **window, SDL_Surface **surface){
 
     SDL_SetWindowPosition(*window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
-    *surface = SDL_GetWindowSurface(*window);
-    if(surface == NULL){
-        std::cout << "Error while trying to create the window" << std::endl;
+
+    *renderer = SDL_CreateRenderer(*window, NULL);
+    SDL_RenderClear(*renderer);
+    if(renderer == NULL){
+        std::cout << "Error while trying to create the renderer" << std::endl;
         return -1;
+        
     }
 
     vector.resize(config->numberElements);
@@ -46,23 +49,25 @@ int main(){
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window *window = NULL;
-    SDL_Surface *surface = NULL;
+    SDL_Renderer *renderer = NULL;
 
-    initObjects(&window, &surface);
+    initObjects(&window, &renderer);
 
-    SDL_UpdateWindowSurface(window); //First Update to get the window working
 
-    loop(window, surface);
+    loop(window, renderer);
 
     SDL_Quit();
     return 0;
 }
 
-int loop(SDL_Window *window, SDL_Surface *surface){
+int loop(SDL_Window *window, SDL_Renderer *renderer){
 
     //Array of SDL_Rects and then we can use SDL_FillSurfaceRects to fill them all
-    initializeArray(window, vector);
-    bubbleSort(vector, window);
+
+    SDL_Delay(1000);
+
+    initializeArray(window, renderer, vector);
+    bubbleSort(vector, window, renderer);
     //selectionSort(vector, window);
     return 0;
 }

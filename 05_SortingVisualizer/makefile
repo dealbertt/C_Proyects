@@ -1,7 +1,7 @@
 CXX = g++  # C++ compiler
 CC = gcc   # C compiler
 CXXFLAGS = -Wall -Werror -std=c++17 $(shell pkg-config --cflags sdl3) 
-LDFLAGS = $(shell pkg-config --libs sdl3)  # SDL2 linking flags
+LDFLAGS = $(shell pkg-config --libs sdl3)  # SDL3 linking flags
 
 # Source and Object Files
 SRC_DIR = src
