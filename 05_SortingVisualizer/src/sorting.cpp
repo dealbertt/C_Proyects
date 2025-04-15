@@ -11,6 +11,7 @@ int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL
 
     clearValueColumn(window, renderer, vector[member1]);
     clearValueColumn(window, renderer, vector[member2]);
+    reDrawScreen(renderer, vector);
 
     aux[0] = vector[member1].value;
     aux[1] = vector[member1].rect.y;
@@ -27,6 +28,7 @@ int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL
 
     updateValueColumn(window, renderer, vector[member1]);
     updateValueColumn(window, renderer, vector[member2]);
+    reDrawScreen(renderer, vector);
 
     return 0;
 }
@@ -53,7 +55,6 @@ void bubbleSort(std::vector<array_member> &vector, SDL_Window *window, SDL_Rende
 
                 swapElements(vector, j, j + 1, window, renderer);
                 accesses += 3;
-                reDrawScreen(renderer, vector);
             }
             accesses += 2;
         }
@@ -61,11 +62,10 @@ void bubbleSort(std::vector<array_member> &vector, SDL_Window *window, SDL_Rende
 
     auto b = std::chrono::high_resolution_clock::now();
 
-    std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::seconds>(b - a).count() << " seconds" << std::endl;
+    std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count() << " seconds" << std::endl;
     std::cout << "Number of array accesses: " << accesses << std::endl;
     std::cout << "Number of comparisons: " << comparison << std::endl;
 
-    showSortedArray(vector, window);
     //The sorting itself works, its now time to actually display it on the screen
 }
 
@@ -76,7 +76,6 @@ void selectionSort(std::vector<array_member>&vector, SDL_Window *window, SDL_Ren
     for(int i = 0; i < size - 1; i++){
         int min = i;
         for(int j = i + 1; j < size; j++){
-            reDrawScreen(renderer, vector);
             highlightValue(window, renderer, vector[j]);
             if(vector[j].value < vector[min].value){
                 min = j;
@@ -85,12 +84,12 @@ void selectionSort(std::vector<array_member>&vector, SDL_Window *window, SDL_Ren
         //swap the ith value for the min value
         swapElements(vector, i, min, window, renderer);
     }
-    showSortedArray(vector, window);
 
     auto b = std::chrono::high_resolution_clock::now();
 
-    std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::seconds>(b - a).count() << " seconds" << std::endl;
+    std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count() << " seconds" << std::endl;
 
+    showSortedArray(vector, window, renderer);
 }
 
 

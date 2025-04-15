@@ -33,7 +33,6 @@ int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<arra
         vector[i].value = guess;
         vector[i].rect  = {x, (float)config->windowHeigth - guess, 8, (float)guess};
 
-        reDrawScreen(renderer, vector);
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
 
         x += (width);
@@ -77,14 +76,22 @@ int clearValueColumn(SDL_Window *window, SDL_Renderer *renderer, array_member &v
 }
 
 
-int showSortedArray(std::vector<array_member> &vector, SDL_Window *window){
+int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
     int size = (int)vector.size();
 
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
     for(int i = 0; i < size; i++){
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFF0000);
         //SDL_UpdateWindowSurface(window);
-        SDL_Delay(10);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        for(int j = 0; j <= i; j++){
+            SDL_RenderFillRect(renderer, &vector[j].rect);
+        }
+        SDL_Delay(12);
+        SDL_RenderPresent(renderer);
     }
+
     std::cout << "Array of size: " << size << " sorted!" << std::endl;
     return 0;
 }
@@ -92,14 +99,14 @@ int showSortedArray(std::vector<array_member> &vector, SDL_Window *window){
 int reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     for(int i = 0; i < (int)vector.size(); i++){
 
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderFillRect(renderer, &vector[i].rect);
-
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
-
     }
+    SDL_Delay(5);
     SDL_RenderPresent(renderer);
     return 0;
 }
