@@ -1,3 +1,4 @@
+#include <SDL3/SDL_hints.h>
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
@@ -37,6 +38,8 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
         
     }
 
+    SDL_RenderPresent(*renderer);
+
     vector.resize(config->numberElements);
 
     signal(SIGINT, exit);
@@ -64,11 +67,10 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
 
     //Array of SDL_Rects and then we can use SDL_FillSurfaceRects to fill them all
 
-    SDL_Delay(1000);
 
     initializeArray(window, renderer, vector);
     bubbleSort(vector, window, renderer);
-    //selectionSort(vector, window);
+    //selectionSort(vector, window, renderer);
     return 0;
 }
 

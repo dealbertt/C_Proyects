@@ -1,3 +1,4 @@
+#include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 #include <iostream>
 #include <unistd.h>
@@ -27,10 +28,14 @@ int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL
     updateValueColumn(window, renderer, vector[member1]);
     updateValueColumn(window, renderer, vector[member2]);
 
-    SDL_UpdateWindowSurface(window); //Only updates the surface if a swap is made
     return 0;
 }
 void bubbleSort(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    
 
     int size = vector.size();
 
@@ -48,6 +53,7 @@ void bubbleSort(std::vector<array_member> &vector, SDL_Window *window, SDL_Rende
 
                 swapElements(vector, j, j + 1, window, renderer);
                 accesses += 3;
+                reDrawScreen(renderer, vector);
             }
             accesses += 2;
         }
@@ -70,6 +76,7 @@ void selectionSort(std::vector<array_member>&vector, SDL_Window *window, SDL_Ren
     for(int i = 0; i < size - 1; i++){
         int min = i;
         for(int j = i + 1; j < size; j++){
+            reDrawScreen(renderer, vector);
             highlightValue(window, renderer, vector[j]);
             if(vector[j].value < vector[min].value){
                 min = j;

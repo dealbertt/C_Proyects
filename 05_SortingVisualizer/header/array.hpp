@@ -24,4 +24,5 @@ int updateValueColumn(SDL_Window *window, SDL_Renderer *renderer, array_member &
 int clearValueColumn(SDL_Window *window, SDL_Renderer *renderer, array_member &value);
 
 int showSortedArray(std::vector<array_member> &vector, SDL_Window *window);
+int reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector);
 #endif 
