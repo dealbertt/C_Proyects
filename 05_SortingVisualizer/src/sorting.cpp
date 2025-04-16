@@ -95,7 +95,7 @@ void selectionSort(std::vector<array_member>&vector, SDL_Window *window, SDL_Ren
 int bubbleSortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
     static int i = 0;
     static int j = 0;
-    int size = (int)vector.size();
+    int size = static_cast<int>(vector.size());
     
     if(i == size - 1){
         i = 0;
@@ -137,7 +137,8 @@ int bubbleSortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Re
 int selectionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
     static int i = 0;
     static int j = 0;
-    int size = (int)vector.size();
+    static int min = i;
+    int size = static_cast<int>(vector.size());
 
     //checking if i can go inside of the first for loop
     if(i == size - 1){
@@ -147,7 +148,6 @@ int selectionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_
     }else{
         //i can go inside of the first for loop
         //i assign min to i;
-        static int min = i;
 
         //then i declare the value of j, to go inside of the second for loop
         //j = i + 1;
