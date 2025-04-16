@@ -96,17 +96,21 @@ int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_R
     return 0;
 }
 
-int reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector){
+int reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     for(int i = 0; i < (int)vector.size(); i++){
-
-        SDL_RenderFillRect(renderer, &vector[i].rect);
+        if(i == index){
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderFillRect(renderer, &vector[i].rect);
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        }else{
+            SDL_RenderFillRect(renderer, &vector[i].rect);
+        }
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
     }
-    SDL_Delay(5);
     SDL_RenderPresent(renderer);
     return 0;
 }

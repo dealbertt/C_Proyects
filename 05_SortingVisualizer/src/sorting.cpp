@@ -11,7 +11,7 @@ int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL
 
     clearValueColumn(window, renderer, vector[member1]);
     clearValueColumn(window, renderer, vector[member2]);
-    reDrawScreen(renderer, vector);
+    //reDrawScreen(renderer, vector, member1);
 
     aux[0] = vector[member1].value;
     aux[1] = vector[member1].rect.y;
@@ -28,7 +28,7 @@ int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL
 
     updateValueColumn(window, renderer, vector[member1]);
     updateValueColumn(window, renderer, vector[member2]);
-    reDrawScreen(renderer, vector);
+    //reDrawScreen(renderer, vector, member2);
 
     return 0;
 }
@@ -92,4 +92,41 @@ void selectionSort(std::vector<array_member>&vector, SDL_Window *window, SDL_Ren
     showSortedArray(vector, window, renderer);
 }
 
+int bubbleSortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
+    static int i = 0;
+    static int j = 0;
+    
+    if(i == (int)vector.size()){
+        i = 0;
+        return i;
+    }else{
+        if(j == (int)vector.size() - 1){
+            i++;
+            j = 0;
+        }
+        if(vector[j].value > vector[j + 1].value){
+            swapElements(vector, j, j + 1, window, renderer);
+            //accesses += 3;
+        }
+        j++;
+        return j;
+        
+    }
+    /*
+    for(int i = 0; i < (int)vector.size(); i++){
+        for(int j = 0; j < (int)vector.size() - 1; j++){
+
+            highlightValue(window, renderer, vector[j]);
+
+            if(vector[j].value > vector[j + 1].value){
+
+                swapElements(vector, j, j + 1, window, renderer);
+                //accesses += 3;
+            }
+            //accesses += 2;
+        }
+    }
+    */
+    return 0;
+}
 
