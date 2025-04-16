@@ -98,13 +98,15 @@ int bubbleSortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Re
     int size = (int)vector.size();
     
     if(i == size - 1){
-        i = -1;
-        return i;
+        i = 0;
+        j = 0;
+        return -1;
     }else{
-        if(j == size - 1){
+        if(j >= size - i - 1){
             i++;
             j = 0;
         }
+
         if(vector[j].value > vector[j + 1].value){
             swapElements(vector, j, j + 1, window, renderer);
             //accesses += 3;
