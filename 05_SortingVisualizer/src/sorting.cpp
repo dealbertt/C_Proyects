@@ -95,12 +95,13 @@ void selectionSort(std::vector<array_member>&vector, SDL_Window *window, SDL_Ren
 int bubbleSortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
     static int i = 0;
     static int j = 0;
+    int size = (int)vector.size();
     
-    if(i == (int)vector.size()){
-        i = 0;
+    if(i == size - 1){
+        i = -1;
         return i;
     }else{
-        if(j == (int)vector.size() - 1){
+        if(j == size - 1){
             i++;
             j = 0;
         }
@@ -114,6 +115,7 @@ int bubbleSortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Re
     }
     /*
     for(int i = 0; i < (int)vector.size(); i++){
+        
         for(int j = 0; j < (int)vector.size() - 1; j++){
 
             highlightValue(window, renderer, vector[j]);
@@ -130,3 +132,56 @@ int bubbleSortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Re
     return 0;
 }
 
+int selectionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
+    static int i = 0;
+    static int j = 0;
+    int size = (int)vector.size();
+
+    //checking if i can go inside of the first for loop
+    if(i == size - 1){
+        i = -1;
+        return i;
+        //i cant, meaning i have completed the sorting, so i return -1 to indicate so;
+    }else{
+        //i can go inside of the first for loop
+        //i assign min to i;
+        static int min = i;
+
+        //then i declare the value of j, to go inside of the second for loop
+        //j = i + 1;
+        if(j < size){
+            //this means it can go inside of the second for loop
+            if(vector[j].value < vector[min].value){
+                min = j;
+            }
+        j++;
+        return j;
+        }else{
+            //this means that j > size, so i have to increment i and iterate again the first for loop
+            i++;
+            swapElements(vector, i, min, window, renderer);
+            j = i + 1;
+        }
+    }
+    /*
+    auto a = std::chrono::high_resolution_clock::now();
+    for(int i = 0; i < size - 1; i++){
+        int min = i;
+            for(int j = i + 1; j < size; j++){
+            highlightValue(window, renderer, vector[j]);
+            if(vector[j].value < vector[min].value){
+                min = j;
+            }
+        }
+        //swap the ith value for the min value
+        swapElements(vector, i, min, window, renderer);
+    }
+
+    auto b = std::chrono::high_resolution_clock::now();
+
+    std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count() << " seconds" << std::endl;
+    */
+
+
+    return 0;
+}
