@@ -72,7 +72,7 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
     bool running = true;
     while(running){
         //bubbleSort(vector, window, renderer);
-        int index = bubbleSortStep(vector, window, renderer);
+        int index = selectionSortStep(vector, window, renderer);
         if(index == -1){
             running = false;
             break;

@@ -142,28 +142,31 @@ int selectionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_
 
     //checking if i can go inside of the first for loop
     if(i == size - 1){
-        i = -1;
-        return i;
+        i = 0;
+        j = 0;
+        min = i;
+        return -1;
         //i cant, meaning i have completed the sorting, so i return -1 to indicate so;
-    }else{
-        //i can go inside of the first for loop
-        //i assign min to i;
+    }
+    //i can go inside of the first for loop
+    //i assign min to i;
 
-        //then i declare the value of j, to go inside of the second for loop
-        //j = i + 1;
-        if(j < size){
-            //this means it can go inside of the second for loop
-            if(vector[j].value < vector[min].value){
-                min = j;
-            }
+    //then i declare the value of j, to go inside of the second for loop
+    //j = i + 1;
+    if(j < size){
+        //this means it can go inside of the second for loop
+        if(vector[j].value < vector[min].value){
+            min = j;
+        }
         j++;
         return j;
-        }else{
-            //this means that j > size, so i have to increment i and iterate again the first for loop
-            i++;
-            swapElements(vector, i, min, window, renderer);
-            j = i + 1;
-        }
+    }else{
+        //this means that j > size, so i have to increment i and iterate again the first for loop
+        swapElements(vector, i, min, window, renderer);
+        j = i + 1;
+        i++;
+        min = i;
+        return j;
     }
     /*
     auto a = std::chrono::high_resolution_clock::now();
