@@ -76,7 +76,7 @@ int clearValueColumn(SDL_Window *window, SDL_Renderer *renderer, array_member &v
 }
 
 
-int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
+int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime){
     int size = (int)vector.size();
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -84,19 +84,19 @@ int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_R
     for(int i = 0; i < size; i++){
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFF0000);
         //SDL_UpdateWindowSurface(window);
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        for(int j = 0; j <= i; j++){
-            SDL_RenderFillRect(renderer, &vector[j].rect);
-        }
-        SDL_Delay(12);
-        SDL_RenderPresent(renderer);
+        reDrawScreen(renderer,vector, i, lastFrameTime);
     }
 
     std::cout << "Array of size: " << size << " sorted!" << std::endl;
     return 0;
 }
 
-int reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index){
+float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index, Uint32 &lastFrameTime){
+    Uint32 frameStart = SDL_GetTicks();
+    float deltaTime = (frameStart - lastFrameTime);
+    lastFrameTime = frameStart;
+
+    Uint32 frameDelay = 1000/6000.0f;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
@@ -112,6 +112,11 @@ int reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int 
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
     }
     SDL_RenderPresent(renderer);
-    return 0;
+
+    Uint32 frameTime = SDL_GetTicks() - frameStart;
+    if(frameDelay > frameTime){
+        SDL_Delay(frameDelay);
+    }
+    return deltaTime;
 }
 

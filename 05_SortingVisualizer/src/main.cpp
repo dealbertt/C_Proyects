@@ -56,7 +56,6 @@ int main(){
 
     initObjects(&window, &renderer);
 
-
     loop(window, renderer);
 
     SDL_Quit();
@@ -64,25 +63,21 @@ int main(){
 }
 
 int loop(SDL_Window *window, SDL_Renderer *renderer){
-
-    //Array of SDL_Rects and then we can use SDL_FillSurfaceRects to fill them all
-
+    Uint32 lastFrameTime = SDL_GetTicks();
+    bool running = true;
 
     initializeArray(window, renderer, vector);
-    bool running = true;
     while(running){
         //bubbleSort(vector, window, renderer);
-        int index = selectionSortStep(vector, window, renderer);
+        int index = bubbleSortStep(vector, window, renderer);
+        reDrawScreen(renderer, vector, index, lastFrameTime); 
+
         if(index == -1){
             running = false;
-            break;
+            showSortedArray(vector, window, renderer, lastFrameTime);
         }
-        reDrawScreen(renderer, vector, index); 
+        //float deltaTime;
     }
-    //showSortedArray();
-    
-    //renderVector(vector, renderer, index);
-    //selectionSort(vector, window, renderer);
     return 0;
 }
 

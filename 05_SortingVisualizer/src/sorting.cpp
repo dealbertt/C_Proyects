@@ -89,7 +89,6 @@ void selectionSort(std::vector<array_member>&vector, SDL_Window *window, SDL_Ren
 
     std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count() << " seconds" << std::endl;
 
-    showSortedArray(vector, window, renderer);
 }
 
 int bubbleSortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
