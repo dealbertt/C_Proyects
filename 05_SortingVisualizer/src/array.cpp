@@ -85,6 +85,7 @@ int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_R
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFF0000);
         //SDL_UpdateWindowSurface(window);
         reDrawScreen(renderer,vector, i, lastFrameTime);
+        SDL_Delay(5);
     }
 
     std::cout << "Array of size: " << size << " sorted!" << std::endl;

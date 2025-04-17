@@ -69,7 +69,7 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
     initializeArray(window, renderer, vector);
     while(running){
         //bubbleSort(vector, window, renderer);
-        int index = bubbleSortStep(vector, window, renderer);
+        int index = selectionSortStep(vector, window, renderer);
         reDrawScreen(renderer, vector, index, lastFrameTime); 
 
         if(index == -1){
