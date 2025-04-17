@@ -1,13 +1,11 @@
-#include <SDL3/SDL_hints.h>
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
 
-#include <SDL3/SDL.h>
+
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
-#include <SDL3/SDL_video.h>
-#include <SDL3/SDL_surface.h>
+#include <SDL3/SDL_hints.h>
 
 #include "../header/config.hpp"
 #include "../header/sorting.hpp"
@@ -69,13 +67,13 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
     initializeArray(window, renderer, vector);
     while(running){
         //bubbleSort(vector, window, renderer);
-        int index = selectionSortStep(vector, window, renderer);
-        reDrawScreen(renderer, vector, index, lastFrameTime); 
+        int index = insertionSortStep(vector, window, renderer);
 
-        if(index == -1){
+        if(index == -2){
             running = false;
             showSortedArray(vector, window, renderer, lastFrameTime);
         }
+        reDrawScreen(renderer, vector, index, lastFrameTime); 
         //float deltaTime;
     }
     return 0;
