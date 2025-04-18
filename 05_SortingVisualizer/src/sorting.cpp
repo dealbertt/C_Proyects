@@ -108,7 +108,7 @@ int bubbleSortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Re
     if(i == size - 1){
         i = 0;
         j = 0;
-        return -1;
+        return -2;
     }else{
         if(j >= size - i - 1){
             i++;
@@ -153,7 +153,7 @@ int selectionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_
         i = 0;
         j = 0;
         min = i;
-        return -1;
+        return -2;
         //i cant, meaning i have completed the sorting, so i return -1 to indicate so;
     }
     //i can go inside of the first for loop

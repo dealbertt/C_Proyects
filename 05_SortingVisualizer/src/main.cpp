@@ -64,10 +64,12 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
     Uint32 lastFrameTime = SDL_GetTicks();
     bool running = true;
 
+    int index = 0;
+
     initializeArray(window, renderer, vector);
     while(running){
         //bubbleSort(vector, window, renderer);
-        int index = insertionSortStep(vector, window, renderer);
+        index = bubbleSortStep(vector, window, renderer);
 
         if(index == -2){
             running = false;
