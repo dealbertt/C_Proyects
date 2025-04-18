@@ -192,7 +192,7 @@ int selectionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_
 int insertionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
     static int i = 1;
     static int j = i - 1;
-    static int key = 0;
+    static array_member key = {0};
 
     int size = static_cast<int>(vector.size());
 
@@ -203,35 +203,44 @@ int insertionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_
     }
 
     if(j == i - 1){
-        key = vector[i].value;
+        key.value = vector[i].value;
+        key.rect.y = vector[i].rect.y;
+        key.rect.h = vector[i].rect.h;
     }
 
-    if(j >= 0 && vector[i].value > key){
+    if(j >= 0 && vector[j].value > key.value){
+        clearValueColumn(window, renderer, vector[j + 1]);
         vector[j + 1].value = vector[j].value;
+        vector[j + 1].rect.y = vector[j].rect.y;
+        vector[j + 1].rect.h = vector[j].rect.h;
         j = j - 1;
+        updateValueColumn(window, renderer, vector[j + 1]);
         return j;
     }
 
-    vector[j + 1].value = key;
+    clearValueColumn(window, renderer, vector[j + 1]);
+    vector[j + 1].value = key.value;
+    vector[j + 1].rect.y = key.rect.y;
+    vector[j + 1].rect.h = key.rect.h;
+    updateValueColumn(window, renderer, vector[j + 1]);
 
     i++;
     j = i - 1;
 
     return j;
-
     /*
-    for (int i = 1; i < n; ++i) {
-        int key = arr[i];
-        int j = i - 1;
+       for (int i = 1; i < n; ++i) {
+       int key = arr[i];
+       int j = i - 1;
 
-        Move elements of arr[0..i-1], that are
-        greater than key, to one position ahead
-        of their current position 
-        while (j >= 0 && arr[j] > key) {
-        arr[j + 1] = arr[j];
-        j = j - 1;
-        }
-        arr[j + 1] = key;
-    }
+       Move elements of arr[0..i-1], that are
+       greater than key, to one position ahead
+       of their current position 
+       while (j >= 0 && arr[j] > key) {
+       arr[j + 1] = arr[j];
+       j = j - 1;
+       }
+       arr[j + 1] = key;
+       }
     */
 }
