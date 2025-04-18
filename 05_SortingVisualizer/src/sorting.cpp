@@ -214,6 +214,8 @@ int insertionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_
         vector[j + 1].rect.y = vector[j].rect.y;
         vector[j + 1].rect.h = vector[j].rect.h;
         j = j - 1;
+        std::cout << "Value of j + 1: " << j + 1 << std::endl;
+        std::cout << "Value of j + 1: " << j + 1 << std::endl;
         updateValueColumn(window, renderer, vector[j + 1]);
         return j;
     }
