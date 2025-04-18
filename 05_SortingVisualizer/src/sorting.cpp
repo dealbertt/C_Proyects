@@ -32,6 +32,15 @@ int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL
 
     return 0;
 }
+
+int assignNewElement(std::vector<array_member>&vector, array_member &member1, array_member &member2, SDL_Window *window, SDL_Renderer *renderer){
+    clearValueColumn(window, renderer, member1);
+    member1.value = member2.value;
+    member1.rect.y = member2.rect.y;
+    member1.rect.h = member2.rect.h;
+    updateValueColumn(window, renderer, member1);
+    return 0;
+}
 void bubbleSort(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -209,22 +218,12 @@ int insertionSortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_
     }
 
     if(j >= 0 && vector[j].value > key.value){
-        clearValueColumn(window, renderer, vector[j + 1]);
-        vector[j + 1].value = vector[j].value;
-        vector[j + 1].rect.y = vector[j].rect.y;
-        vector[j + 1].rect.h = vector[j].rect.h;
+        assignNewElement(vector, vector[j + 1], vector[j], window, renderer);
         j = j - 1;
-        std::cout << "Value of j + 1: " << j + 1 << std::endl;
-        std::cout << "Value of j + 1: " << j + 1 << std::endl;
-        updateValueColumn(window, renderer, vector[j + 1]);
         return j;
     }
 
-    clearValueColumn(window, renderer, vector[j + 1]);
-    vector[j + 1].value = key.value;
-    vector[j + 1].rect.y = key.rect.y;
-    vector[j + 1].rect.h = key.rect.h;
-    updateValueColumn(window, renderer, vector[j + 1]);
+    assignNewElement(vector, vector[j + 1], key, window, renderer);
 
     i++;
     j = i - 1;
