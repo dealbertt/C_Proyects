@@ -1,11 +1,15 @@
+#include <SDL3/SDL_init.h>
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
 
 
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_audio.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_hints.h>
+
 
 #include "../header/config.hpp"
 #include "../header/sorting.hpp"
@@ -19,6 +23,13 @@ std::vector<array_member> vector;
 int loop(SDL_Window *window, SDL_Renderer *renderer);
 
 int initObjects(SDL_Window **window, SDL_Renderer **renderer){
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)){
+        std::cout << "Error trying to initialize SDL" << std::endl;
+        return -1;
+    }
+ 
+    //Initialize SDL_mixer
+    
     *window = SDL_CreateWindow("Sorting Algorithim Visualizer", config->windowWidth, config->windowHeigth, SDL_WINDOW_RESIZABLE);
     if(window == NULL){
         std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
@@ -26,7 +37,6 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     }
 
     SDL_SetWindowPosition(*window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-
 
     *renderer = SDL_CreateRenderer(*window, NULL);
     SDL_RenderClear(*renderer);
@@ -47,7 +57,6 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
 int main(){
     config = readConfiguration("config/config.txt"); //load the config.txt into an struct
 
-    SDL_Init(SDL_INIT_VIDEO);
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -69,7 +78,7 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
     initializeArray(window, renderer, vector);
     while(running){
         //bubbleSort(vector, window, renderer);
-        index = bubbleSortStep(vector, window, renderer);
+        index = insertionSortStep(vector, window, renderer);
 
         if(index == -2){
             running = false;
