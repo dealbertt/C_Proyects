@@ -73,14 +73,17 @@ int main(){
 int loop(SDL_Window *window, SDL_Renderer *renderer){
     Uint32 lastFrameTime = SDL_GetTicks();
     bool running = true;
+    bool stop = false;
 
     int index = 0;
 
     initializeArray(window, renderer, vector);
     while(running){
         //bubbleSort(vector, window, renderer);
-        handleKeyboard();
-        index = insertionSortStep(vector, window, renderer);
+        handleKeyboard(stop);
+        if(!stop){
+            index = selectionSortStep(vector, window, renderer);
+        }
 
         if(index == -2){
             running = false;

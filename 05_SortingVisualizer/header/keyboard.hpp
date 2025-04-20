@@ -2,5 +2,5 @@
 #define KEYBOARD_H
 
 
-int handleKeyboard();
+int handleKeyboard(bool &stop);
 #endif //KEYBOARD_H

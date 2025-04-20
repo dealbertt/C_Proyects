@@ -14,7 +14,7 @@
 
 extern Config *config;
 
-int handleKeyboard(){
+int handleKeyboard(bool &stop){
     SDL_Event event;
     SDL_PollEvent(&event);
     
@@ -30,6 +30,12 @@ int handleKeyboard(){
             config->fps -= 100;
             std::cout << "New fps" << config->fps << std::endl;
             return 1;
+        }else if(pressed[SDL_SCANCODE_SPACE]){
+            if(!stop){
+                stop = true;
+            }else{
+                stop = false;
+            }
         }
     }
     return 0;
