@@ -97,7 +97,7 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     float deltaTime = (frameStart - lastFrameTime);
     lastFrameTime = frameStart;
 
-    Uint32 frameDelay = 1000/6000.0f;
+    Uint32 frameDelay = 1000/config->fps;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 

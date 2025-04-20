@@ -13,6 +13,7 @@
 
 #include "../header/config.hpp"
 #include "../header/sorting.hpp"
+#include "../header/keyboard.hpp"
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
 
@@ -78,6 +79,7 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
     initializeArray(window, renderer, vector);
     while(running){
         //bubbleSort(vector, window, renderer);
+        handleKeyboard();
         index = insertionSortStep(vector, window, renderer);
 
         if(index == -2){
