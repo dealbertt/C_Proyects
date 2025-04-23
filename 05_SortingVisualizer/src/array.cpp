@@ -13,10 +13,11 @@
 
 extern Config *config;
 
-int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector){
+std::random_device rd;  // Seed for the random number engine
+std::mt19937 gen(rd()); // Mersenne Twister PRNG
 
-    std::random_device rd;  // Seed for the random number engine
-    std::mt19937 gen(rd()); // Mersenne Twister PRNG
+int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
+
     std::uniform_int_distribution<int> dist(1, config->windowHeigth - 100); // Generates 0 or 1
 
     float x = 0.0f;
@@ -33,6 +34,9 @@ int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<arra
         vector[i].value = guess;
         vector[i].rect  = {x, (float)config->windowHeigth - guess, (float)width, (float)guess};
         vector[i].color = {255, 255, 255, 255};
+        SDL_RenderFillRect(renderer, &vector[i].rect);
+
+        reDrawScreen(renderer, vector, i, lastFrameTime);
 
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
 

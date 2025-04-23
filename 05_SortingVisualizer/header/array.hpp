@@ -17,7 +17,7 @@ typedef struct{
 }Array;
 
 
-int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector);
+int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
 
 int highlightValue(SDL_Window *window, SDL_Renderer *renderer, array_member value);
 

@@ -1,4 +1,5 @@
 #include <SDL3/SDL_init.h>
+#include <SDL3/SDL_timer.h>
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
@@ -77,7 +78,7 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
 
     int index = 0;
 
-    initializeArray(window, renderer, vector);
+    initializeArray(window, renderer, vector, lastFrameTime);
     while(running){
         //bubbleSort(vector, window, renderer);
         handleKeyboard(stop);
@@ -92,6 +93,9 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
         reDrawScreen(renderer, vector, index, lastFrameTime); 
         //float deltaTime;
     }
+
+    lastFrameTime = SDL_GetTicks();
+    initializeArray(window, renderer, vector, lastFrameTime);
     return 0;
 }
 
