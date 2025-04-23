@@ -93,9 +93,6 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
         reDrawScreen(renderer, vector, index, lastFrameTime); 
         //float deltaTime;
     }
-
-    lastFrameTime = SDL_GetTicks();
-    initializeArray(window, renderer, vector, lastFrameTime);
     return 0;
 }
 

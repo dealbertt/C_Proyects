@@ -16,6 +16,11 @@ typedef struct{
     int algorithim;
 }Array;
 
+enum Current_Algorithm{
+    BUBBLE_SORT,
+    SELECTION_SORT,
+    INSERTION_SORT
+};
 
 int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
 
