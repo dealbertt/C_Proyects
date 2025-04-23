@@ -31,7 +31,8 @@ int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<arra
     for(int i = 0; i < (int)vector.size(); i++){
         int guess = dist(gen);
         vector[i].value = guess;
-        vector[i].rect  = {x, (float)config->windowHeigth - guess, 8, (float)guess};
+        vector[i].rect  = {x, (float)config->windowHeigth - guess, (float)width, (float)guess};
+        vector[i].color = {255, 255, 255, 255};
 
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
 
@@ -84,6 +85,8 @@ int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_R
     for(int i = 0; i < size; i++){
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFF0000);
         //SDL_UpdateWindowSurface(window);
+        vector[i].color.g = 0;
+        vector[i].color.b = 0;
         reDrawScreen(renderer,vector, i, lastFrameTime);
         SDL_Delay(5);
     }
@@ -106,8 +109,8 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
         if(i == index){
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
             SDL_RenderFillRect(renderer, &vector[i].rect);
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         }else{
+            SDL_SetRenderDrawColor(renderer, vector[i].color.r, vector[i].color.g, vector[i].color.b, 255);
             SDL_RenderFillRect(renderer, &vector[i].rect);
         }
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);

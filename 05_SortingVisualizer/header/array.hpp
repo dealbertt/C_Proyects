@@ -9,6 +9,7 @@
 typedef struct{
     SDL_FRect rect;
     int value;
+    SDL_Color color;
 }array_member;
 
 typedef struct{
