@@ -24,7 +24,10 @@ std::vector<array_member> vector;
 
 int loop(SDL_Window *window, SDL_Renderer *renderer);
 
-int initObjects(SDL_Window **window, SDL_Renderer **renderer){
+BubbleSort *bubbleSort = nullptr;
+SelectionSort *selectionSort = nullptr;
+
+int initObjects(SDL_Window **window, SDL_Renderer **renderer, BubbleSort **bubbleSort, SelectionSort **selectionSort){
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)){
         std::cout << "Error trying to initialize SDL" << std::endl;
         return -1;
@@ -48,6 +51,9 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
         
     }
 
+    (*bubbleSort) = new BubbleSort();
+    (*selectionSort) = new SelectionSort();
+
     SDL_RenderPresent(*renderer);
 
     vector.resize(config->numberElements);
@@ -63,7 +69,7 @@ int main(){
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
-    initObjects(&window, &renderer);
+    initObjects(&window, &renderer, &bubbleSort, &selectionSort);
 
     loop(window, renderer);
 
@@ -83,9 +89,13 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
         //bubbleSort(vector, window, renderer);
         handleKeyboard(stop);
         if(!stop){
-            //index = selectionSortStep(vector, window, renderer);
+            index = bubbleSort->SortStep(vector, window, renderer);
         }
 
+        if(index == -2){
+            showSortedArray(vector, window, renderer, lastFrameTime);
+            running = false;
+        }
         reDrawScreen(renderer, vector, index, lastFrameTime); 
         //float deltaTime;
     }
