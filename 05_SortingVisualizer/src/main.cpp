@@ -51,8 +51,8 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer, BubbleSort **bubbl
         
     }
 
-    (*bubbleSort) = new BubbleSort();
-    (*selectionSort) = new SelectionSort();
+    (*bubbleSort) = new BubbleSort("Bubble Sort");
+    (*selectionSort) = new SelectionSort("Selection Sort");
 
     SDL_RenderPresent(*renderer);
 
@@ -84,6 +84,7 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
     int index = 0;
 
     initializeArray(window, renderer, vector, lastFrameTime);
+    std::cout << "Now sorting with: " << bubbleSort->getName() << std::endl;
     while(running){
         //bubbleSort(vector, window, renderer);
         handleKeyboard(stop);

@@ -30,6 +30,7 @@ class Algorithm{
         uint32_t arrayAccesses;
 
     public:
+        Algorithm(std::string name) : name(name) {}
         virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
         int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
 
@@ -49,6 +50,7 @@ class Algorithm{
 class BubbleSort : public Algorithm{
 
     public:
+    using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
 };
 
@@ -56,12 +58,14 @@ class BubbleSort : public Algorithm{
 class SelectionSort: public Algorithm{
 
     public:
+    using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
 };
 
 class InsertionSort: public Algorithm{
 
     public:
+    using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
     int assignNewElement(std::vector<array_member>&vector, array_member &member1, array_member &member2, SDL_Window *window, SDL_Renderer *renderer);
 
