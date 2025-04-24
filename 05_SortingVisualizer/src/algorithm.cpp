@@ -195,6 +195,11 @@ std::mt19937 gen(rd()); // Mersenne Twister PRNG
 
 int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
 
+    int aux = config->fps;
+
+    config->fps = 300;
+    vector.clear();
+    vector.resize(config->numberElements);
     std::uniform_int_distribution<int> dist(1, config->windowHeigth - 100); // Generates 0 or 1
 
     float x = 0.0f;
@@ -221,6 +226,9 @@ int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<arra
     }
 
     std::cout << "Vector initialized Correctly" << std::endl;
+
+    config->fps = aux;
+
     return 0;
 }
 
@@ -304,3 +312,5 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     return deltaTime;
 }
+
+

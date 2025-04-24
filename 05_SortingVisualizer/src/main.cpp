@@ -56,7 +56,6 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer, BubbleSort **bubbl
 
     SDL_RenderPresent(*renderer);
 
-    vector.resize(config->numberElements);
 
     signal(SIGINT, exit);
     return 0;
@@ -99,6 +98,7 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
         reDrawScreen(renderer, vector, index, lastFrameTime); 
         //float deltaTime;
     }
+    initializeArray(window, renderer, vector, lastFrameTime);
     return 0;
 }
 
