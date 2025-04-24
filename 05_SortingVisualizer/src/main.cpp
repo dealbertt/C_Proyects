@@ -93,7 +93,7 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
         }
 
         if(index == -2){
-            showSortedArray(vector, window, renderer, lastFrameTime);
+            bubbleSort->showSortedArray(vector, window, renderer, lastFrameTime);
             running = false;
         }
         reDrawScreen(renderer, vector, index, lastFrameTime); 

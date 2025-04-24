@@ -33,6 +33,7 @@ class Algorithm{
         Algorithm(std::string name) : name(name) {}
         virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
         int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
+        int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);
 
 
         //GETTERS
@@ -77,6 +78,5 @@ int highlightValue(SDL_Window *window, SDL_Renderer *renderer, array_member valu
 int updateValueColumn(SDL_Window *window, SDL_Renderer *renderer, array_member &value);
 int clearValueColumn(SDL_Window *window, SDL_Renderer *renderer, array_member &value);
 
-int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);
 float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index, Uint32 &lastFrameTime);
 #endif

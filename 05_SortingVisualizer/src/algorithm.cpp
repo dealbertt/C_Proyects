@@ -50,7 +50,8 @@ int BubbleSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window
 
         if(vector[j].value > vector[j + 1].value){
             swapElements(vector, j, j + 1, window, renderer);
-            //accesses += 3;
+            arrayAccesses += 3;
+            comparisons++;
         }
         j++;
         return j;
@@ -266,7 +267,7 @@ int clearValueColumn(SDL_Window *window, SDL_Renderer *renderer, array_member &v
 }
 
 
-int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime){
+int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime){
     int size = (int)vector.size();
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -281,6 +282,8 @@ int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_R
     }
 
     std::cout << "Array of size: " << size << " sorted!" << std::endl;
+    std::cout << "Total comparisons: " << comparisons <<  std::endl;
+    std::cout << "Total array Accesses: " << arrayAccesses <<  std::endl;
     return 0;
 }
 
