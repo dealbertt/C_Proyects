@@ -13,8 +13,8 @@
 
 
 #include "../header/config.hpp"
-#include "../header/sorting.hpp"
 #include "../header/keyboard.hpp"
+#include "../header/algorithm.hpp"
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
 
@@ -83,13 +83,9 @@ int loop(SDL_Window *window, SDL_Renderer *renderer){
         //bubbleSort(vector, window, renderer);
         handleKeyboard(stop);
         if(!stop){
-            index = selectionSortStep(vector, window, renderer);
+            //index = selectionSortStep(vector, window, renderer);
         }
 
-        if(index == -2){
-            running = false;
-            showSortedArray(vector, window, renderer, lastFrameTime);
-        }
         reDrawScreen(renderer, vector, index, lastFrameTime); 
         //float deltaTime;
     }
