@@ -28,23 +28,27 @@ class Algorithm{
         std::string name;
         uint32_t comparisons;
         uint32_t arrayAccesses;
+        bool finished;
 
     public:
         Algorithm(std::string name) : name(name) {}
         virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
         int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
         int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);
+        int loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
 
 
         //GETTERS
         std::string getName() const { return name;}
         uint32_t getComparisons() const { return comparisons;}
         uint32_t getAccesses() const { return arrayAccesses;}
+        bool getFinished() const { return finished;}
 
         //SETTERS
         void setName(std::string newName) {name = newName;}
         void setComparisons(uint8_t newComparisons) {comparisons = newComparisons;}
         void setAccesses(uint8_t newAccesses) {arrayAccesses = newAccesses;}
+        void setFinished(bool newFinished) { finished = newFinished;}
 
 };
 

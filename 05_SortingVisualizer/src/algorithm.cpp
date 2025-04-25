@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../header/algorithm.hpp"
 #include "../header/config.hpp"
+#include "../header/keyboard.hpp"
 #include <random>
 
 
@@ -188,6 +189,31 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
     return 0;
 }
 
+int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
+    bool running = true;
+    bool stop = false;
+
+    int index = 0;
+
+    std::cout << "Now sorting with: " << this->getName() << std::endl;
+    while(running){
+        //bubbleSort(vector, window, renderer);
+        handleKeyboard(stop);
+        if(!stop){
+            index = this->SortStep(vector, window, renderer);
+        }
+
+        if(index == -2){ //Vector is sorted
+            this->showSortedArray(vector, window, renderer, lastFrameTime);
+            running = false;
+            this->setFinished(true);
+        }
+        reDrawScreen(renderer, vector, index, lastFrameTime); 
+        //float deltaTime;
+    }
+    return 0;
+}
+
 //All the  "array manipulation" functions
 extern Config *config;
 
@@ -315,5 +341,4 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     return deltaTime;
 }
-
 

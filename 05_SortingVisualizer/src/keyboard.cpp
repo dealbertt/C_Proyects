@@ -17,7 +17,6 @@ extern Config *config;
 int handleKeyboard(bool &stop){
     SDL_Event event;
     SDL_PollEvent(&event);
-    
 
     const bool *pressed = SDL_GetKeyboardState(NULL);
     
@@ -32,9 +31,7 @@ int handleKeyboard(bool &stop){
             return 1;
         }else if(pressed[SDL_SCANCODE_SPACE]){
             if(!stop){
-                stop = true;
-            }else{
-                stop = false;
+                stop = !stop;
             }
         }
     }

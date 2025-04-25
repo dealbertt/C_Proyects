@@ -13,7 +13,6 @@
 
 
 #include "../header/config.hpp"
-#include "../header/keyboard.hpp"
 #include "../header/algorithm.hpp"
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
@@ -21,13 +20,17 @@
 Config *config;
 
 std::vector<array_member> vector;
+std::vector<Algorithm *> algorithms;
 
-int loop(SDL_Window *window, SDL_Renderer *renderer);
 
 BubbleSort *bubbleSort = nullptr;
 SelectionSort *selectionSort = nullptr;
+InsertionSort *insertionSort = nullptr;
 
-int initObjects(SDL_Window **window, SDL_Renderer **renderer, BubbleSort **bubbleSort, SelectionSort **selectionSort){
+
+int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer);
+
+int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)){
         std::cout << "Error trying to initialize SDL" << std::endl;
         return -1;
@@ -51,12 +54,18 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer, BubbleSort **bubbl
         
     }
 
-    (*bubbleSort) = new BubbleSort("Bubble Sort");
-    (*selectionSort) = new SelectionSort("Selection Sort");
+    bubbleSort = new BubbleSort("Bubble Sort");
+    selectionSort = new SelectionSort("Selection Sort");
+    insertionSort = new InsertionSort("Insertion Sort");
 
     SDL_RenderPresent(*renderer);
 
 
+    algorithms.push_back(bubbleSort);
+    algorithms.push_back(selectionSort);
+    algorithms.push_back(insertionSort);
+
+    std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;
     signal(SIGINT, exit);
     return 0;
 }
@@ -68,41 +77,30 @@ int main(){
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
 
-    initObjects(&window, &renderer, &bubbleSort, &selectionSort);
+    initObjects(&window, &renderer);
 
-    loop(window, renderer);
+
+    algorithmStateManager(window, renderer);
 
     SDL_Quit();
     return 0;
 }
 
-int loop(SDL_Window *window, SDL_Renderer *renderer){
+
+int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
+    int index = algorithms.size() - 1; 
+
     Uint32 lastFrameTime = SDL_GetTicks();
-    bool running = true;
-    bool stop = false;
-
-    int index = 0;
-
-    initializeArray(window, renderer, vector, lastFrameTime);
-    std::cout << "Now sorting with: " << bubbleSort->getName() << std::endl;
-    while(running){
-        //bubbleSort(vector, window, renderer);
-        handleKeyboard(stop);
-        if(!stop){
-            index = bubbleSort->SortStep(vector, window, renderer);
-        }
-
-        if(index == -2){
-            bubbleSort->showSortedArray(vector, window, renderer, lastFrameTime);
-            running = false;
-        }
-        reDrawScreen(renderer, vector, index, lastFrameTime); 
-        //float deltaTime;
+    while(algorithms.size() > 0){
+        initializeArray(window, renderer, vector, lastFrameTime);
+        algorithms[index]->loop(window, renderer, vector, lastFrameTime);
+        algorithms.pop_back();
+        index--;
     }
-    initializeArray(window, renderer, vector, lastFrameTime);
+
+
     return 0;
 }
-
 void exit(){
     SDL_Quit();
     exit(2);
