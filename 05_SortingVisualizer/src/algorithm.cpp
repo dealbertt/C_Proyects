@@ -162,6 +162,7 @@ int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *wind
     if(j >= 0 && vector[j].value > key.value){
         assignNewElement(vector, vector[j + 1], vector[j], window, renderer);
         j = j - 1;
+        comparisons ++;
         return j;
     }
 
@@ -216,14 +217,13 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
             running = false;
             this->setFinished(true);
         }
-        reDrawScreen(renderer, vector, index, lastFrameTime); 
-        displayText(window, renderer);
+        reDrawScreen(renderer, vector, index, lastFrameTime, *this); 
         //float deltaTime;
     }
     return 0;
 }
 
-int Algorithm :: displayText(SDL_Window *window, SDL_Renderer *renderer){
+int Algorithm :: displayText(SDL_Renderer *renderer){
     int fontSize = 24;
     SDL_Color textColor = {255, 255, 255, 255};
     std::string fontPath = "fonts/JetBrainsMonoNerdFont-Regular.ttf";
@@ -272,7 +272,7 @@ extern Config *config;
 std::random_device rd;  // Seed for the random number engine
 std::mt19937 gen(rd()); // Mersenne Twister PRNG
 
-int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
+int  Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
 
     int aux = config->fps;
 
@@ -297,7 +297,7 @@ int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<arra
         vector[i].color = {255, 255, 255, 255};
         SDL_RenderFillRect(renderer, &vector[i].rect);
 
-        reDrawScreen(renderer, vector, i, lastFrameTime);
+        reDrawScreen(renderer, vector, i, lastFrameTime, *this);
 
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
 
@@ -355,7 +355,7 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
         //SDL_UpdateWindowSurface(window);
         vector[i].color.g = 0;
         vector[i].color.b = 0;
-        reDrawScreen(renderer,vector, i, lastFrameTime);
+        reDrawScreen(renderer,vector, i, lastFrameTime, *this);
         SDL_Delay(5);
     }
 
@@ -365,7 +365,7 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
     return 0;
 }
 
-float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index, Uint32 &lastFrameTime){
+float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index, Uint32 &lastFrameTime, Algorithm &algoritm){
     Uint32 frameStart = SDL_GetTicks();
     float deltaTime = (frameStart - lastFrameTime);
     lastFrameTime = frameStart;
@@ -385,6 +385,7 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
         }
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
     }
+    algoritm.displayText(renderer);
     SDL_RenderPresent(renderer);
 
     Uint32 frameTime = SDL_GetTicks() - frameStart;

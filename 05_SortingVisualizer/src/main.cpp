@@ -55,9 +55,9 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
         
     }
 
-    bubbleSort = new BubbleSort("Bubble Sort");
-    selectionSort = new SelectionSort("Selection Sort");
-    insertionSort = new InsertionSort("Insertion Sort");
+    bubbleSort = new BubbleSort("Bubble Sort", 0);
+    selectionSort = new SelectionSort("Selection Sort", 0);
+    insertionSort = new InsertionSort("Insertion Sort", 0);
 
     SDL_RenderPresent(*renderer);
 
@@ -105,7 +105,7 @@ int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
 
     Uint32 lastFrameTime = SDL_GetTicks();
     while(algorithms.size() > 0){
-        initializeArray(window, renderer, vector, lastFrameTime);
+        algorithms[index]->initializeArray(window, renderer, vector, lastFrameTime);
         algorithms[index]->loop(window, renderer, vector, lastFrameTime);
         algorithms.pop_back();
         index--;
