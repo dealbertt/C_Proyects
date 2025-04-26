@@ -6,6 +6,8 @@
 #include <vector>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_render.h>
+
 
 typedef struct{
     SDL_FRect rect;
@@ -31,11 +33,13 @@ class Algorithm{
         bool finished;
 
     public:
+        virtual ~Algorithm() = default;
         Algorithm(std::string name) : name(name) {}
         virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
         int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
         int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);
         int loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
+        int displayText(SDL_Window *window, SDL_Renderer *renderer);
 
 
         //GETTERS

@@ -1,9 +1,17 @@
+#include <SDL3/SDL_error.h>
+#include <SDL3/SDL_oldnames.h>
+#include <SDL3/SDL_surface.h>
 #include <iostream>
 #include "../header/algorithm.hpp"
 #include "../header/config.hpp"
 #include "../header/keyboard.hpp"
+
 #include <random>
 
+
+#include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3/SDL_render.h>
+#include <string>
 
 //All the class functions
 
@@ -209,8 +217,52 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
             this->setFinished(true);
         }
         reDrawScreen(renderer, vector, index, lastFrameTime); 
+        displayText(window, renderer);
         //float deltaTime;
     }
+    return 0;
+}
+
+int Algorithm :: displayText(SDL_Window *window, SDL_Renderer *renderer){
+    int fontSize = 24;
+    SDL_Color textColor = {255, 255, 255, 255};
+    std::string fontPath = "fonts/JetBrainsMonoNerdFont-Regular.ttf";
+    TTF_Font *font = TTF_OpenFont(fontPath.c_str(), fontSize);
+
+    if(font == NULL){
+        std::cout << "Failed to load the font!" << std::endl;
+        std::cout << "Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+
+    std::string strComparisons = "Comparisons: " +  std::to_string(getComparisons());
+    std::string strAccesses = std::to_string(getAccesses());
+    std::string strName= getName();
+
+    SDL_Surface *surfaceMessage = TTF_RenderText_Solid(font, strComparisons.c_str(), strComparisons.length(), textColor);
+    if(surfaceMessage == NULL){
+        std::cout << "Failed to create the surfaceMessage!" << std::endl;
+        std::cout << "Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    SDL_Texture *Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage); 
+    if(Message == NULL){
+        std::cout << "Failed to create the Message!" << std::endl;
+        std::cout << "Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    
+    SDL_FRect Message_rect; //create a rect
+    Message_rect.x = 500; // controls the rect's y coordinte
+    Message_rect.y = 50; // controls the rect's y coordinte
+    Message_rect.w = static_cast<float>(surfaceMessage->w);
+    Message_rect.h = static_cast<float>(surfaceMessage->h);
+
+    SDL_RenderTexture(renderer, Message, NULL, &Message_rect);
+    SDL_DestroyTexture(Message);
+    SDL_DestroySurface(surfaceMessage);
+
+    TTF_CloseFont(font);
     return 0;
 }
 

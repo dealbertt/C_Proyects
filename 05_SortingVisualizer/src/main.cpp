@@ -1,5 +1,5 @@
 #include <SDL3/SDL_init.h>
-#include <SDL3/SDL_timer.h>
+#include <cstdlib>
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
@@ -10,6 +10,7 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_hints.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 
 #include "../header/config.hpp"
@@ -67,6 +68,8 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
 
     std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;
     signal(SIGINT, exit);
+
+    TTF_Init();
     return 0;
 }
 
@@ -82,6 +85,16 @@ int main(){
 
     algorithmStateManager(window, renderer);
 
+
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
+    SDL_Quit();
+    
+    delete(bubbleSort);
+    delete(selectionSort);
+    delete(insertionSort);
+
+    TTF_Quit();
     SDL_Quit();
     return 0;
 }
@@ -97,11 +110,5 @@ int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
         algorithms.pop_back();
         index--;
     }
-
-
     return 0;
-}
-void exit(){
-    SDL_Quit();
-    exit(2);
 }
