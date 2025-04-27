@@ -158,16 +158,19 @@ int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *wind
         key.value = vector[i].value;
         key.rect.y = vector[i].rect.y;
         key.rect.h = vector[i].rect.h;
+        arrayAccesses++;
     }
 
     if(j >= 0 && vector[j].value > key.value){
         assignNewElement(vector, vector[j + 1], vector[j], window, renderer);
         j = j - 1;
         comparisons ++;
+        arrayAccesses += 3;
         return j;
     }
 
     assignNewElement(vector, vector[j + 1], key, window, renderer);
+    arrayAccesses++;
 
     i++;
     j = i - 1;
@@ -225,7 +228,7 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
 }
 
 int Algorithm :: displayText(SDL_Renderer *renderer){
-    int fontSize = 24;
+    int fontSize = 16;
     SDL_Color textColor = {255, 255, 255, 255};
     std::string fontPath = "fonts/JetBrainsMonoNerdFont-Regular.ttf";
     TTF_Font *font = TTF_OpenFont(fontPath.c_str(), fontSize);
@@ -306,6 +309,9 @@ int Algorithm :: displayText(SDL_Renderer *renderer){
 
     SDL_DestroyTexture(NameMessage);
     SDL_DestroySurface(surfaceName);
+
+    SDL_DestroyTexture(AccessesMessage);
+    SDL_DestroySurface(surfaceAccesses);
 
     TTF_CloseFont(font);
     return 0;
