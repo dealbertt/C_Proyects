@@ -55,9 +55,9 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
         
     }
 
-    bubbleSort = new BubbleSort("Bubble Sort", 0);
-    selectionSort = new SelectionSort("Selection Sort", 0);
-    insertionSort = new InsertionSort("Insertion Sort", 0);
+    bubbleSort = new BubbleSort("Bubble Sort", 0, 0);
+    selectionSort = new SelectionSort("Selection Sort", 0, 0);
+    insertionSort = new InsertionSort("Insertion Sort", 0, 0);
 
     SDL_RenderPresent(*renderer);
 

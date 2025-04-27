@@ -7,7 +7,7 @@ SRC_DIR = src
 SRC = $(SRC_DIR)/main.cpp $(SRC_DIR)/config.cpp  $(SRC_DIR)/algorithm.cpp $(SRC_DIR)/keyboard.cpp
 
 OBJ_DIR = obj
-OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)  # Convert .cpp to .o
+OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)  
 
 TARGET = Visual
 

@@ -109,6 +109,7 @@ int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *wind
         if(vector[j].value < vector[min].value){
             min = j;
         }
+        comparisons++;
         j++;
         return j;
     }else{
@@ -238,29 +239,50 @@ int Algorithm :: displayText(SDL_Renderer *renderer){
     std::string strComparisons = "Comparisons: " +  std::to_string(getComparisons());
     std::string strAccesses = std::to_string(getAccesses());
     std::string strName= getName();
+    
+    SDL_Surface *surfaceName = TTF_RenderText_Solid(font, strName.c_str(), strName.length(), textColor);
+    if(surfaceName == NULL){
+        std::cout << "Failed to create the surfaceName!" << std::endl;
+        std::cout << "Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    SDL_Texture *NameMessage = SDL_CreateTextureFromSurface(renderer, surfaceName); 
+    if(NameMessage == NULL){
+        std::cout << "Failed to create the NameMessage!" << std::endl;
+        std::cout << "Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    
+    SDL_FRect NameRect; //create a rect
+    NameRect.x = 0; // controls the rect's y coordinte
+    NameRect.y = 0; // controls the rect's y coordinte
+    NameRect.w = 250;
+    NameRect.h = 50;
 
-    SDL_Surface *surfaceMessage = TTF_RenderText_Solid(font, strComparisons.c_str(), strComparisons.length(), textColor);
-    if(surfaceMessage == NULL){
+    SDL_Surface *surfaceAccesses = TTF_RenderText_Solid(font, strComparisons.c_str(), strComparisons.length(), textColor);
+    if(surfaceAccesses == NULL){
         std::cout << "Failed to create the surfaceMessage!" << std::endl;
         std::cout << "Error: " << SDL_GetError() << std::endl;
         return -1;
     }
-    SDL_Texture *Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage); 
-    if(Message == NULL){
+    SDL_Texture *ComparisonsMessage = SDL_CreateTextureFromSurface(renderer, surfaceAccesses); 
+    if(ComparisonsMessage == NULL){
         std::cout << "Failed to create the Message!" << std::endl;
         std::cout << "Error: " << SDL_GetError() << std::endl;
         return -1;
     }
     
-    SDL_FRect Message_rect; //create a rect
-    Message_rect.x = 500; // controls the rect's y coordinte
-    Message_rect.y = 50; // controls the rect's y coordinte
-    Message_rect.w = static_cast<float>(surfaceMessage->w);
-    Message_rect.h = static_cast<float>(surfaceMessage->h);
+    SDL_FRect AccessesRect; //create a rect
+    AccessesRect.x = 300; // controls the rect's y coordinte
+    AccessesRect.y = 0; // controls the rect's y coordinte
+    AccessesRect.w = 250;
+    AccessesRect.h = 50;
 
-    SDL_RenderTexture(renderer, Message, NULL, &Message_rect);
-    SDL_DestroyTexture(Message);
-    SDL_DestroySurface(surfaceMessage);
+
+    SDL_RenderTexture(renderer, ComparisonsMessage, NULL, &AccessesRect);
+    SDL_RenderTexture(renderer, NameMessage, NULL, &NameRect);
+    SDL_DestroyTexture(ComparisonsMessage);
+    SDL_DestroySurface(surfaceAccesses);
 
     TTF_CloseFont(font);
     return 0;
