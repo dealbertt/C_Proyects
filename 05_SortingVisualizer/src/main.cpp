@@ -6,11 +6,15 @@
 
 
 #include <SDL3/SDL.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+
 #include <SDL3/SDL_audio.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_hints.h>
 #include <SDL3_ttf/SDL_ttf.h>
+
 
 
 #include "../header/config.hpp"

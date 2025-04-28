@@ -195,9 +195,11 @@ int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *wind
 
 int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_member &member1, array_member &member2, SDL_Window *window, SDL_Renderer *renderer){
     clearValueColumn(window, renderer, member1);
+
     member1.value = member2.value;
     member1.rect.y = member2.rect.y;
     member1.rect.h = member2.rect.h;
+
     updateValueColumn(window, renderer, member1);
     return 0;
 }
