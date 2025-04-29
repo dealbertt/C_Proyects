@@ -1,3 +1,4 @@
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <cstdlib>
 #include <iostream>
 #include <unistd.h>
@@ -11,6 +12,7 @@
 #include <SDL3/SDL_hints.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
+#include <SFML/Audio.hpp>
 
 
 #include "../header/config.hpp"
@@ -28,6 +30,8 @@ BubbleSort *bubbleSort = nullptr;
 SelectionSort *selectionSort = nullptr;
 InsertionSort *insertionSort = nullptr;
 
+sf::SoundBuffer buffer;
+
 
 int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer);
 
@@ -36,14 +40,15 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
         std::cout << "Error trying to initialize SDL" << std::endl;
         return -1;
     }
+    std::cout << "SDL initialized successfully!" << std::endl;
  
-    //Initialize SDL_mixer
-    
+    TTF_Init();
     *window = SDL_CreateWindow("Sorting Algorithim Visualizer", config->windowWidth, config->windowHeigth, SDL_WINDOW_RESIZABLE);
     if(window == NULL){
         std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
+    std::cout << "Window created successfully!" << std::endl;
 
     SDL_SetWindowPosition(*window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
@@ -54,14 +59,13 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
         return -1;
         
     }
+    std::cout << "Renderer created successfully!" << std::endl;
 
     bubbleSort = new BubbleSort("Bubble Sort", 0, 0);
     selectionSort = new SelectionSort("Selection Sort", 0, 0);
     insertionSort = new InsertionSort("Insertion Sort", 0, 0);
 
-    SDL_RenderPresent(*renderer);
-
-
+   
     algorithms.push_back(bubbleSort);
     algorithms.push_back(selectionSort);
     algorithms.push_back(insertionSort);
@@ -69,7 +73,17 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;
     signal(SIGINT, exit);
 
-    TTF_Init();
+    if(!buffer.loadFromFile("sound/soundEffect.wav")){
+        std::cout << "Error while trying to load sound file" << std::endl;
+        return -1;
+    }
+    
+    sf::Sound sound;
+    sound.setBuffer(buffer);
+    sound.play();
+    sf::sleep(sf::seconds(2)); // or sound.getDuration()
+
+    SDL_RenderPresent(*renderer);
     return 0;
 }
 
