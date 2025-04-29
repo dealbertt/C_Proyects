@@ -6,6 +6,7 @@
 #include "../header/config.hpp"
 #include "../header/keyboard.hpp"
 
+#include <mutex>
 #include <random>
 
 
@@ -82,6 +83,26 @@ int BubbleSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window
         }
     }
     */
+    return 0;
+}
+
+int BubbleSort :: SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer){
+    for(int i = 0; i < (int)array.size(); i++){
+        
+        for(int j = 0; j < (int)array.size() - 1; j++){
+        std::lock_guard<std::mutex> lock(mtx);
+
+            if(array[j] > array[j + 1]){
+
+                int aux = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = aux;
+                //accesses += 3;
+            }
+            //accesses += 2;
+        }
+    }
+
     return 0;
 }
 
@@ -447,4 +468,5 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     return deltaTime;
 }
+
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdint>
 #include <vector>
+#include <mutex>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_render.h>
@@ -31,11 +32,13 @@ class Algorithm{
         uint32_t comparisons;
         uint32_t arrayAccesses;
         bool finished;
+        std::mutex mtx;
 
     public:
         virtual ~Algorithm() = default;
         Algorithm(std::string name, uint32_t comparisons, uint32_t arrayAccesses) : name(name), comparisons(comparisons), arrayAccesses(arrayAccesses) {}
         virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
+        virtual int SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer) = 0;
         int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
         int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);
         int loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
@@ -62,6 +65,7 @@ class BubbleSort : public Algorithm{
     public:
     using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
+    int SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer) override;
 };
 
 
