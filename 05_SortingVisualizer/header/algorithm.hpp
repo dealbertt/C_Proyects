@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdint>
 #include <vector>
+#include <mutex>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_render.h>
@@ -15,32 +16,28 @@ typedef struct{
     SDL_Color color;
 }array_member;
 
-typedef struct{
-    int algorithim;
-}Array;
-
-enum Current_Algorithm{
-    BUBBLE_SORT,
-    SELECTION_SORT,
-    INSERTION_SORT
-};
 
 class Algorithm{
     protected:
         std::string name;
+        uint32_t amount;
         uint32_t comparisons;
         uint32_t arrayAccesses;
         bool finished;
+        std::vector<SDL_FRect> rectsToRender;
+        std::mutex mtx;
 
     public:
         virtual ~Algorithm() = default;
-        Algorithm(std::string name, uint32_t comparisons, uint32_t arrayAccesses) : name(name), comparisons(comparisons), arrayAccesses(arrayAccesses) {}
-        virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
+        Algorithm(std::string name, uint32_t amount, uint32_t comparisons, uint32_t arrayAccesses) :  name(name), amount(amount), comparisons(comparisons), arrayAccesses(arrayAccesses) {}
+        virtual int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
+        virtual int SortThread(std::vector<int> &array, SDL_Renderer *renderer) = 0;
         int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
         int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);
         int loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
         int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
-        int displayText(SDL_Renderer *renderer);
+        int displayText(SDL_Renderer *renderer, std::vector<array_member> &vector);
+        int visualizeArray(SDL_Renderer *renderer, std::vector<int> &array);
 
 
         //GETTERS
@@ -48,6 +45,7 @@ class Algorithm{
         uint32_t getComparisons() const { return comparisons;}
         uint32_t getAccesses() const { return arrayAccesses;}
         bool getFinished() const { return finished;}
+        std::mutex &getMutex() { return mtx;} 
 
         //SETTERS
         void setName(std::string newName) {name = newName;}
@@ -62,6 +60,7 @@ class BubbleSort : public Algorithm{
     public:
     using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
+    int SortThread(std::vector<int>&array, SDL_Renderer *renderer) override;
 };
 
 
