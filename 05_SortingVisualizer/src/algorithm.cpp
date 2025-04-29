@@ -230,9 +230,9 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
 }
 
 int Algorithm :: displayText(SDL_Renderer *renderer){
-    int fontSize = 16;
+    int fontSize = 20;
     SDL_Color textColor = {255, 255, 255, 255};
-    std::string fontPath = "fonts/JetBrainsMonoNerdFont-Regular.ttf";
+    std::string fontPath = "fonts/FiraCodeNerdFont-Regular.ttf";
     TTF_Font *font = TTF_OpenFont(fontPath.c_str(), fontSize);
 
     if(font == NULL){

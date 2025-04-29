@@ -1,4 +1,3 @@
-#include <SDL3/SDL_init.h>
 #include <cstdlib>
 #include <iostream>
 #include <unistd.h>
@@ -6,9 +5,6 @@
 
 
 #include <SDL3/SDL.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
-
 #include <SDL3/SDL_audio.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
@@ -105,14 +101,13 @@ int main(){
 
 
 int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
-    int index = algorithms.size() - 1; 
+    int index = 0; 
 
     Uint32 lastFrameTime = SDL_GetTicks();
-    while(algorithms.size() > 0){
+    while(index < (int)algorithms.size()){
         algorithms[index]->initializeArray(window, renderer, vector, lastFrameTime);
         algorithms[index]->loop(window, renderer, vector, lastFrameTime);
-        algorithms.pop_back();
-        index--;
+        index++;
     }
     return 0;
 }
