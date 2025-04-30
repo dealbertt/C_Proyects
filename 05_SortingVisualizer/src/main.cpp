@@ -22,6 +22,11 @@
 
 Config *config;
 
+SDL_Window *window = NULL;
+SDL_Renderer *renderer = NULL;
+
+
+
 std::vector<array_member> vector;
 std::vector<Algorithm *> algorithms;
 
@@ -34,8 +39,14 @@ sf::SoundBuffer buffer;
 
 
 int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer);
+void exit();
 
 int initObjects(SDL_Window **window, SDL_Renderer **renderer){
+
+    signal(SIGTERM, exit);
+    signal(SIGKILL, exit);
+    signal(SIGINT, exit);
+
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)){
         std::cout << "Error trying to initialize SDL" << std::endl;
         return -1;
@@ -91,25 +102,13 @@ int main(){
     config = readConfiguration("config/config.txt"); //load the config.txt into an struct
 
 
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-
     initObjects(&window, &renderer);
 
 
     algorithmStateManager(window, renderer);
 
 
-    SDL_DestroyWindow(window);
-    SDL_DestroyRenderer(renderer);
-    SDL_Quit();
-    
-    delete(bubbleSort);
-    delete(selectionSort);
-    delete(insertionSort);
-
-    TTF_Quit();
-    SDL_Quit();
+    exit();
     return 0;
 }
 
@@ -124,4 +123,19 @@ int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
         index++;
     }
     return 0;
+}
+
+void exit(){
+    std::cout << "Exiting program..." << std::endl;
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
+    SDL_Quit();
+    
+    delete(bubbleSort);
+    delete(selectionSort);
+    delete(insertionSort);
+
+    TTF_Quit();
+    SDL_Quit();
+    exit(0);
 }

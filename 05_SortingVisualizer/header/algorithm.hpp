@@ -32,6 +32,7 @@ class Algorithm{
         uint32_t comparisons;
         uint32_t arrayAccesses;
         bool finished;
+        
 
     public:
         std::mutex mtx;

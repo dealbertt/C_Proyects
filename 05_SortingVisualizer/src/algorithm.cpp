@@ -10,6 +10,7 @@
 
 #include <mutex>
 #include <random>
+#include <csignal>
 
 
 #include <SDL3_ttf/SDL_ttf.h>
@@ -101,11 +102,12 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
                 array[j + 1] = aux;
                 */
                 swapElements(array, j, j + 1, window, renderer);
-                //accesses += 3;
+                arrayAccesses += 3;
             }
+            comparisons ++;
+            arrayAccesses += 2;
             mtx.unlock();
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            //accesses += 2;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
 
     }
@@ -275,7 +277,7 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
 
 int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
     bool running = true;
-    //bool stop = false;
+    bool stop = false;
 
     int index = 0;
 
@@ -284,25 +286,23 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
     while(running){
         //bubbleSort(vector, window, renderer);
         /*
-        handleKeyboard(stop);
-        if(!stop){
-            index = this->SortStep(vector, window, renderer);
-        }
 
         if(index == -2){ //Vector is sorted
-            this->showSortedArray(vector, window, renderer, lastFrameTime);
             running = false;
             this->setFinished(true);
         }
         */
+        handleKeyboard(stop, sortThread);
         reDrawScreen(renderer, vector, index, lastFrameTime, *this); 
         //float deltaTime;
     }
+    sortThread.join();
+    this->showSortedArray(vector, window, renderer, lastFrameTime);
     return 0;
 }
 
 int Algorithm :: displayText(SDL_Renderer *renderer){
-    int fontSize = 20;
+    int fontSize = 40;
     SDL_Color textColor = {255, 255, 255, 255};
     std::string fontPath = "fonts/FiraCodeNerdFont-Regular.ttf";
     TTF_Font *font = TTF_OpenFont(fontPath.c_str(), fontSize);
