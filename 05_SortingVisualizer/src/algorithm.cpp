@@ -2,6 +2,7 @@
 #include <SDL3/SDL_oldnames.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_surface.h>
+#include <chrono>
 #include <iostream>
 #include "../header/algorithm.hpp"
 #include "../header/config.hpp"
@@ -14,14 +15,15 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3/SDL_render.h>
 #include <string>
+#include <thread>
 
 //All the class functions
 
 int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer){
     int aux[3];
 
-    clearValueColumn(window, renderer, vector[member1]);
-    clearValueColumn(window, renderer, vector[member2]);
+    //clearValueColumn(window, renderer, vector[member1]);
+    //clearValueColumn(window, renderer, vector[member2]);
     //reDrawScreen(renderer, vector, member1);
 
     aux[0] = vector[member1].value;
@@ -37,8 +39,8 @@ int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int
     vector[member2].rect.h= aux[2];
 
 
-    updateValueColumn(window, renderer, vector[member1]);
-    updateValueColumn(window, renderer, vector[member2]);
+    //updateValueColumn(window, renderer, vector[member1]);
+    //updateValueColumn(window, renderer, vector[member2]);
     //reDrawScreen(renderer, vector, member2);
 
     return 0;
@@ -87,45 +89,51 @@ int BubbleSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window
     return 0;
 }
 
-int BubbleSort :: SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer){
+void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     for(int i = 0; i < (int)array.size(); i++){
         
         for(int j = 0; j < (int)array.size() - 1; j++){
-        std::lock_guard<std::mutex> lock(mtx);
-
-            if(array[j] > array[j + 1]){
-
-                int aux = array[j];
+            mtx.lock();
+            if(array[j].value > array[j + 1].value){
+                /*
+                array_member aux = array[j];
                 array[j] = array[j + 1];
                 array[j + 1] = aux;
+                */
+                swapElements(array, j, j + 1, window, renderer);
                 //accesses += 3;
             }
+            mtx.unlock();
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
             //accesses += 2;
         }
+
     }
 
-    return 0;
+    return;
 }
 
-int SelectionSort :: SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer){
+void SelectionSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     int size = array.size();
     for(int i = 0; i < size - 1; i++){
         int min = i;
         for(int j = i + 1; j < size; j++){
             //highlightValue(window, renderer, array[j]);
-            if(array[j] < array[min]){
+            if(array[j].value < array[min].value){
                 min = j;
             }
         }
         //swap the ith value for the min value
-        //swapElements(vector, i, min, window, renderer);
-        int aux = array[i];
+        swapElements(array, i, min, window, renderer);
+        /*
+        array_member aux = array[i];
         array[i] = array[min];
         array[min] = aux;
+        */
     }
 
 
-    return 0;
+    return;
 }
 int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
     static int i = 0;
@@ -183,22 +191,24 @@ int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *wind
 
     return 0;
 }
-int InsertionSort :: SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer){
+void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     int size = array.size();
     for (int i = 1; i < size; i++) {
-        int key = array[i];
+        array_member key = array[i];
         int j = i - 1;
 
         /* Move elements of arr[0..i-1], that are
            greater than key, to one position ahead
            of their current position */
-        while (j >= 0 && array[j] > key) {
-            array[j + 1] = array[j];
+        while (j >= 0 && array[j].value > key.value) {
+            //array[j + 1] = array[j];
+            assignNewElement(array, array[j + 1], array[j], window, renderer);
             j = j - 1;
         }
-        array[j + 1] = key;
+        //array[j + 1] = key;
+        assignNewElement(array, array[j + 1], key, window, renderer);
     }
-    return 0;
+    return;
 }
 int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
     static int i = 1;
@@ -265,13 +275,15 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
 
 int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
     bool running = true;
-    bool stop = false;
+    //bool stop = false;
 
     int index = 0;
 
     std::cout << "Now sorting with: " << this->getName() << std::endl;
+    std::thread sortThread(&Algorithm::SortThread, this, std::ref(vector), window, renderer); 
     while(running){
         //bubbleSort(vector, window, renderer);
+        /*
         handleKeyboard(stop);
         if(!stop){
             index = this->SortStep(vector, window, renderer);
@@ -282,6 +294,7 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
             running = false;
             this->setFinished(true);
         }
+        */
         reDrawScreen(renderer, vector, index, lastFrameTime, *this); 
         //float deltaTime;
     }
@@ -384,7 +397,7 @@ extern Config *config;
 std::random_device rd;  // Seed for the random number engine
 std::mt19937 gen(rd()); // Mersenne Twister PRNG
 
-int  Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
+int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
 
     int aux = config->fps;
 
@@ -420,6 +433,13 @@ int  Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, st
 
     config->fps = aux;
 
+    return 0;
+}
+
+int Algorithm :: visualizeArray(SDL_Renderer *renderer, std::vector<array_member> &array){
+    mtx.lock(); 
+    //reDrawScreen(renderer, array, 0, Uint32 &lastFrameTime, this);
+    mtx.unlock();
     return 0;
 }
 
@@ -480,6 +500,7 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
 float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index, Uint32 &lastFrameTime, Algorithm &algoritm){
     std::vector<SDL_FRect> rectsToRender;
     rectsToRender.reserve(vector.size());
+
     Uint32 frameStart = SDL_GetTicks();
     float deltaTime = (frameStart - lastFrameTime);
     lastFrameTime = frameStart;
@@ -504,11 +525,14 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
     }
     */
+    algoritm.mtx.lock();
     for (const auto& member : vector) {
         rectsToRender.push_back(member.rect);
     }
 
     SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
+    algoritm.mtx.unlock();
+
     algoritm.displayText(renderer);
     SDL_RenderPresent(renderer);
 

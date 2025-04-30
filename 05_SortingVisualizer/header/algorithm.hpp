@@ -32,18 +32,23 @@ class Algorithm{
         uint32_t comparisons;
         uint32_t arrayAccesses;
         bool finished;
-        std::mutex mtx;
 
     public:
+        std::mutex mtx;
         virtual ~Algorithm() = default;
         Algorithm(std::string name, uint32_t comparisons, uint32_t arrayAccesses) : name(name), comparisons(comparisons), arrayAccesses(arrayAccesses) {}
+
         virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
-        virtual int SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer) = 0;
+        virtual void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) = 0;
+
         int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
         int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);
+
         int loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
         int initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
+
         int displayText(SDL_Renderer *renderer);
+        int visualizeArray(SDL_Renderer *renderer, std::vector<array_member> &array);
 
 
         //GETTERS
@@ -65,7 +70,7 @@ class BubbleSort : public Algorithm{
     public:
     using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
-    int SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+    void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
 };
 
 
@@ -73,7 +78,7 @@ class SelectionSort: public Algorithm{
     public:
     using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
-    int SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+    void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
 };
 
 class InsertionSort: public Algorithm{
@@ -81,7 +86,7 @@ class InsertionSort: public Algorithm{
     public:
     using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
-    int SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+    void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
     int assignNewElement(std::vector<array_member>&vector, array_member &member1, array_member &member2, SDL_Window *window, SDL_Renderer *renderer);
 
 };
