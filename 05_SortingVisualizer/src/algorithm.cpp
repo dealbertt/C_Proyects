@@ -1,5 +1,6 @@
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_oldnames.h>
+#include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_surface.h>
 #include <iostream>
 #include "../header/algorithm.hpp"
@@ -106,6 +107,26 @@ int BubbleSort :: SortThread(std::vector<int> &array, SDL_Window *window, SDL_Re
     return 0;
 }
 
+int SelectionSort :: SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer){
+    int size = array.size();
+    for(int i = 0; i < size - 1; i++){
+        int min = i;
+        for(int j = i + 1; j < size; j++){
+            //highlightValue(window, renderer, array[j]);
+            if(array[j] < array[min]){
+                min = j;
+            }
+        }
+        //swap the ith value for the min value
+        //swapElements(vector, i, min, window, renderer);
+        int aux = array[i];
+        array[i] = array[min];
+        array[min] = aux;
+    }
+
+
+    return 0;
+}
 int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
     static int i = 0;
     static int j = 0;
@@ -160,6 +181,23 @@ int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *wind
     std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count() << " seconds" << std::endl;
     */
 
+    return 0;
+}
+int InsertionSort :: SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer){
+    int size = array.size();
+    for (int i = 1; i < size; i++) {
+        int key = array[i];
+        int j = i - 1;
+
+        /* Move elements of arr[0..i-1], that are
+           greater than key, to one position ahead
+           of their current position */
+        while (j >= 0 && array[j] > key) {
+            array[j + 1] = array[j];
+            j = j - 1;
+        }
+        array[j + 1] = key;
+    }
     return 0;
 }
 int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
@@ -440,6 +478,8 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
 }
 
 float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index, Uint32 &lastFrameTime, Algorithm &algoritm){
+    std::vector<SDL_FRect> rectsToRender;
+    rectsToRender.reserve(vector.size());
     Uint32 frameStart = SDL_GetTicks();
     float deltaTime = (frameStart - lastFrameTime);
     lastFrameTime = frameStart;
@@ -449,6 +489,8 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+    /*
     for(int i = 0; i < (int)vector.size(); i++){
         if(i == index){
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
@@ -457,8 +499,16 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
             SDL_SetRenderDrawColor(renderer, vector[i].color.r, vector[i].color.g, vector[i].color.b, 255);
             SDL_RenderFillRect(renderer, &vector[i].rect);
         }
+        rectsToRender.push_back(vector[i].rect);
+        //this is what was done before, rendering all the different stuff
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
     }
+    */
+    for (const auto& member : vector) {
+        rectsToRender.push_back(member.rect);
+    }
+
+    SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
     algoritm.displayText(renderer);
     SDL_RenderPresent(renderer);
 

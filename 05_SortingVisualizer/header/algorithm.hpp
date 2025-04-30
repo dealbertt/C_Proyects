@@ -70,10 +70,10 @@ class BubbleSort : public Algorithm{
 
 
 class SelectionSort: public Algorithm{
-
     public:
     using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
+    int SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer) override;
 };
 
 class InsertionSort: public Algorithm{
@@ -81,6 +81,7 @@ class InsertionSort: public Algorithm{
     public:
     using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
+    int SortThread(std::vector<int> &array, SDL_Window *window, SDL_Renderer *renderer) override;
     int assignNewElement(std::vector<array_member>&vector, array_member &member1, array_member &member2, SDL_Window *window, SDL_Renderer *renderer);
 
 };
