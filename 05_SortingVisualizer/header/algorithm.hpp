@@ -32,7 +32,7 @@ class Algorithm{
         uint32_t comparisons;
         uint32_t arrayAccesses;
         bool finished;
-        
+        uint16_t index;
 
     public:
         std::mutex mtx;
@@ -57,12 +57,14 @@ class Algorithm{
         uint32_t getComparisons() const { return comparisons;}
         uint32_t getAccesses() const { return arrayAccesses;}
         bool getFinished() const { return finished;}
+        uint16_t getIndex() const {return index;}
 
         //SETTERS
         void setName(std::string newName) {name = newName;}
         void setComparisons(uint8_t newComparisons) {comparisons = newComparisons;}
         void setAccesses(uint8_t newAccesses) {arrayAccesses = newAccesses;}
         void setFinished(bool newFinished) { finished = newFinished;}
+        void setIndex(uint16_t newIndex) { index = newIndex;}
 
 };
 

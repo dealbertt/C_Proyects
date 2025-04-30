@@ -107,10 +107,13 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
             comparisons ++;
             arrayAccesses += 2;
             mtx.unlock();
+            this->index = j;
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
 
     }
+    std::cout << "Bubble Sort finished sorting" << std::endl;
+    this->finished = true;
 
     return;
 }
@@ -531,6 +534,8 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
 
     SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
     algoritm.mtx.unlock();
 
     algoritm.displayText(renderer);
