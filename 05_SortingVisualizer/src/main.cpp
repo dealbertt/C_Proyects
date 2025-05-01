@@ -85,14 +85,14 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     }
     std::cout << "Renderer created successfully!" << std::endl;
 
-    bubbleSort = new BubbleSort("Bubble Sort", 200, 0, 0);
-//    selectionSort = new SelectionSort("Selection Sort", 200, 0, 0);
- //   insertionSort = new InsertionSort("Insertion Sort", 200, 0, 0);
+    bubbleSort = new BubbleSort("Bubble Sort", 0, 0);
+    selectionSort = new SelectionSort("Selection Sort",  0, 0);
+    insertionSort = new InsertionSort("Insertion Sort",  0, 0);
 
    
+    algorithms.push_back(bubbleSort);
     algorithms.push_back(selectionSort);
     algorithms.push_back(insertionSort);
-    algorithms.push_back(bubbleSort);
 
     std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;
     signal(SIGINT, exit);
@@ -138,7 +138,6 @@ void exit(){
     TTF_Quit();
     SDL_Quit();
     exit(0);
-
 }
 
 

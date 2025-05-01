@@ -32,7 +32,7 @@ class Algorithm{
         Algorithm(std::string name, uint32_t comparisons, uint32_t arrayAccesses) : name(name), comparisons(comparisons), arrayAccesses(arrayAccesses) {}
 
         virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
-        virtual void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) = 0
+        virtual void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) = 0;
    
         int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
         int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);

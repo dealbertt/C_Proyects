@@ -169,14 +169,12 @@ int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *wind
         if(vector[j].value < vector[min].value){
             min = j;
         }
-        arrayAccesses+=2;
         comparisons++;
         j++;
         return j;
     }else{
         //this means that j > size, so i have to increment i and iterate again the first for loop
         swapElements(vector, i, min, window, renderer);
-        arrayAccesses+=4;
         j = i + 1;
         i++;
         min = i;
@@ -212,23 +210,20 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
         /* Move elements of arr[0..i-1], that are
            greater than key, to one position ahead
            of their current position */
+        mtx.lock();
         while (j >= 0 && array[j].value > key.value) {
             //array[j + 1] = array[j];
-            mtx.lock();
             assignNewElement(array, array[j + 1], array[j], window, renderer);
-            mtx.unlock();
-            std::this_thread::sleep_for(std::chrono::microseconds(250));
             j = j - 1;
         }
+        mtx.unlock();
+        std::this_thread::sleep_for(std::chrono::microseconds(5000));
         //array[j + 1] = key;
         mtx.lock();
         assignNewElement(array, array[j + 1], key, window, renderer);
         mtx.unlock();
-        std::this_thread::sleep_for(std::chrono::microseconds(250));
+        std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
-
-    std::cout << "Insertion Sort done" << std::endl;
-    this->finished = true;
     return;
 }
 int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
@@ -295,7 +290,6 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
 }
 
 int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
-    this->finished = false;
     bool running = true;
     bool stop = false;
 
@@ -306,12 +300,6 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
     while(running){
         //bubbleSort(vector, window, renderer);
         /*
-
-        handleKeyboard(stop);
-        if(!stop){
-            index = this->SortStep(vector, window, renderer);
-        }
-        //visualizeArray(renderer, array);
 
         if(index == -2){ //Vector is sorted
             running = false;
@@ -330,12 +318,10 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
     return 0;
 }
 
-
 int Algorithm :: displayText(SDL_Renderer *renderer){
     int fontSize = 40;
     SDL_Color textColor = {255, 255, 255, 255};
     std::string fontPath = "fonts/FiraCodeNerdFont-Regular.ttf";
-
     TTF_Font *font = TTF_OpenFont(fontPath.c_str(), fontSize);
 
     if(font == NULL){
@@ -347,7 +333,6 @@ int Algorithm :: displayText(SDL_Renderer *renderer){
     std::string strComparisons = "Comparisons: " +  std::to_string(getComparisons());
     std::string strAccesses = "Array Accesses: " + std::to_string(getAccesses());
     std::string strName= getName();
-    std::string strElements = "Number of elements in array: " + std::to_string(vector.size());
     
     SDL_Surface *surfaceName = TTF_RenderText_Solid(font, strName.c_str(), strName.length(), textColor);
     if(surfaceName == NULL){
@@ -394,7 +379,7 @@ int Algorithm :: displayText(SDL_Renderer *renderer){
         return -1;
     }
     SDL_Texture *AccessesMessage = SDL_CreateTextureFromSurface(renderer, surfaceAccesses); 
-        if(AccessesMessage == NULL){
+    if(ComparisonsMessage == NULL){
         std::cout << "Failed to create the Message!" << std::endl;
         std::cout << "Error: " << SDL_GetError() << std::endl;
         return -1;
@@ -406,30 +391,9 @@ int Algorithm :: displayText(SDL_Renderer *renderer){
     AccessesRect.w = 250;
     AccessesRect.h = 50;
 
-
-    SDL_Surface *surfaceElements = TTF_RenderText_Solid(font, strElements.c_str(), strElements.length(), textColor);
-    if(surfaceElements == NULL){
-        std::cout << "Failed to create the surfaceElements!" << std::endl;
-        std::cout << "Error: " << SDL_GetError() << std::endl;
-        return -1;
-    }
-    SDL_Texture *ElementsMessage = SDL_CreateTextureFromSurface(renderer, surfaceElements); 
-    if(ElementsMessage == NULL){
-        std::cout << "Failed to create the Message!" << std::endl;
-        std::cout << "Error: " << SDL_GetError() << std::endl;
-        return -1;
-    }
-    
-    SDL_FRect ElementsRect; //create a rect
-    ElementsRect.x = 900; // controls the rect's y coordinte
-    ElementsRect.y = 0; // controls the rect's y coordinte
-    ElementsRect.w = 450;
-    ElementsRect.h = 50;
-
     SDL_RenderTexture(renderer, NameMessage, NULL, &NameRect);
     SDL_RenderTexture(renderer, ComparisonsMessage, NULL, &ComparisonsRect);
     SDL_RenderTexture(renderer, AccessesMessage, NULL, &AccessesRect);
-    SDL_RenderTexture(renderer, ElementsMessage, NULL, &ElementsRect);
 
     SDL_DestroyTexture(ComparisonsMessage);
     SDL_DestroySurface(surfaceComparisons);
@@ -439,9 +403,6 @@ int Algorithm :: displayText(SDL_Renderer *renderer){
 
     SDL_DestroyTexture(AccessesMessage);
     SDL_DestroySurface(surfaceAccesses);
-
-    SDL_DestroyTexture(ElementsMessage);
-    SDL_DestroySurface(surfaceElements);
 
     TTF_CloseFont(font);
     return 0;
@@ -455,17 +416,16 @@ std::mt19937 gen(rd()); // Mersenne Twister PRNG
 
 int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
 
-    std::vector<SDL_FRect> rectsToRender;
-    rectsToRender.resize(vector.size());
+    int aux = config->fps;
 
+    config->fps = 300;
     vector.clear();
-    vector.resize(this->amount);
-
+    vector.resize(config->numberElements);
     std::uniform_int_distribution<int> dist(1, config->windowHeigth - 100); // Generates 0 or 1
 
     float x = 0.0f;
 
-    int width = config->windowWidth / this->amount;
+    int width = config->windowWidth / config->numberElements;
     std::cout << "Optimum width i guess: " << width << std::endl;
 
 
@@ -477,9 +437,7 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
         vector[i].value = guess;
         vector[i].rect  = {x, (float)config->windowHeigth - guess, (float)width, (float)guess};
         vector[i].color = {255, 255, 255, 255};
-
-        rectsToRender.push_back(vector[i].rect);
-
+        SDL_RenderFillRect(renderer, &vector[i].rect);
 
         reDrawScreen(renderer, vector, i, lastFrameTime, *this);
 
@@ -487,10 +445,10 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
 
         x += (width);
     }
-    SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
 
     std::cout << "Vector initialized Correctly" << std::endl;
 
+    config->fps = aux;
 
     return 0;
 }
@@ -547,6 +505,7 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
         vector[i].color.g = 0;
         vector[i].color.b = 0;
         reDrawScreen(renderer,vector, i, lastFrameTime, *this);
+        SDL_Delay(5);
     }
 
     std::cout << "Array of size: " << size << " sorted!" << std::endl;
@@ -557,7 +516,6 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
 
 float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index, Uint32 &lastFrameTime, Algorithm &algoritm){
 
-
     Uint32 frameStart = SDL_GetTicks();
     float deltaTime = (frameStart - lastFrameTime);
     lastFrameTime = frameStart;
@@ -565,7 +523,6 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     Uint32 frameDelay = 1000/config->fps;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-
 
     std::vector<SDL_FRect> rectsToRender;
     rectsToRender.reserve(vector.size());
@@ -605,3 +562,5 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     return deltaTime;
 }
+
+
