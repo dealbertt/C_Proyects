@@ -2,6 +2,7 @@
 #include <SDL3/SDL_oldnames.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_surface.h>
+#include <chrono>
 #include <iostream>
 #include "../header/algorithm.hpp"
 #include "../header/config.hpp"
@@ -9,19 +10,21 @@
 
 #include <mutex>
 #include <random>
+#include <csignal>
 
 
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3/SDL_render.h>
 #include <string>
+#include <thread>
 
 //All the class functions
 
 int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer){
     int aux[3];
 
-    clearValueColumn(window, renderer, vector[member1]);
-    clearValueColumn(window, renderer, vector[member2]);
+    //clearValueColumn(window, renderer, vector[member1]);
+    //clearValueColumn(window, renderer, vector[member2]);
     //reDrawScreen(renderer, vector, member1);
 
     aux[0] = vector[member1].value;
@@ -37,8 +40,8 @@ int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int
     vector[member2].rect.h= aux[2];
 
 
-    updateValueColumn(window, renderer, vector[member1]);
-    updateValueColumn(window, renderer, vector[member2]);
+    //updateValueColumn(window, renderer, vector[member1]);
+    //updateValueColumn(window, renderer, vector[member2]);
     //reDrawScreen(renderer, vector, member2);
 
     return 0;
@@ -87,6 +90,61 @@ int BubbleSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window
     return 0;
 }
 
+void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
+    for(int i = 0; i < (int)array.size(); i++){
+        for(int j = 0; j < (int)array.size() - 1; j++){
+            mtx.lock();
+            if(array[j].value > array[j + 1].value){
+                /*
+                array_member aux = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = aux;
+                */
+                swapElements(array, j, j + 1, window, renderer);
+                arrayAccesses += 3;
+            }
+            comparisons ++;
+            arrayAccesses += 2;
+            this->index = j;
+            mtx.unlock();
+            std::this_thread::sleep_for(std::chrono::microseconds(50));
+        }
+
+    }
+    std::cout << "Bubble Sort finished sorting" << std::endl;
+    this->finished = true;
+
+    return;
+}
+
+void SelectionSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
+    int size = array.size();
+
+    for(int i = 0; i < size - 1; i++){
+        int min = i;
+
+        for(int j = i + 1; j < size; j++){
+            //highlightValue(window, renderer, array[j]);
+            if(array[j].value < array[min].value){
+                min = j;
+            }
+            this->index = j;
+        }
+        //swap the ith value for the min value
+        mtx.lock();
+        swapElements(array, i, min, window, renderer);
+        mtx.unlock();
+        std::this_thread::sleep_for(std::chrono::microseconds(5000));
+        /*
+        array_member aux = array[i];
+        array[i] = array[min];
+        array[min] = aux;
+        */
+    }
+    this->finished = true;
+
+    return;
+}
 int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
     static int i = 0;
     static int j = 0;
@@ -144,6 +202,34 @@ int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *wind
     */
 
     return 0;
+}
+void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
+    int size = array.size();
+    for (int i = 1; i < size; i++) {
+        array_member key = array[i];
+        int j = i - 1;
+
+        /* Move elements of arr[0..i-1], that are
+           greater than key, to one position ahead
+           of their current position */
+        while (j >= 0 && array[j].value > key.value) {
+            //array[j + 1] = array[j];
+            mtx.lock();
+            assignNewElement(array, array[j + 1], array[j], window, renderer);
+            mtx.unlock();
+            std::this_thread::sleep_for(std::chrono::microseconds(250));
+            j = j - 1;
+        }
+        //array[j + 1] = key;
+        mtx.lock();
+        assignNewElement(array, array[j + 1], key, window, renderer);
+        mtx.unlock();
+        std::this_thread::sleep_for(std::chrono::microseconds(250));
+    }
+
+    std::cout << "Insertion Sort done" << std::endl;
+    this->finished = true;
+    return;
 }
 int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
     static int i = 1;
@@ -209,31 +295,43 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
 }
 
 int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
+    this->finished = false;
     bool running = true;
     bool stop = false;
 
     int index = 0;
 
     std::cout << "Now sorting with: " << this->getName() << std::endl;
+    std::thread sortThread(&Algorithm::SortThread, this, std::ref(vector), window, renderer); 
     while(running){
         //bubbleSort(vector, window, renderer);
+        /*
+
         handleKeyboard(stop);
         if(!stop){
             index = this->SortStep(vector, window, renderer);
         }
         //visualizeArray(renderer, array);
+
         if(index == -2){ //Vector is sorted
-            this->showSortedArray(vector, window, renderer, lastFrameTime);
             running = false;
             this->setFinished(true);
         }
+        */
+        handleKeyboard(stop, sortThread);
         reDrawScreen(renderer, vector, index, lastFrameTime, *this); 
+        if(this->finished){
+            break;
+        }
         //float deltaTime;
     }
+    this->showSortedArray(vector, window, renderer, lastFrameTime);
+    sortThread.join();
     return 0;
 }
 
-int Algorithm :: displayText(SDL_Renderer *renderer, std::vector<array_member> &vector){
+
+int Algorithm :: displayText(SDL_Renderer *renderer){
     int fontSize = 40;
     SDL_Color textColor = {255, 255, 255, 255};
     std::string fontPath = "fonts/FiraCodeNerdFont-Regular.ttf";
@@ -355,7 +453,7 @@ extern Config *config;
 std::random_device rd;  // Seed for the random number engine
 std::mt19937 gen(rd()); // Mersenne Twister PRNG
 
-int  Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
+int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
 
     std::vector<SDL_FRect> rectsToRender;
     rectsToRender.resize(vector.size());
@@ -394,6 +492,13 @@ int  Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, st
     std::cout << "Vector initialized Correctly" << std::endl;
 
 
+    return 0;
+}
+
+int Algorithm :: visualizeArray(SDL_Renderer *renderer, std::vector<array_member> &array){
+    mtx.lock(); 
+    //reDrawScreen(renderer, array, 0, Uint32 &lastFrameTime, this);
+    mtx.unlock();
     return 0;
 }
 
@@ -451,59 +556,52 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
 }
 
 float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index, Uint32 &lastFrameTime, Algorithm &algoritm){
-    std::vector<SDL_FRect> rectsToRender;
+
+
+    Uint32 frameStart = SDL_GetTicks();
+    float deltaTime = (frameStart - lastFrameTime);
+    lastFrameTime = frameStart;
 
     Uint32 frameDelay = 1000/config->fps;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+    std::vector<SDL_FRect> rectsToRender;
+    rectsToRender.reserve(vector.size());
+
+    /*
+    for(int i = 0; i < (int)vector.size(); i++){
+        if(i == index){
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderFillRect(renderer, &vector[i].rect);
+        }else{
+            SDL_SetRenderDrawColor(renderer, vector[i].color.r, vector[i].color.g, vector[i].color.b, 255);
+            SDL_RenderFillRect(renderer, &vector[i].rect);
+        }
+        rectsToRender.push_back(vector[i].rect);
+        //this is what was done before, rendering all the different stuff
+        //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFFFFFF);
+    }
+    */
+    algoritm.mtx.lock();
     for (const auto& member : vector) {
         rectsToRender.push_back(member.rect);
     }
-    SDL_RenderFillRects(renderer, rectsToRender.data(), static_cast<int>(rectsToRender.size()));
-    if (index >= 0 && index < static_cast<int>(vector.size())) {
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_RenderFillRect(renderer, &vector[index].rect);
-    }
-    algoritm.displayText(renderer, vector);
-    Uint32 frameStart = SDL_GetTicks();
-    float deltaTime = (frameStart - lastFrameTime);
-    lastFrameTime = frameStart;
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
+    //rectsToRender.resize(vector.size());
+    //SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
 
+    algoritm.mtx.unlock();
+
+    algoritm.displayText(renderer);
     SDL_RenderPresent(renderer);
 
-    rectsToRender.clear();
+
     Uint32 frameTime = SDL_GetTicks() - frameStart;
     if(frameDelay > frameTime){
         SDL_Delay(frameDelay);
     }
     return deltaTime;
-}
-
-int Algorithm :: visualizeArray(SDL_Renderer *renderer, std::vector<int> &array){
-    std::lock_guard<std::mutex> lock(mtx);
-    //Take a look at the array and then perform the differente rendering operations 
-
-    return 0;
-}
-
-int BubbleSort :: SortThread(std::vector<int> &array, SDL_Renderer *renderer){
-    for(int i = 0; i < (int)array.size(); i++){
-
-        for(int j = 0; j < (int)array.size() - 1; j++){
-            std::lock_guard<std::mutex> lock(mtx); //locking the mutex for the soring logic
-
-            if(array[j] > array[j + 1]){
-
-                //swapElements(vector, j, j + 1, window, renderer);
-                int aux = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = aux;
-                //accesses += 3;
-            }
-            //accesses += 2;
-        }
-    }
-    return 0;
 }

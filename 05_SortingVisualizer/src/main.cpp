@@ -24,6 +24,11 @@
 
 Config *config;
 
+SDL_Window *window = NULL;
+SDL_Renderer *renderer = NULL;
+
+
+
 std::vector<array_member> vector;
 std::vector<Algorithm *> algorithms;
 
@@ -35,8 +40,26 @@ InsertionSort *insertionSort = nullptr;
 sf::SoundBuffer buffer;
 
 int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer);
+int initObjects(SDL_Window **window, SDL_Renderer **renderer);
+void exit();
+
+int main(){
+    config = readConfiguration("config/config.txt"); //load the config.txt into an struct
+
+    initObjects(&window, &renderer);
+
+    algorithmStateManager(window, renderer);
+
+    exit();
+    return 0;
+}
 
 int initObjects(SDL_Window **window, SDL_Renderer **renderer){
+
+    signal(SIGTERM, exit);
+    signal(SIGKILL, exit);
+    signal(SIGINT, exit);
+
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)){
         std::cout << "Error trying to initialize SDL" << std::endl;
         return -1;
@@ -67,9 +90,9 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
  //   insertionSort = new InsertionSort("Insertion Sort", 200, 0, 0);
 
    
-    algorithms.push_back(bubbleSort);
     algorithms.push_back(selectionSort);
     algorithms.push_back(insertionSort);
+    algorithms.push_back(bubbleSort);
 
     std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;
     signal(SIGINT, exit);
@@ -90,29 +113,7 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     return 0;
 }
 
-int main(){
-    config = readConfiguration("config/config.txt"); //load the config.txt into an struct
 
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-
-    initObjects(&window, &renderer);
-
-
-    algorithmStateManager(window, renderer);
-
-
-    SDL_DestroyWindow(window);
-    SDL_DestroyRenderer(renderer);
-    
-    delete(bubbleSort);
-    delete(selectionSort);
-    delete(insertionSort);
-
-    TTF_Quit();
-    SDL_Quit();
-    return 0;
-}
 
 int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
     int index = 0; 
@@ -122,8 +123,22 @@ int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
         algorithms[index]->initializeArray(window, renderer, vector, lastFrameTime);
         algorithms[index]->loop(window, renderer, vector, lastFrameTime);
         index++;
-        //std::thread sortThread(algorithms[index]->SortThread(std::ref(array), std::ref(algorithms[index]->getMutex())));
     }
     return 0;
 }
+
+void exit(){
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
+    
+    delete(bubbleSort);
+    delete(selectionSort);
+    delete(insertionSort);
+
+    TTF_Quit();
+    SDL_Quit();
+    exit(0);
+
+}
+
 
