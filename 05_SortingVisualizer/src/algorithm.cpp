@@ -92,7 +92,6 @@ int BubbleSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window
 
 void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     for(int i = 0; i < (int)array.size(); i++){
-        
         for(int j = 0; j < (int)array.size() - 1; j++){
             mtx.lock();
             if(array[j].value > array[j + 1].value){
@@ -106,9 +105,9 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
             }
             comparisons ++;
             arrayAccesses += 2;
-            mtx.unlock();
             this->index = j;
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            mtx.unlock();
+            std::this_thread::sleep_for(std::chrono::microseconds(50));
         }
 
     }
@@ -120,23 +119,29 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
 
 void SelectionSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     int size = array.size();
+
     for(int i = 0; i < size - 1; i++){
         int min = i;
+
         for(int j = i + 1; j < size; j++){
             //highlightValue(window, renderer, array[j]);
             if(array[j].value < array[min].value){
                 min = j;
             }
+            this->index = j;
         }
         //swap the ith value for the min value
+        mtx.lock();
         swapElements(array, i, min, window, renderer);
+        mtx.unlock();
+        std::this_thread::sleep_for(std::chrono::microseconds(5000));
         /*
         array_member aux = array[i];
         array[i] = array[min];
         array[min] = aux;
         */
     }
-
+    this->finished = true;
 
     return;
 }
@@ -205,13 +210,19 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
         /* Move elements of arr[0..i-1], that are
            greater than key, to one position ahead
            of their current position */
+        mtx.lock();
         while (j >= 0 && array[j].value > key.value) {
             //array[j + 1] = array[j];
             assignNewElement(array, array[j + 1], array[j], window, renderer);
             j = j - 1;
         }
+        mtx.unlock();
+        std::this_thread::sleep_for(std::chrono::microseconds(5000));
         //array[j + 1] = key;
+        mtx.lock();
         assignNewElement(array, array[j + 1], key, window, renderer);
+        mtx.unlock();
+        std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
     return;
 }
@@ -297,10 +308,13 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
         */
         handleKeyboard(stop, sortThread);
         reDrawScreen(renderer, vector, index, lastFrameTime, *this); 
+        if(this->finished){
+            break;
+        }
         //float deltaTime;
     }
-    sortThread.join();
     this->showSortedArray(vector, window, renderer, lastFrameTime);
+    sortThread.join();
     return 0;
 }
 
@@ -501,8 +515,6 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
 }
 
 float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, int index, Uint32 &lastFrameTime, Algorithm &algoritm){
-    std::vector<SDL_FRect> rectsToRender;
-    rectsToRender.reserve(vector.size());
 
     Uint32 frameStart = SDL_GetTicks();
     float deltaTime = (frameStart - lastFrameTime);
@@ -512,7 +524,8 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    std::vector<SDL_FRect> rectsToRender;
+    rectsToRender.reserve(vector.size());
 
     /*
     for(int i = 0; i < (int)vector.size(); i++){
@@ -532,14 +545,16 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     for (const auto& member : vector) {
         rectsToRender.push_back(member.rect);
     }
-
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
+    //rectsToRender.resize(vector.size());
+    //SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
+
     algoritm.mtx.unlock();
 
     algoritm.displayText(renderer);
     SDL_RenderPresent(renderer);
+
 
     Uint32 frameTime = SDL_GetTicks() - frameStart;
     if(frameDelay > frameTime){

@@ -39,7 +39,19 @@ sf::SoundBuffer buffer;
 
 
 int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer);
+int initObjects(SDL_Window **window, SDL_Renderer **renderer);
 void exit();
+
+int main(){
+    config = readConfiguration("config/config.txt"); //load the config.txt into an struct
+
+    initObjects(&window, &renderer);
+
+    algorithmStateManager(window, renderer);
+
+    exit();
+    return 0;
+}
 
 int initObjects(SDL_Window **window, SDL_Renderer **renderer){
 
@@ -77,9 +89,9 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     insertionSort = new InsertionSort("Insertion Sort", 0, 0);
 
    
-    algorithms.push_back(bubbleSort);
     algorithms.push_back(selectionSort);
     algorithms.push_back(insertionSort);
+    algorithms.push_back(bubbleSort);
 
     std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;
     signal(SIGINT, exit);
@@ -98,19 +110,6 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     return 0;
 }
 
-int main(){
-    config = readConfiguration("config/config.txt"); //load the config.txt into an struct
-
-
-    initObjects(&window, &renderer);
-
-
-    algorithmStateManager(window, renderer);
-
-
-    exit();
-    return 0;
-}
 
 
 int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
@@ -126,7 +125,6 @@ int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
 }
 
 void exit(){
-    std::cout << "Exiting program..." << std::endl;
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
