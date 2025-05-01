@@ -1,6 +1,6 @@
-#include <SFML/Audio/SoundBuffer.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <thread>
 #include <unistd.h>
 #include <signal.h>
 
@@ -13,10 +13,12 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include <SFML/Audio.hpp>
-
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/System/Time.hpp>
 
 #include "../header/config.hpp"
 #include "../header/algorithm.hpp"
+#include "../header/sorting.hpp"
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
 
@@ -36,7 +38,6 @@ SelectionSort *selectionSort = nullptr;
 InsertionSort *insertionSort = nullptr;
 
 sf::SoundBuffer buffer;
-
 
 int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer);
 int initObjects(SDL_Window **window, SDL_Renderer **renderer);
@@ -66,7 +67,7 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     std::cout << "SDL initialized successfully!" << std::endl;
  
     TTF_Init();
-    *window = SDL_CreateWindow("Sorting Algorithim Visualizer", config->windowWidth, config->windowHeigth, SDL_WINDOW_RESIZABLE);
+    *window = SDL_CreateWindow("CSort", config->windowWidth, config->windowHeigth, SDL_WINDOW_RESIZABLE);
     if(window == NULL){
         std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
@@ -84,9 +85,9 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     }
     std::cout << "Renderer created successfully!" << std::endl;
 
-    bubbleSort = new BubbleSort("Bubble Sort", 0, 0);
-    selectionSort = new SelectionSort("Selection Sort", 0, 0);
-    insertionSort = new InsertionSort("Insertion Sort", 0, 0);
+    bubbleSort = new BubbleSort("Bubble Sort", 200, 0, 0);
+//    selectionSort = new SelectionSort("Selection Sort", 200, 0, 0);
+ //   insertionSort = new InsertionSort("Insertion Sort", 200, 0, 0);
 
    
     algorithms.push_back(selectionSort);
@@ -101,10 +102,12 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
         return -1;
     }
     
+    /*
     sf::Sound sound;
     sound.setBuffer(buffer);
     sound.play();
-    sf::sleep(sf::seconds(2)); // or sound.getDuration()
+    sf::sleep(sf::milliseconds(2000)); // or sound.getDuration()
+    */
 
     SDL_RenderPresent(*renderer);
     return 0;
@@ -127,7 +130,6 @@ int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer){
 void exit(){
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
-    SDL_Quit();
     
     delete(bubbleSort);
     delete(selectionSort);
@@ -136,4 +138,7 @@ void exit(){
     TTF_Quit();
     SDL_Quit();
     exit(0);
+
 }
+
+

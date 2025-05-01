@@ -16,19 +16,11 @@ typedef struct{
     SDL_Color color;
 }array_member;
 
-typedef struct{
-    int algorithim;
-}Array;
-
-enum Current_Algorithm{
-    BUBBLE_SORT,
-    SELECTION_SORT,
-    INSERTION_SORT
-};
 
 class Algorithm{
     protected:
         std::string name;
+        uint32_t amount;
         uint32_t comparisons;
         uint32_t arrayAccesses;
         bool finished;
@@ -40,8 +32,8 @@ class Algorithm{
         Algorithm(std::string name, uint32_t comparisons, uint32_t arrayAccesses) : name(name), comparisons(comparisons), arrayAccesses(arrayAccesses) {}
 
         virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
-        virtual void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) = 0;
-
+        virtual void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) = 0
+   
         int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
         int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);
 
@@ -58,7 +50,6 @@ class Algorithm{
         uint32_t getAccesses() const { return arrayAccesses;}
         bool getFinished() const { return finished;}
         uint16_t getIndex() const {return index;}
-
         //SETTERS
         void setName(std::string newName) {name = newName;}
         void setComparisons(uint8_t newComparisons) {comparisons = newComparisons;}
@@ -74,6 +65,7 @@ class BubbleSort : public Algorithm{
     using Algorithm::Algorithm;
     int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
     void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+
 };
 
 
