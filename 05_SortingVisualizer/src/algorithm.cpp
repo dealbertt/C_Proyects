@@ -210,20 +210,23 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
         /* Move elements of arr[0..i-1], that are
            greater than key, to one position ahead
            of their current position */
-        mtx.lock();
         while (j >= 0 && array[j].value > key.value) {
             //array[j + 1] = array[j];
+            mtx.lock();
             assignNewElement(array, array[j + 1], array[j], window, renderer);
+            mtx.unlock();
+            std::this_thread::sleep_for(std::chrono::microseconds(250));
             j = j - 1;
         }
-        mtx.unlock();
-        std::this_thread::sleep_for(std::chrono::microseconds(5000));
         //array[j + 1] = key;
         mtx.lock();
         assignNewElement(array, array[j + 1], key, window, renderer);
         mtx.unlock();
-        std::this_thread::sleep_for(std::chrono::microseconds(5000));
+        std::this_thread::sleep_for(std::chrono::microseconds(250));
     }
+
+    std::cout << "Insertion Sort done" << std::endl;
+    this->finished = true;
     return;
 }
 int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
@@ -290,6 +293,7 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
 }
 
 int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
+    this->finished = false;
     bool running = true;
     bool stop = false;
 
