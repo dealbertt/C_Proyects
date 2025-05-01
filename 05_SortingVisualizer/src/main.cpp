@@ -94,13 +94,11 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     selectionSort = new SelectionSort("Selection Sort",  0, 0);
     insertionSort = new InsertionSort("Insertion Sort",  0, 0);
     quicksort = new QuickSort("Quick Sort", 0, 0);
-    quicksort->setLow(0);
-    quicksort->setHigh(config->numberElements - 1);
 
-   
+
+    algorithms.push_back(quicksort);
     algorithms.push_back(bubbleSort);
     algorithms.push_back(selectionSort);
-    algorithms.push_back(quicksort);
     algorithms.push_back(insertionSort);
 
     std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;

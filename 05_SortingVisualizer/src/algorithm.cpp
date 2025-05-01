@@ -3,6 +3,7 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_surface.h>
 #include <chrono>
+#include <cstdint>
 #include <iostream>
 #include "../header/algorithm.hpp"
 #include "../header/config.hpp"
@@ -292,20 +293,20 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
 }
 
 void QuickSort :: SortThread(std::vector<array_member> &array,SDL_Window *window, SDL_Renderer *renderer){
-    if(low < high){
+    uint32_t low = 0;
+    int32_t high = static_cast<int32_t>(array.size() - 1) ;
+    SortThreadExecution(array, window, renderer, low, high);
+
+    return;
+}
+
+void QuickSort :: SortThreadExecution(std::vector<array_member> &array,SDL_Window *window, SDL_Renderer *renderer, uint32_t low, int32_t high){
+    if(static_cast<int32_t>(low) < high){
         uint32_t pi = partition(array, low, high);
-        uint32_t originalLow = low;
-        uint32_t originalHigh = high;
 
-        high = pi - 1;
-        SortThread(array, window, renderer);
+        SortThreadExecution(array, window, renderer, low, static_cast<int32_t>(pi) - 1);
 
-        low = pi + 1;
-        high = originalHigh;
-        SortThread(array, window, renderer);
-
-        low = originalLow;
-        high = originalHigh;
+        SortThreadExecution(array, window, renderer, pi + 1, high);
     }
 
     return;
@@ -313,23 +314,25 @@ void QuickSort :: SortThread(std::vector<array_member> &array,SDL_Window *window
 
 int QuickSort :: partition(std::vector<array_member> &array, uint32_t low, int32_t high){
     uint32_t pivot = array[high].value;
-    uint32_t i = low - 1;
+    int32_t i = static_cast<int32_t>(low) - 1;
     
-    for (int j = low; j <= high - 1; j++) {
+    for (int32_t j = static_cast<int32_t>(low); j <= high - 1; j++) {
         mtx.lock();
         if (array[j].value < pivot) {
             i++;
             swapElements(array, i, j);
         }
         mtx.unlock();
+        comparisons++;
         std::this_thread::sleep_for(std::chrono::microseconds(2500));
     }
     
     // Move pivot after smaller elements and
     // return its position
     mtx.lock();
-    swapElements(array, i + 1, high);  
+    swapElements(array, static_cast<uint32_t>(i + 1), high);  
     mtx.unlock();
+
     std::this_thread::sleep_for(std::chrono::microseconds(2500));
     return i + 1;
 }

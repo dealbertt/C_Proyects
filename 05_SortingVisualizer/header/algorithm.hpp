@@ -87,23 +87,14 @@ class InsertionSort : public Algorithm{
 };
 
 class QuickSort: public Algorithm{
-
-    private:
-        uint32_t low;
-        uint32_t high;
     public:
         using Algorithm::Algorithm;
 
         void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+        void SortThreadExecution(std::vector<array_member> &array,SDL_Window *window, SDL_Renderer *renderer, uint32_t low, int32_t high);
         int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) override;
 
         int partition(std::vector<array_member> &array, uint32_t low, int32_t high);
-
-        uint32_t getLow() const {return low;}
-        void setLow(uint32_t newLow) {low = newLow;} 
-
-        uint32_t getHigh() const {return high;}
-        void setHigh(uint32_t newHigh) {high = newHigh;} 
 
 };
 int highlightValue(SDL_Window *window, SDL_Renderer *renderer, array_member value);
