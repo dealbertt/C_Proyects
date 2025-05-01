@@ -48,49 +48,6 @@ int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int
     return 0;
 }
 
-int BubbleSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
-    static int i = 0;
-    static int j = 0;
-    int size = static_cast<int>(vector.size());
-    
-    if(i == size - 1){
-        i = 0;
-        j = 0;
-        return -2;
-    }else{
-        if(j >= size - i - 1){
-            i++;
-            j = 0;
-        }
-
-        if(vector[j].value > vector[j + 1].value){
-            swapElements(vector, j, j + 1);
-            arrayAccesses += 3;
-            comparisons++;
-        }
-        j++;
-        return j;
-        
-    }
-    /*
-    for(int i = 0; i < (int)vector.size(); i++){
-        
-        for(int j = 0; j < (int)vector.size() - 1; j++){
-
-            highlightValue(window, renderer, vector[j]);
-
-            if(vector[j].value > vector[j + 1].value){
-
-                swapElements(vector, j, j + 1, window, renderer);
-                //accesses += 3;
-            }
-            //accesses += 2;
-        }
-    }
-    */
-    return 0;
-}
-
 void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     for(int i = 0; i < (int)array.size(); i++){
         for(int j = 0; j < (int)array.size() - i - 1; j++){
@@ -115,6 +72,62 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
     std::cout << "Bubble Sort finished sorting" << std::endl;
     this->finished = true;
 
+    return;
+}
+void BidirectionalBubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
+    bool swapped = true;
+    int32_t  start = 0;
+    int32_t  end = array.size() - 1;
+ 
+    while (swapped) {
+        // reset the swapped flag on entering
+        // the loop, because it might be true from
+        // a previous iteration.
+        swapped = false;
+ 
+        // loop from left to right same as
+        // the bubble sort
+        for (int i = start; i < end; ++i) {
+            if (array[i].value > array[i + 1].value) {
+                mtx.lock();
+                swapElements(array, i, i + 1);
+                swapped = true;
+                mtx.unlock();
+                std::this_thread::sleep_for(std::chrono::microseconds(50));
+            }
+            comparisons++;
+        }
+ 
+        // if nothing moved, then array is sorted.
+        if (!swapped)
+            break;
+ 
+        // otherwise, reset the swapped flag so that it
+        // can be used in the next stage
+        swapped = false;
+ 
+        // move the end point back by one, because
+        // item at the end is in its rightful spot
+        --end;
+ 
+        // from right to left, doing the
+        // same comparison as in the previous stage
+        for (int i = end - 1; i >= start; --i) {
+            if (array[i].value > array[i + 1].value) {
+                mtx.lock();
+                swapElements(array, i, i + 1);
+                swapped = true;
+                mtx.unlock();
+                std::this_thread::sleep_for(std::chrono::microseconds(50));
+            }
+            comparisons++;
+        }
+        // increase the starting point, because
+        // the last stage would have moved the next
+        // smallest number to its rightful spot.
+        ++start;
+    }
+    this->finished = true;
     return;
 }
 
@@ -147,62 +160,6 @@ void SelectionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
 
     return;
 }
-int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
-    static int i = 0;
-    static int j = 0;
-    static int min = i;
-    int size = static_cast<int>(vector.size());
-
-    //checking if i can go inside of the first for loop
-    if(i == size - 1){
-        i = 0;
-        j = 0;
-        min = i;
-        return -2;
-        //i cant, meaning i have completed the sorting, so i return -1 to indicate so;
-    }
-    //i can go inside of the first for loop
-    //i assign min to i;
-
-    //then i declare the value of j, to go inside of the second for loop
-    //j = i + 1;
-    if(j < size){
-        //this means it can go inside of the second for loop
-        if(vector[j].value < vector[min].value){
-            min = j;
-        }
-        comparisons++;
-        j++;
-        return j;
-    }else{
-        //this means that j > size, so i have to increment i and iterate again the first for loop
-        swapElements(vector, i, min);
-        j = i + 1;
-        i++;
-        min = i;
-        return j;
-    }
-    /*
-    auto a = std::chrono::high_resolution_clock::now();
-    for(int i = 0; i < size - 1; i++){
-        int min = i;
-            for(int j = i + 1; j < size; j++){
-            highlightValue(window, renderer, vector[j]);
-            if(vector[j].value < vector[min].value){
-                min = j;
-            }
-        }
-        //swap the ith value for the min value
-        swapElements(vector, i, min, window, renderer);
-    }
-
-    auto b = std::chrono::high_resolution_clock::now();
-
-    std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count() << " seconds" << std::endl;
-    */
-
-    return 0;
-}
 void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     int size = array.size();
     for (int i = 1; i < size; i++) {
@@ -227,60 +184,10 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
         mtx.unlock();
         std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
+
+    this->finished = true;
     return;
 }
-int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
-    static int i = 1;
-    static int j = i - 1;
-    static array_member key = {0};
-
-    int size = static_cast<int>(vector.size());
-
-    if(i >= size){
-        i = 1;
-        j = i - 1;
-        return -2; //Indicating the end
-    }
-
-    if(j == i - 1){
-        key.value = vector[i].value;
-        key.rect.y = vector[i].rect.y;
-        key.rect.h = vector[i].rect.h;
-        arrayAccesses++;
-    }
-
-    if(j >= 0 && vector[j].value > key.value){
-        assignNewElement(vector, vector[j + 1], vector[j], window, renderer);
-        j = j - 1;
-        comparisons ++;
-        arrayAccesses += 3;
-        return j;
-    }
-
-    assignNewElement(vector, vector[j + 1], key, window, renderer);
-    arrayAccesses++;
-
-    i++;
-    j = i - 1;
-
-    return j;
-    /*
-       for (int i = 1; i < n; ++i) {
-       int key = arr[i];
-       int j = i - 1;
-
-       Move elements of arr[0..i-1], that are
-       greater than key, to one position ahead
-       of their current position 
-       while (j >= 0 && arr[j] > key) {
-       arr[j + 1] = arr[j];
-       j = j - 1;
-       }
-       arr[j + 1] = key;
-       }
-    */
-}
-
 int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_member &member1, array_member &member2, SDL_Window *window, SDL_Renderer *renderer){
     clearValueColumn(window, renderer, member1);
 
@@ -292,11 +199,13 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
     return 0;
 }
 
+//initializes the low and high variables and then calls the SortThreadExecution function to start sorting
 void QuickSort :: SortThread(std::vector<array_member> &array,SDL_Window *window, SDL_Renderer *renderer){
     uint32_t low = 0;
     int32_t high = static_cast<int32_t>(array.size() - 1) ;
     SortThreadExecution(array, window, renderer, low, high);
 
+    this->finished = true;
     return;
 }
 
@@ -337,20 +246,17 @@ int QuickSort :: partition(std::vector<array_member> &array, uint32_t low, int32
     return i + 1;
 }
 
-int QuickSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
-
-    return 0;
-}
 
 int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
     bool running = true;
     bool stop = false;
+    this->finished = false;
 
     int index = 0;
 
     std::cout << "Now sorting with: " << this->getName() << std::endl;
     std::thread sortThread(&Algorithm::SortThread, this, std::ref(vector), window, renderer); 
-    this->finished = false;
+    sortThread.detach();
     while(running){
         //bubbleSort(vector, window, renderer);
         /*
@@ -363,12 +269,11 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
         handleKeyboard(stop, sortThread);
         reDrawScreen(renderer, vector, index, lastFrameTime, *this); 
         if(this->finished){
+            showSortedArray(vector, window, renderer, lastFrameTime);
             break;
         }
         //float deltaTime;
     }
-    this->showSortedArray(vector, window, renderer, lastFrameTime);
-    sortThread.join();
     return 0;
 }
 
@@ -616,4 +521,187 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     return deltaTime;
 }
 
+/*
+int QuickSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
 
+    return 0;
+}
+
+int InsertionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
+    static int i = 1;
+    static int j = i - 1;
+    static array_member key = {0};
+
+    int size = static_cast<int>(vector.size());
+
+    if(i >= size){
+        i = 1;
+        j = i - 1;
+        return -2; //Indicating the end
+    }
+
+    if(j == i - 1){
+        key.value = vector[i].value;
+        key.rect.y = vector[i].rect.y;
+        key.rect.h = vector[i].rect.h;
+        arrayAccesses++;
+    }
+
+    if(j >= 0 && vector[j].value > key.value){
+        assignNewElement(vector, vector[j + 1], vector[j], window, renderer);
+        j = j - 1;
+        comparisons ++;
+        arrayAccesses += 3;
+        return j;
+    }
+
+    assignNewElement(vector, vector[j + 1], key, window, renderer);
+    arrayAccesses++;
+
+    i++;
+    j = i - 1;
+
+    return j;
+       for (int i = 1; i < n; ++i) {
+       int key = arr[i];
+       int j = i - 1;
+
+       Move elements of arr[0..i-1], that are
+       greater than key, to one position ahead
+       of their current position 
+       while (j >= 0 && arr[j] > key) {
+       arr[j + 1] = arr[j];
+       j = j - 1;
+       }
+       arr[j + 1] = key;
+       }
+}
+
+int BubbleSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
+    static int i = 0;
+    static int j = 0;
+    int size = static_cast<int>(vector.size());
+    
+    if(i == size - 1){
+        i = 0;
+        j = 0;
+        return -2;
+    }else{
+        if(j >= size - i - 1){
+            i++;
+            j = 0;
+        }
+
+        if(vector[j].value > vector[j + 1].value){
+            swapElements(vector, j, j + 1);
+            arrayAccesses += 3;
+            comparisons++;
+        }
+        j++;
+        return j;
+        
+    }
+    for(int i = 0; i < (int)vector.size(); i++){
+        
+        for(int j = 0; j < (int)vector.size() - 1; j++){
+
+            highlightValue(window, renderer, vector[j]);
+
+            if(vector[j].value > vector[j + 1].value){
+
+                swapElements(vector, j, j + 1, window, renderer);
+                //accesses += 3;
+            }
+            //accesses += 2;
+        }
+    }
+    return 0;
+}
+
+int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer){
+    static int i = 0;
+    static int j = 0;
+    static int min = i;
+    int size = static_cast<int>(vector.size());
+
+    //checking if i can go inside of the first for loop
+    if(i == size - 1){
+        i = 0;
+        j = 0;
+        min = i;
+        return -2;
+        //i cant, meaning i have completed the sorting, so i return -1 to indicate so;
+    }
+    //i can go inside of the first for loop
+    //i assign min to i;
+
+    //then i declare the value of j, to go inside of the second for loop
+    //j = i + 1;
+    if(j < size){
+        //this means it can go inside of the second for loop
+        if(vector[j].value < vector[min].value){
+            min = j;
+        }
+        comparisons++;
+        j++;
+        return j;
+    }else{
+        //this means that j > size, so i have to increment i and iterate again the first for loop
+        swapElements(vector, i, min);
+        j = i + 1;
+        i++;
+        min = i;
+        return j;
+    }
+    auto a = std::chrono::high_resolution_clock::now();
+    for(int i = 0; i < size - 1; i++){
+        int min = i;
+            for(int j = i + 1; j < size; j++){
+            highlightValue(window, renderer, vector[j]);
+            if(vector[j].value < vector[min].value){
+                min = j;
+            }
+        }
+        //swap the ith value for the min value
+        swapElements(vector, i, min, window, renderer);
+    }
+
+    auto b = std::chrono::high_resolution_clock::now();
+
+    std::cout << "Sorting took: " << std::chrono::duration_cast<std::chrono::milliseconds>(b - a).count() << " seconds" << std::endl;
+
+    return 0;
+}
+
+UNOPTIMIZED VERSION OF COCKTAIL SORT:
+int32_t start = 0;
+int32_t end = array.size() - 1;
+
+while (start < end) {
+    // loop from left to right
+    for (int i = start; i < end; ++i) {
+        if (array[i].value > array[i + 1].value) {
+            mtx.lock();
+            swapElements(array, i, i + 1);
+            mtx.unlock();
+            std::this_thread::sleep_for(std::chrono::microseconds(50));
+        }
+        comparisons++;
+    }
+    --end;
+
+    // loop from right to left
+    for (int i = end; i > start; --i) {
+        if (array[i].value < array[i - 1].value) { // Note the change here: comparing with the element to the left
+            mtx.lock();
+            swapElements(array, i, i - 1); // Note the change here: swapping with the element to the left
+            mtx.unlock();
+            std::this_thread::sleep_for(std::chrono::microseconds(50));
+        }
+        comparisons++;
+    }
+    ++start;
+}
+this->finished = true;
+return;
+*/

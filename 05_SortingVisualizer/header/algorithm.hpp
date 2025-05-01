@@ -31,7 +31,6 @@ class Algorithm{
         virtual ~Algorithm() = default;
         Algorithm(std::string name, uint32_t comparisons, uint32_t arrayAccesses) : name(name), comparisons(comparisons), arrayAccesses(arrayAccesses) {}
 
-        virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
         virtual void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) = 0;
 
         int swapElements(std::vector<array_member>&vector, int member1, int member2);
@@ -63,7 +62,6 @@ class BubbleSort : public Algorithm{
 
     public:
         using Algorithm :: Algorithm;
-        int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
         void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
  
 };
@@ -72,7 +70,6 @@ class BubbleSort : public Algorithm{
 class SelectionSort : public Algorithm{
     public:
         using Algorithm :: Algorithm;
-        int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
         void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
 };
 
@@ -80,7 +77,6 @@ class InsertionSort : public Algorithm{
 
     public:
         using Algorithm :: Algorithm;
-        int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
         void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
         int assignNewElement(std::vector<array_member>&vector, array_member &member1, array_member &member2, SDL_Window *window, SDL_Renderer *renderer);
 
@@ -92,9 +88,15 @@ class QuickSort: public Algorithm{
 
         void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
         void SortThreadExecution(std::vector<array_member> &array,SDL_Window *window, SDL_Renderer *renderer, uint32_t low, int32_t high);
-        int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) override;
 
         int partition(std::vector<array_member> &array, uint32_t low, int32_t high);
+
+};
+
+class BidirectionalBubbleSort: public Algorithm{
+    public:
+        using Algorithm::Algorithm;
+        void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
 
 };
 int highlightValue(SDL_Window *window, SDL_Renderer *renderer, array_member value);
