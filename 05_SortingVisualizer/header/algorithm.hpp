@@ -93,7 +93,14 @@ class QuickSort: public Algorithm{
 
 };
 
-class BidirectionalBubbleSort: public Algorithm{
+class BidirectionalBubbleSortOptimized: public Algorithm{
+    public:
+        using Algorithm::Algorithm;
+        void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+
+};
+
+class BidirectionalBubbleSortUnoptimized: public Algorithm{
     public:
         using Algorithm::Algorithm;
         void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;

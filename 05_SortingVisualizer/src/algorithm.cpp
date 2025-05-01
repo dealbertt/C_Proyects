@@ -40,7 +40,7 @@ int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int
     vector[member2].rect.y= aux[1];
     vector[member2].rect.h= aux[2];
 
-
+    this->arrayAccesses += 3;
     //updateValueColumn(window, renderer, vector[member1]);
     //updateValueColumn(window, renderer, vector[member2]);
     //reDrawScreen(renderer, vector, member2);
@@ -59,7 +59,6 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
                 array[j + 1] = aux;
                 */
                 swapElements(array, j, j + 1);
-                arrayAccesses += 3;
             }
             comparisons ++;
             arrayAccesses += 2;
@@ -74,7 +73,7 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
 
     return;
 }
-void BidirectionalBubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
+void BidirectionalBubbleSortOptimized :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     bool swapped = true;
     int32_t  start = 0;
     int32_t  end = array.size() - 1;
@@ -95,6 +94,7 @@ void BidirectionalBubbleSort :: SortThread(std::vector<array_member> &array, SDL
                 mtx.unlock();
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
+            arrayAccesses += 2;
             comparisons++;
         }
  
@@ -120,6 +120,7 @@ void BidirectionalBubbleSort :: SortThread(std::vector<array_member> &array, SDL
                 mtx.unlock();
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
+            arrayAccesses += 2;
             comparisons++;
         }
         // increase the starting point, because
@@ -131,6 +132,41 @@ void BidirectionalBubbleSort :: SortThread(std::vector<array_member> &array, SDL
     return;
 }
 
+void BidirectionalBubbleSortUnoptimized :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
+    int32_t start = 0;
+    int32_t end = array.size() - 1;
+
+    while (start < end) {
+        // loop from left to right
+        for (int i = start; i < end; ++i) {
+            if (array[i].value > array[i + 1].value) {
+                mtx.lock();
+                swapElements(array, i, i + 1);
+                mtx.unlock();
+                std::this_thread::sleep_for(std::chrono::microseconds(50));
+            }
+            arrayAccesses += 2;
+            comparisons++;
+        }
+        --end;
+
+        // loop from right to left
+        for (int i = end; i > start; --i) {
+            if (array[i].value < array[i - 1].value) { // Note the change here: comparing with the element to the left
+                mtx.lock();
+                swapElements(array, i, i - 1); // Note the change here: swapping with the element to the left
+                mtx.unlock();
+                std::this_thread::sleep_for(std::chrono::microseconds(50));
+            }
+            arrayAccesses += 2;
+            comparisons++;
+        }
+        ++start;
+    }
+    this->finished = true;
+    return;
+
+}
 void SelectionSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     int size = array.size();
 

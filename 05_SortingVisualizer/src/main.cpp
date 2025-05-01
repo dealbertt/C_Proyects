@@ -32,7 +32,8 @@ std::vector<Algorithm *> algorithms;
 
 
 BubbleSort *bubbleSort = nullptr;
-BidirectionalBubbleSort *cocktail = nullptr;
+BidirectionalBubbleSortOptimized *cocktail = nullptr;
+BidirectionalBubbleSortUnoptimized *cocktail_bad = nullptr;
 SelectionSort *selectionSort = nullptr;
 InsertionSort *insertionSort = nullptr;
 QuickSort *quicksort = nullptr;
@@ -92,13 +93,15 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     std::cout << "Renderer created successfully!" << std::endl;
 
     bubbleSort = new BubbleSort("Bubble Sort", 0, 0);
-    cocktail = new BidirectionalBubbleSort("Bidirectional BubbleSort", 0, 0);
+    cocktail = new BidirectionalBubbleSortOptimized("Cocktail BubbleSort(Optimized)", 0, 0);
+    cocktail_bad = new BidirectionalBubbleSortUnoptimized("Cocktail BubbleSort(Normal)", 0, 0);
     selectionSort = new SelectionSort("Selection Sort",  0, 0);
     insertionSort = new InsertionSort("Insertion Sort",  0, 0);
     quicksort = new QuickSort("Quick Sort", 0, 0);
 
 
     algorithms.push_back(cocktail);
+    algorithms.push_back(cocktail_bad);
     algorithms.push_back(quicksort);
     algorithms.push_back(bubbleSort);
     algorithms.push_back(selectionSort);
