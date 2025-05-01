@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include <iostream>
-#include <thread>
 #include <unistd.h>
 #include <signal.h>
 
@@ -18,7 +17,6 @@
 
 #include "../header/config.hpp"
 #include "../header/algorithm.hpp"
-#include "../header/sorting.hpp"
 
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
 
@@ -36,6 +34,7 @@ std::vector<Algorithm *> algorithms;
 BubbleSort *bubbleSort = nullptr;
 SelectionSort *selectionSort = nullptr;
 InsertionSort *insertionSort = nullptr;
+QuickSort *quicksort = nullptr;
 
 sf::SoundBuffer buffer;
 
@@ -65,37 +64,46 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
         return -1;
     }
     std::cout << "SDL initialized successfully!" << std::endl;
+    vector.resize(config->numberElements);
  
-    TTF_Init();
+
+    if(!TTF_Init()){
+        std::cout << "Error while doing TTF_Init()" << SDL_GetError() << std::endl;
+        return -1;
+    }
+
     *window = SDL_CreateWindow("CSort", config->windowWidth, config->windowHeigth, SDL_WINDOW_RESIZABLE);
     if(window == NULL){
         std::cerr << "SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
+    SDL_SetWindowPosition(*window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
     std::cout << "Window created successfully!" << std::endl;
 
-    SDL_SetWindowPosition(*window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
     *renderer = SDL_CreateRenderer(*window, NULL);
-    SDL_RenderClear(*renderer);
     if(renderer == NULL){
         std::cout << "Error while trying to create the renderer" << std::endl;
         return -1;
         
     }
+    SDL_RenderClear(*renderer);
     std::cout << "Renderer created successfully!" << std::endl;
 
     bubbleSort = new BubbleSort("Bubble Sort", 0, 0);
     selectionSort = new SelectionSort("Selection Sort",  0, 0);
     insertionSort = new InsertionSort("Insertion Sort",  0, 0);
+    quicksort = new QuickSort("Quick Sort", 0, 0);
+    quicksort->setLow(0);
+    quicksort->setHigh(config->numberElements - 1);
 
    
     algorithms.push_back(bubbleSort);
     algorithms.push_back(selectionSort);
+    algorithms.push_back(quicksort);
     algorithms.push_back(insertionSort);
 
     std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;
-    signal(SIGINT, exit);
 
     if(!buffer.loadFromFile("sound/soundEffect.wav")){
         std::cout << "Error while trying to load sound file" << std::endl;
@@ -134,6 +142,7 @@ void exit(){
     delete(bubbleSort);
     delete(selectionSort);
     delete(insertionSort);
+    delete(quicksort);
 
     TTF_Quit();
     SDL_Quit();

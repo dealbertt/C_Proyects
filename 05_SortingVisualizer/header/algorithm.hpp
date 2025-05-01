@@ -12,7 +12,7 @@
 
 typedef struct{
     SDL_FRect rect;
-    int value;
+    uint32_t value;
     SDL_Color color;
 }array_member;
 
@@ -33,8 +33,8 @@ class Algorithm{
 
         virtual int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) = 0;
         virtual void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) = 0;
-   
-        int swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer);
+
+        int swapElements(std::vector<array_member>&vector, int member1, int member2);
         int showSortedArray(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer, Uint32 &lastFrameTime);
 
         int loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime);
@@ -62,30 +62,50 @@ class Algorithm{
 class BubbleSort : public Algorithm{
 
     public:
-    using Algorithm::Algorithm;
-    int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
-    void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
-
+        using Algorithm :: Algorithm;
+        int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
+        void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+ 
 };
 
 
-class SelectionSort: public Algorithm{
+class SelectionSort : public Algorithm{
     public:
-    using Algorithm::Algorithm;
-    int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
-    void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+        using Algorithm :: Algorithm;
+        int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
+        void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
 };
 
-class InsertionSort: public Algorithm{
+class InsertionSort : public Algorithm{
 
     public:
-    using Algorithm::Algorithm;
-    int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
-    void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
-    int assignNewElement(std::vector<array_member>&vector, array_member &member1, array_member &member2, SDL_Window *window, SDL_Renderer *renderer);
+        using Algorithm :: Algorithm;
+        int SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer) override;
+        void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+        int assignNewElement(std::vector<array_member>&vector, array_member &member1, array_member &member2, SDL_Window *window, SDL_Renderer *renderer);
 
 };
 
+class QuickSort: public Algorithm{
+
+    private:
+        uint32_t low;
+        uint32_t high;
+    public:
+        using Algorithm::Algorithm;
+
+        void SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer) override;
+        int SortStep(std::vector<array_member>&vector, SDL_Window *window, SDL_Renderer *renderer) override;
+
+        int partition(std::vector<array_member> &array, uint32_t low, int32_t high);
+
+        uint32_t getLow() const {return low;}
+        void setLow(uint32_t newLow) {low = newLow;} 
+
+        uint32_t getHigh() const {return high;}
+        void setHigh(uint32_t newHigh) {high = newHigh;} 
+
+};
 int highlightValue(SDL_Window *window, SDL_Renderer *renderer, array_member value);
 
 int updateValueColumn(SDL_Window *window, SDL_Renderer *renderer, array_member &value);

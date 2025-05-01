@@ -20,7 +20,7 @@
 
 //All the class functions
 
-int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int member2, SDL_Window *window, SDL_Renderer *renderer){
+int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int member2){
     int aux[3];
 
     //clearValueColumn(window, renderer, vector[member1]);
@@ -63,7 +63,7 @@ int BubbleSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window
         }
 
         if(vector[j].value > vector[j + 1].value){
-            swapElements(vector, j, j + 1, window, renderer);
+            swapElements(vector, j, j + 1);
             arrayAccesses += 3;
             comparisons++;
         }
@@ -92,7 +92,7 @@ int BubbleSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window
 
 void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *window, SDL_Renderer *renderer){
     for(int i = 0; i < (int)array.size(); i++){
-        for(int j = 0; j < (int)array.size() - 1; j++){
+        for(int j = 0; j < (int)array.size() - i - 1; j++){
             mtx.lock();
             if(array[j].value > array[j + 1].value){
                 /*
@@ -100,7 +100,7 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
                 array[j] = array[j + 1];
                 array[j + 1] = aux;
                 */
-                swapElements(array, j, j + 1, window, renderer);
+                swapElements(array, j, j + 1);
                 arrayAccesses += 3;
             }
             comparisons ++;
@@ -128,11 +128,12 @@ void SelectionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
             if(array[j].value < array[min].value){
                 min = j;
             }
+            comparisons++;
             this->index = j;
         }
         //swap the ith value for the min value
         mtx.lock();
-        swapElements(array, i, min, window, renderer);
+        swapElements(array, i, min);
         mtx.unlock();
         std::this_thread::sleep_for(std::chrono::microseconds(5000));
         /*
@@ -174,7 +175,7 @@ int SelectionSort :: SortStep(std::vector<array_member>&vector, SDL_Window *wind
         return j;
     }else{
         //this means that j > size, so i have to increment i and iterate again the first for loop
-        swapElements(vector, i, min, window, renderer);
+        swapElements(vector, i, min);
         j = i + 1;
         i++;
         min = i;
@@ -213,6 +214,7 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
         mtx.lock();
         while (j >= 0 && array[j].value > key.value) {
             //array[j + 1] = array[j];
+            comparisons++;
             assignNewElement(array, array[j + 1], array[j], window, renderer);
             j = j - 1;
         }
@@ -289,6 +291,54 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
     return 0;
 }
 
+void QuickSort :: SortThread(std::vector<array_member> &array,SDL_Window *window, SDL_Renderer *renderer){
+    if(low < high){
+        uint32_t pi = partition(array, low, high);
+        uint32_t originalLow = low;
+        uint32_t originalHigh = high;
+
+        high = pi - 1;
+        SortThread(array, window, renderer);
+
+        low = pi + 1;
+        high = originalHigh;
+        SortThread(array, window, renderer);
+
+        low = originalLow;
+        high = originalHigh;
+    }
+
+    return;
+}
+
+int QuickSort :: partition(std::vector<array_member> &array, uint32_t low, int32_t high){
+    uint32_t pivot = array[high].value;
+    uint32_t i = low - 1;
+    
+    for (int j = low; j <= high - 1; j++) {
+        mtx.lock();
+        if (array[j].value < pivot) {
+            i++;
+            swapElements(array, i, j);
+        }
+        mtx.unlock();
+        std::this_thread::sleep_for(std::chrono::microseconds(2500));
+    }
+    
+    // Move pivot after smaller elements and
+    // return its position
+    mtx.lock();
+    swapElements(array, i + 1, high);  
+    mtx.unlock();
+    std::this_thread::sleep_for(std::chrono::microseconds(2500));
+    return i + 1;
+}
+
+int QuickSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
+
+    return 0;
+}
+
 int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
     bool running = true;
     bool stop = false;
@@ -297,6 +347,7 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
 
     std::cout << "Now sorting with: " << this->getName() << std::endl;
     std::thread sortThread(&Algorithm::SortThread, this, std::ref(vector), window, renderer); 
+    this->finished = false;
     while(running){
         //bubbleSort(vector, window, renderer);
         /*
@@ -550,9 +601,8 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     //rectsToRender.resize(vector.size());
     //SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
 
-    algoritm.mtx.unlock();
-
     algoritm.displayText(renderer);
+    algoritm.mtx.unlock();
     SDL_RenderPresent(renderer);
 
 
