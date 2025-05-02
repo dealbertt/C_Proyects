@@ -92,6 +92,7 @@ void BidirectionalBubbleSortOptimized :: SortThread(std::vector<array_member> &a
                 swapElements(array, i, i + 1);
                 swapped = true;
                 mtx.unlock();
+                index = i;
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
             arrayAccesses += 2;
@@ -108,16 +109,17 @@ void BidirectionalBubbleSortOptimized :: SortThread(std::vector<array_member> &a
  
         // move the end point back by one, because
         // item at the end is in its rightful spot
-        --end;
+        end--;
  
         // from right to left, doing the
         // same comparison as in the previous stage
-        for (int i = end - 1; i >= start; --i) {
+        for (int i = end - 1; i >= start; i--) {
             if (array[i].value > array[i + 1].value) {
                 mtx.lock();
                 swapElements(array, i, i + 1);
                 swapped = true;
                 mtx.unlock();
+                index = i;
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
             arrayAccesses += 2;
@@ -138,10 +140,11 @@ void BidirectionalBubbleSortUnoptimized :: SortThread(std::vector<array_member> 
 
     while (start < end) {
         // loop from left to right
-        for (int i = start; i < end; ++i) {
+        for (int i = start; i < end; i++) {
             if (array[i].value > array[i + 1].value) {
                 mtx.lock();
                 swapElements(array, i, i + 1);
+                index = i;
                 mtx.unlock();
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
@@ -155,14 +158,16 @@ void BidirectionalBubbleSortUnoptimized :: SortThread(std::vector<array_member> 
             if (array[i].value < array[i - 1].value) { // Note the change here: comparing with the element to the left
                 mtx.lock();
                 swapElements(array, i, i - 1); // Note the change here: swapping with the element to the left
+                index = i;
                 mtx.unlock();
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
             arrayAccesses += 2;
             comparisons++;
         }
-        ++start;
+        start++;
     }
+
     this->finished = true;
     return;
 
@@ -180,6 +185,7 @@ void SelectionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
             }
             comparisons++;
             this->index = j;
+            std::this_thread::sleep_for(std::chrono::microseconds(5));
         }
         //swap the ith value for the min value
         mtx.lock();
@@ -210,6 +216,7 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
             //array[j + 1] = array[j];
             comparisons++;
             assignNewElement(array, array[j + 1], array[j], window, renderer);
+            this->index = j;
             j = j - 1;
         }
         mtx.unlock();
@@ -217,6 +224,7 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
         //array[j + 1] = key;
         mtx.lock();
         assignNewElement(array, array[j + 1], key, window, renderer);
+        this->index = j + 1;
         mtx.unlock();
         std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
@@ -265,20 +273,22 @@ int QuickSort :: partition(std::vector<array_member> &array, uint32_t low, int32
         mtx.lock();
         if (array[j].value < pivot) {
             i++;
+            this->index = j;
             swapElements(array, i, j);
         }
         mtx.unlock();
         comparisons++;
-        std::this_thread::sleep_for(std::chrono::microseconds(2500));
+        std::this_thread::sleep_for(std::chrono::microseconds(1500));
     }
     
     // Move pivot after smaller elements and
     // return its position
     mtx.lock();
+    this->index = high;
     swapElements(array, static_cast<uint32_t>(i + 1), high);  
     mtx.unlock();
 
-    std::this_thread::sleep_for(std::chrono::microseconds(2500));
+    std::this_thread::sleep_for(std::chrono::microseconds(1500));
     return i + 1;
 }
 
@@ -542,6 +552,10 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
+    
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+    SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
     //rectsToRender.resize(vector.size());
     //SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
 
