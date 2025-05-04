@@ -24,7 +24,7 @@ class Algorithm{
         uint32_t comparisons;
         uint32_t arrayAccesses;
         bool finished;
-        uint16_t index;
+        uint16_t index = 0;
 
     public:
         std::mutex mtx;
@@ -55,6 +55,7 @@ class Algorithm{
         void setAccesses(uint8_t newAccesses) {arrayAccesses = newAccesses;}
         void setFinished(bool newFinished) { finished = newFinished;}
         void setIndex(uint16_t newIndex) { index = newIndex;}
+        void playSound(uint16_t index);
 
 };
 

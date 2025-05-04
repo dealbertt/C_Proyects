@@ -19,7 +19,12 @@
 #include <string>
 #include <thread>
 
+#include <SFML/Audio.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/System/Time.hpp>
 //All the class functions
+
+extern sf::SoundBuffer buffer;
 
 int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int member2){
     int aux[3];
@@ -421,11 +426,8 @@ std::mt19937 gen(rd()); // Mersenne Twister PRNG
 
 int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std::vector<array_member> &vector, Uint32 &lastFrameTime){
 
-    int aux = config->fps;
-
-    config->fps = 300;
-    vector.clear();
     vector.resize(config->numberElements);
+
     std::uniform_int_distribution<int> dist(1, config->windowHeigth - 100); // Generates 0 or 1
 
     float x = 0.0f;
@@ -452,8 +454,6 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
     }
 
     std::cout << "Vector initialized Correctly" << std::endl;
-
-    config->fps = aux;
 
     return 0;
 }
@@ -553,6 +553,7 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
     
+
 
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
     SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);

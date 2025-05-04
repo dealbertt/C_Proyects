@@ -100,26 +100,25 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
     quicksort = new QuickSort("Quick Sort", 0, 0);
 
 
-    algorithms.push_back(quicksort);
-    algorithms.push_back(insertionSort);
     algorithms.push_back(bubbleSort);
     algorithms.push_back(cocktail_bad);
     algorithms.push_back(cocktail);
     algorithms.push_back(selectionSort);
+    algorithms.push_back(insertionSort);
+    algorithms.push_back(quicksort);
 
     std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;
 
-    if(!buffer.loadFromFile("sound/soundEffect.wav")){
+    if(!buffer.loadFromFile("sound/beep.wav")){
         std::cout << "Error while trying to load sound file" << std::endl;
         return -1;
     }
     
-    /*
     sf::Sound sound;
     sound.setBuffer(buffer);
     sound.play();
-    sf::sleep(sf::milliseconds(2000)); // or sound.getDuration()
-    */
+    sf::sleep(sf::milliseconds(200)); // or sound.getDuration()
+    sound.play();
 
     SDL_RenderPresent(*renderer);
     return 0;
