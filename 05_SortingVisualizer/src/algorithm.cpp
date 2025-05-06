@@ -72,8 +72,6 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
             this->index = j;
             mtx.unlock();
             soundMtx.unlock();
-            std::thread playSound(&Algorithm::playSound, this, index); 
-            playSound.detach();
             std::this_thread::sleep_for(std::chrono::microseconds(50));
         }
 
@@ -314,6 +312,8 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
     std::thread sortThread(&Algorithm::SortThread, this, std::ref(vector), window, renderer); 
     sortThread.detach();
 
+    std::thread playSound(&Algorithm::playSound, this, index); 
+    playSound.detach();
     while(running){
         //bubbleSort(vector, window, renderer);
         /*
@@ -582,11 +582,13 @@ void Algorithm :: playSound(uint16_t index){
     float maxPitch = 1.0f;
     float pitch = minPitch + (static_cast<float>(index) / 400.0f) * (maxPitch - minPitch);
 
-    sf::Sound sound;
-    sound.setBuffer(buffer);
-    sound.setPitch(pitch);
-    sound.play();
-    std::this_thread::sleep_for(std::chrono::microseconds(2000));
+    while(!this->finished){
+        sf::Sound sound;
+        sound.setBuffer(buffer);
+        sound.setPitch(pitch);
+        sound.play();
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    }
     return;
 }
 /*
