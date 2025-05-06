@@ -57,6 +57,7 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
     for(int i = 0; i < (int)array.size(); i++){
         for(int j = 0; j < (int)array.size() - i - 1; j++){
             mtx.lock();
+            soundMtx.lock();
             if(array[j].value > array[j + 1].value){
                 /*
                 array_member aux = array[j];
@@ -69,6 +70,7 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
             arrayAccesses += 2;
             this->index = j;
             mtx.unlock();
+            soundMtx.unlock();
             std::this_thread::sleep_for(std::chrono::microseconds(50));
         }
 
@@ -156,10 +158,10 @@ void BidirectionalBubbleSortUnoptimized :: SortThread(std::vector<array_member> 
             arrayAccesses += 2;
             comparisons++;
         }
-        --end;
+        end--;
 
         // loop from right to left
-        for (int i = end; i > start; --i) {
+        for (int i = end; i > start; i--) {
             if (array[i].value < array[i - 1].value) { // Note the change here: comparing with the element to the left
                 mtx.lock();
                 swapElements(array, i, i - 1); // Note the change here: swapping with the element to the left
@@ -308,6 +310,7 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
     std::cout << "Now sorting with: " << this->getName() << std::endl;
     std::thread sortThread(&Algorithm::SortThread, this, std::ref(vector), window, renderer); 
     sortThread.detach();
+
     while(running){
         //bubbleSort(vector, window, renderer);
         /*
@@ -319,6 +322,8 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
         */
         handleKeyboard(stop, sortThread);
         reDrawScreen(renderer, vector, index, lastFrameTime, *this); 
+        std::thread playSound(&Algorithm::playSound, this, index); 
+        playSound.detach();
         if(this->finished){
             showSortedArray(vector, window, renderer, lastFrameTime);
             break;
@@ -571,7 +576,20 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     return deltaTime;
 }
+void Algorithm :: playSound(uint16_t index){
+    float minPitch = 0.5f;
+    float maxPitch = 2.0f;
+    float pitch = minPitch + (static_cast<float>(index) / 400.0f) * (maxPitch - minPitch);
 
+    soundMtx.lock();
+    sf::Sound sound;
+    sound.setBuffer(buffer);
+    sound.setPitch(pitch);
+    sound.play();
+    soundMtx.unlock();
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    return;
+}
 /*
 int QuickSort :: SortStep(std::vector<array_member> &vector, SDL_Window *window, SDL_Renderer *renderer){
 

@@ -28,6 +28,7 @@ class Algorithm{
 
     public:
         std::mutex mtx;
+        std::mutex soundMtx;
         virtual ~Algorithm() = default;
         Algorithm(std::string name, uint32_t comparisons, uint32_t arrayAccesses) : name(name), comparisons(comparisons), arrayAccesses(arrayAccesses) {}
 
