@@ -312,7 +312,7 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
     std::thread sortThread(&Algorithm::SortThread, this, std::ref(vector), window, renderer); 
     sortThread.detach();
 
-    std::thread playSound(&Algorithm::playSound, this, index); 
+    std::thread playSound(&Algorithm::playSound, this); 
     playSound.detach();
     while(running){
         //bubbleSort(vector, window, renderer);
@@ -577,14 +577,15 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     return deltaTime;
 }
-void Algorithm :: playSound(uint16_t index){
+void Algorithm :: playSound(){
     float minPitch = 0.5f;
     float maxPitch = 1.0f;
-    float pitch = minPitch + (static_cast<float>(index) / 400.0f) * (maxPitch - minPitch);
+
+    sf::Sound sound;
+    sound.setBuffer(buffer);
 
     while(!this->finished){
-        sf::Sound sound;
-        sound.setBuffer(buffer);
+        float pitch = minPitch + (static_cast<float>(this->index) / 400.0f) * (maxPitch - minPitch);
         sound.setPitch(pitch);
         sound.play();
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
