@@ -2,6 +2,7 @@
 #include <SDL3/SDL_oldnames.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_surface.h>
+#include <SFML/System/Sleep.hpp>
 #include <chrono>
 #include <cstdint>
 #include <iostream>
@@ -71,6 +72,8 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
             this->index = j;
             mtx.unlock();
             soundMtx.unlock();
+            std::thread playSound(&Algorithm::playSound, this, index); 
+            playSound.detach();
             std::this_thread::sleep_for(std::chrono::microseconds(50));
         }
 
@@ -322,8 +325,6 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
         */
         handleKeyboard(stop, sortThread);
         reDrawScreen(renderer, vector, index, lastFrameTime, *this); 
-        std::thread playSound(&Algorithm::playSound, this, index); 
-        playSound.detach();
         if(this->finished){
             showSortedArray(vector, window, renderer, lastFrameTime);
             break;
@@ -578,16 +579,14 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
 }
 void Algorithm :: playSound(uint16_t index){
     float minPitch = 0.5f;
-    float maxPitch = 2.0f;
+    float maxPitch = 1.0f;
     float pitch = minPitch + (static_cast<float>(index) / 400.0f) * (maxPitch - minPitch);
 
-    soundMtx.lock();
     sf::Sound sound;
     sound.setBuffer(buffer);
     sound.setPitch(pitch);
     sound.play();
-    soundMtx.unlock();
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    std::this_thread::sleep_for(std::chrono::microseconds(2000));
     return;
 }
 /*
