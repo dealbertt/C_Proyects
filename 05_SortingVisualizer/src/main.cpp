@@ -109,7 +109,7 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
 
     std::cout << "Size of algorithms vector: " << algorithms.size() << std::endl;
 
-    if(!buffer.loadFromFile("sound/beep.wav")){
+    if(!buffer.loadFromFile("sound/bleep.wav")){
         std::cout << "Error while trying to load sound file" << std::endl;
         return -1;
     }

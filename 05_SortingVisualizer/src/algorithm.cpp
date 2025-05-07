@@ -366,7 +366,7 @@ int Algorithm :: displayText(SDL_Renderer *renderer){
     SDL_FRect NameRect; //create a rect
     NameRect.x = 0; // controls the rect's y coordinte
     NameRect.y = 0; // controls the rect's y coordinte
-    NameRect.w = 250;
+    NameRect.w = 450;
     NameRect.h = 50;
 
     SDL_Surface *surfaceComparisons = TTF_RenderText_Solid(font, strComparisons.c_str(), strComparisons.length(), textColor);
@@ -383,9 +383,9 @@ int Algorithm :: displayText(SDL_Renderer *renderer){
     }
     
     SDL_FRect ComparisonsRect; //create a rect
-    ComparisonsRect.x = 300; // controls the rect's y coordinte
+    ComparisonsRect.x = NameRect.x + 500; // controls the rect's y coordinte
     ComparisonsRect.y = 0; // controls the rect's y coordinte
-    ComparisonsRect.w = 250;
+    ComparisonsRect.w = 300;
     ComparisonsRect.h = 50;
 
     SDL_Surface *surfaceAccesses = TTF_RenderText_Solid(font, strAccesses.c_str(), strAccesses.length(), textColor);
@@ -402,7 +402,7 @@ int Algorithm :: displayText(SDL_Renderer *renderer){
     }
     
     SDL_FRect AccessesRect; //create a rect
-    AccessesRect.x = 600; // controls the rect's y coordinte
+    AccessesRect.x = ComparisonsRect.x + 400; // controls the rect's y coordinte
     AccessesRect.y = 0; // controls the rect's y coordinte
     AccessesRect.w = 250;
     AccessesRect.h = 50;
