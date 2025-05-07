@@ -452,7 +452,7 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
         int guess = dist(gen);
         vector[i].value = guess;
         vector[i].rect  = {x, (float)config->windowHeigth - guess, (float)width, (float)guess};
-        vector[i].color = {(uint8_t)guess, 255, 255, 255};
+        vector[i].color = {static_cast<uint8_t>(guess), 0, 0, 255};
         SDL_RenderFillRect(renderer, &vector[i].rect);
 
         reDrawScreen(renderer, vector, i, lastFrameTime, *this);
@@ -516,7 +516,8 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
     for(int i = 0; i < size; i++){
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFF0000);
         //SDL_UpdateWindowSurface(window);
-        vector[i].color.g = 0;
+        vector[i].color.r = 0;
+        vector[i].color.g = 255;
         vector[i].color.b = 0;
         reDrawScreen(renderer,vector, i, lastFrameTime, *this);
         SDL_Delay(5);
@@ -557,7 +558,7 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     */
     algoritm.mtx.lock();
     for (const auto& member : vector) {
-        SDL_SetRenderDrawColor(renderer, member.color.r, 255, 255, 255);
+        SDL_SetRenderDrawColor(renderer, member.color.r, member.color.g, member.color.b, 255);
         SDL_RenderFillRect(renderer, &member.rect);
         //rectsToRender.push_back(member.rect);
     }
