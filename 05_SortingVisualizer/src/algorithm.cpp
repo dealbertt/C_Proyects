@@ -28,7 +28,7 @@
 extern sf::SoundBuffer buffer;
 
 int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int member2){
-    int aux[3];
+    int aux[4];
 
     //clearValueColumn(window, renderer, vector[member1]);
     //clearValueColumn(window, renderer, vector[member2]);
@@ -37,14 +37,17 @@ int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int
     aux[0] = vector[member1].value;
     aux[1] = vector[member1].rect.y;
     aux[2] = vector[member1].rect.h;
+    aux[3] = vector[member1].color.r;
 
     vector[member1].value = vector[member2].value;
     vector[member1].rect.y = vector[member2].rect.y;
     vector[member1].rect.h = vector[member2].rect.h;
+    vector[member1].color.r = vector[member2].color.r;
 
     vector[member2].value = aux[0];
     vector[member2].rect.y= aux[1];
     vector[member2].rect.h= aux[2];
+    vector[member2].color.r= aux[3];
 
     this->arrayAccesses += 3;
     //updateValueColumn(window, renderer, vector[member1]);
