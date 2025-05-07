@@ -449,7 +449,7 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
         int guess = dist(gen);
         vector[i].value = guess;
         vector[i].rect  = {x, (float)config->windowHeigth - guess, (float)width, (float)guess};
-        vector[i].color = {255, 255, 255, 255};
+        vector[i].color = {(uint8_t)guess, 255, 255, 255};
         SDL_RenderFillRect(renderer, &vector[i].rect);
 
         reDrawScreen(renderer, vector, i, lastFrameTime, *this);
@@ -554,15 +554,15 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     */
     algoritm.mtx.lock();
     for (const auto& member : vector) {
-        rectsToRender.push_back(member.rect);
+        SDL_SetRenderDrawColor(renderer, member.color.r, 255, 255, 255);
+        SDL_RenderFillRect(renderer, &member.rect);
+        //rectsToRender.push_back(member.rect);
     }
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
-    
+    //SDL_RenderFillRects(renderer, rectsToRender.data(), rectsToRender.size());
 
 
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-    SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
+    SDL_RenderFillRect(renderer, &vector[algoritm.getIndex()].rect);
     //rectsToRender.resize(vector.size());
     //SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
 
