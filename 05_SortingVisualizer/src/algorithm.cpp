@@ -452,7 +452,7 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
         int guess = dist(gen);
         vector[i].value = guess;
         vector[i].rect  = {x, (float)config->windowHeigth - guess, (float)width, (float)guess};
-        vector[i].color = {static_cast<uint8_t>(guess), 0, 0, 255};
+        vector[i].color = {static_cast<uint8_t>(vector[i].value), 0, 255, 255};
         SDL_RenderFillRect(renderer, &vector[i].rect);
 
         reDrawScreen(renderer, vector, i, lastFrameTime, *this);
@@ -592,7 +592,7 @@ void Algorithm :: playSound(){
         float pitch = minPitch + (static_cast<float>(this->index) / 400.0f) * (maxPitch - minPitch);
         sound.setPitch(pitch);
         sound.play();
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
     return;
 }
