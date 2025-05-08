@@ -73,9 +73,10 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
             comparisons ++;
             arrayAccesses += 2;
             this->index = j;
-            mtx.unlock();
             soundMtx.unlock();
-            std::this_thread::sleep_for(std::chrono::microseconds(50));
+            mtx.unlock();
+
+            std::this_thread::sleep_for(std::chrono::microseconds(150));
         }
 
     }
@@ -100,9 +101,14 @@ void BidirectionalBubbleSortOptimized :: SortThread(std::vector<array_member> &a
         for (int i = start; i < end; ++i) {
             if (array[i].value > array[i + 1].value) {
                 mtx.lock();
+                soundMtx.lock();
+
                 swapElements(array, i, i + 1);
                 swapped = true;
+
+                soundMtx.unlock();
                 mtx.unlock();
+
                 index = i;
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
@@ -127,9 +133,14 @@ void BidirectionalBubbleSortOptimized :: SortThread(std::vector<array_member> &a
         for (int i = end - 1; i >= start; i--) {
             if (array[i].value > array[i + 1].value) {
                 mtx.lock();
+                soundMtx.lock();
+
                 swapElements(array, i, i + 1);
                 swapped = true;
+
+                soundMtx.unlock();
                 mtx.unlock();
+
                 index = i;
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
@@ -154,8 +165,12 @@ void BidirectionalBubbleSortUnoptimized :: SortThread(std::vector<array_member> 
         for (int i = start; i < end; i++) {
             if (array[i].value > array[i + 1].value) {
                 mtx.lock();
+                soundMtx.lock();
+
                 swapElements(array, i, i + 1);
                 index = i;
+
+                soundMtx.unlock();
                 mtx.unlock();
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
@@ -168,8 +183,12 @@ void BidirectionalBubbleSortUnoptimized :: SortThread(std::vector<array_member> 
         for (int i = end; i > start; i--) {
             if (array[i].value < array[i - 1].value) { // Note the change here: comparing with the element to the left
                 mtx.lock();
+                soundMtx.lock();
+
                 swapElements(array, i, i - 1); // Note the change here: swapping with the element to the left
                 index = i;
+
+                soundMtx.unlock();
                 mtx.unlock();
                 std::this_thread::sleep_for(std::chrono::microseconds(50));
             }
@@ -200,7 +219,11 @@ void SelectionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
         }
         //swap the ith value for the min value
         mtx.lock();
+        soundMtx.unlock();
+
         swapElements(array, i, min);
+
+        soundMtx.unlock();
         mtx.unlock();
         std::this_thread::sleep_for(std::chrono::microseconds(5000));
         /*
@@ -223,6 +246,7 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
            greater than key, to one position ahead
            of their current position */
         mtx.lock();
+        soundMtx.lock();
         while (j >= 0 && array[j].value > key.value) {
             //array[j + 1] = array[j];
             comparisons++;
@@ -230,12 +254,18 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
             this->index = j;
             j = j - 1;
         }
+
+        soundMtx.unlock();
         mtx.unlock();
         std::this_thread::sleep_for(std::chrono::microseconds(5000));
         //array[j + 1] = key;
+        
         mtx.lock();
+        soundMtx.lock();
         assignNewElement(array, array[j + 1], key, window, renderer);
         this->index = j + 1;
+
+        soundMtx.unlock();
         mtx.unlock();
         std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
@@ -283,12 +313,16 @@ int QuickSort :: partition(std::vector<array_member> &array, uint32_t low, int32
     
     for (int32_t j = static_cast<int32_t>(low); j <= high - 1; j++) {
         mtx.lock();
+        soundMtx.unlock();
         if (array[j].value < pivot) {
             i++;
             this->index = j;
             swapElements(array, i, j);
         }
+
+        soundMtx.unlock();
         mtx.unlock();
+
         comparisons++;
         std::this_thread::sleep_for(std::chrono::microseconds(1500));
     }
@@ -296,8 +330,12 @@ int QuickSort :: partition(std::vector<array_member> &array, uint32_t low, int32
     // Move pivot after smaller elements and
     // return its position
     mtx.lock();
+    soundMtx.lock();
+
     this->index = high;
     swapElements(array, static_cast<uint32_t>(i + 1), high);  
+
+    soundMtx.unlock();
     mtx.unlock();
 
     std::this_thread::sleep_for(std::chrono::microseconds(1500));
@@ -573,6 +611,8 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     */
     algoritm.mtx.lock();
+    algoritm.soundMtx.lock();
+
     for (const auto& member : vector) {
         SDL_SetRenderDrawColor(renderer, member.color.r, member.color.g, member.color.b, 255);
         SDL_RenderFillRect(renderer, &member.rect);
@@ -587,7 +627,10 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     //SDL_RenderFillRect(renderer, &rectsToRender[algoritm.getIndex()]);
 
     algoritm.displayText(renderer);
+
     algoritm.mtx.unlock();
+    algoritm.soundMtx.unlock();
+
     SDL_RenderPresent(renderer);
 
 
@@ -605,10 +648,14 @@ void Algorithm :: playSound(std::vector<array_member> &vector){
     sound.setBuffer(buffer);
 
     while(!this->finished){
+        soundMtx.lock();
+
         float pitch = minPitch + (static_cast<float>(vector[this->index].value) / 400.0f) * (maxPitch - minPitch);
         sound.setPitch(pitch);
         sound.play();
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+
+        soundMtx.unlock();
+        std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
     return;
 }
