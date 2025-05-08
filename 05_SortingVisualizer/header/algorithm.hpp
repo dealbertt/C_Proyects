@@ -56,7 +56,7 @@ class Algorithm{
         void setAccesses(uint8_t newAccesses) {arrayAccesses = newAccesses;}
         void setFinished(bool newFinished) { finished = newFinished;}
         void setIndex(uint16_t newIndex) { index = newIndex;}
-        void playSound();
+        void  playSound(std::vector<array_member> &vector);
 
 };
 
