@@ -249,6 +249,7 @@ int InsertionSort :: assignNewElement(std::vector<array_member>&vector, array_me
     member1.value = member2.value;
     member1.rect.y = member2.rect.y;
     member1.rect.h = member2.rect.h;
+    member1.color.r = member2.color.r;
 
     updateValueColumn(window, renderer, member1);
     return 0;
@@ -452,7 +453,7 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
         int guess = dist(gen);
         vector[i].value = guess;
         vector[i].rect  = {x, (float)config->windowHeigth - guess, (float)width, (float)guess};
-        vector[i].color = {static_cast<uint8_t>(vector[i].value), 0, 255, 255};
+        vector[i].color = {255, 255, 255, 255};
         SDL_RenderFillRect(renderer, &vector[i].rect);
 
         reDrawScreen(renderer, vector, i, lastFrameTime, *this);
@@ -513,6 +514,11 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
+    this->finished = false;
+
+    std::thread playSound(&Algorithm::playSound, this); 
+    playSound.detach();
+
     for(int i = 0; i < size; i++){
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFF0000);
         //SDL_UpdateWindowSurface(window);
@@ -520,8 +526,10 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
         vector[i].color.g = 255;
         vector[i].color.b = 0;
         reDrawScreen(renderer,vector, i, lastFrameTime, *this);
+        this->index = i;
         SDL_Delay(5);
     }
+    this->finished = true;
 
     std::cout << "Array of size: " << size << " sorted!" << std::endl;
     std::cout << "Total comparisons: " << comparisons <<  std::endl;
