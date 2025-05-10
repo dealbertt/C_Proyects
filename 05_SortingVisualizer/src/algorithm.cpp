@@ -6,19 +6,20 @@
 #include <chrono>
 #include <cstdint>
 #include <iostream>
+#include <mutex>
+#include <random>
+#include <csignal>
+#include <string>
+#include <thread>
+
 #include "../header/algorithm.hpp"
 #include "../header/config.hpp"
 #include "../header/keyboard.hpp"
 
-#include <mutex>
-#include <random>
-#include <csignal>
 
 
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3/SDL_render.h>
-#include <string>
-#include <thread>
 
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
@@ -26,6 +27,7 @@
 //All the class functions
 
 extern sf::SoundBuffer buffer;
+extern Config *config;
 
 int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int member2){
     int aux[4];
@@ -76,7 +78,7 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
             soundMtx.unlock();
             mtx.unlock();
 
-            std::this_thread::sleep_for(std::chrono::microseconds(150));
+            std::this_thread::sleep_for(std::chrono::microseconds(config->delay));
         }
 
     }
@@ -110,7 +112,7 @@ void BidirectionalBubbleSortOptimized :: SortThread(std::vector<array_member> &a
                 mtx.unlock();
 
                 index = i;
-                std::this_thread::sleep_for(std::chrono::microseconds(50));
+                std::this_thread::sleep_for(std::chrono::microseconds(config->delay / 2));
             }
             arrayAccesses += 2;
             comparisons++;
@@ -142,7 +144,7 @@ void BidirectionalBubbleSortOptimized :: SortThread(std::vector<array_member> &a
                 mtx.unlock();
 
                 index = i;
-                std::this_thread::sleep_for(std::chrono::microseconds(50));
+                std::this_thread::sleep_for(std::chrono::microseconds(config->delay / 2));
             }
             arrayAccesses += 2;
             comparisons++;
@@ -172,7 +174,7 @@ void BidirectionalBubbleSortUnoptimized :: SortThread(std::vector<array_member> 
 
                 soundMtx.unlock();
                 mtx.unlock();
-                std::this_thread::sleep_for(std::chrono::microseconds(50));
+                std::this_thread::sleep_for(std::chrono::microseconds(config->delay / 2));
             }
             arrayAccesses += 2;
             comparisons++;
@@ -190,7 +192,7 @@ void BidirectionalBubbleSortUnoptimized :: SortThread(std::vector<array_member> 
 
                 soundMtx.unlock();
                 mtx.unlock();
-                std::this_thread::sleep_for(std::chrono::microseconds(50));
+                std::this_thread::sleep_for(std::chrono::microseconds(config->delay / 2));
             }
             arrayAccesses += 2;
             comparisons++;
@@ -215,17 +217,18 @@ void SelectionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
             }
             comparisons++;
             this->index = j;
-            std::this_thread::sleep_for(std::chrono::microseconds(5));
+            std::this_thread::sleep_for(std::chrono::microseconds(config->delay * 2));
         }
         //swap the ith value for the min value
         mtx.lock();
         soundMtx.unlock();
 
+        this->index = i;
         swapElements(array, i, min);
 
         soundMtx.unlock();
         mtx.unlock();
-        std::this_thread::sleep_for(std::chrono::microseconds(5000));
+        std::this_thread::sleep_for(std::chrono::microseconds(config->delay * 15));
         /*
         array_member aux = array[i];
         array[i] = array[min];
@@ -257,7 +260,7 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
 
         soundMtx.unlock();
         mtx.unlock();
-        std::this_thread::sleep_for(std::chrono::microseconds(5000));
+        std::this_thread::sleep_for(std::chrono::microseconds(config->delay * 15));
         //array[j + 1] = key;
         
         mtx.lock();
@@ -267,7 +270,7 @@ void InsertionSort :: SortThread(std::vector<array_member> &array, SDL_Window *w
 
         soundMtx.unlock();
         mtx.unlock();
-        std::this_thread::sleep_for(std::chrono::microseconds(5000));
+        std::this_thread::sleep_for(std::chrono::microseconds(config->delay * 15));
     }
 
     this->finished = true;
@@ -324,7 +327,7 @@ int QuickSort :: partition(std::vector<array_member> &array, uint32_t low, int32
         mtx.unlock();
 
         comparisons++;
-        std::this_thread::sleep_for(std::chrono::microseconds(1500));
+        std::this_thread::sleep_for(std::chrono::microseconds(config->delay));
     }
     
     // Move pivot after smaller elements and
@@ -338,7 +341,7 @@ int QuickSort :: partition(std::vector<array_member> &array, uint32_t low, int32
     soundMtx.unlock();
     mtx.unlock();
 
-    std::this_thread::sleep_for(std::chrono::microseconds(1500));
+    std::this_thread::sleep_for(std::chrono::microseconds(config->delay));
     return i + 1;
 }
 
