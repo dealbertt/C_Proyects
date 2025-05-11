@@ -576,7 +576,6 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
         vector[i].color.b = 0;
         reDrawScreen(renderer,vector, i, lastFrameTime, *this);
         this->index = i;
-        SDL_Delay(5);
     }
     this->finished = true;
 
@@ -644,7 +643,7 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     return deltaTime;
 }
 void Algorithm :: playSound(std::vector<array_member> &vector){
-    float minPitch = 0.5f;
+    float minPitch = 0.1f;
     float maxPitch = 1.0f;
 
     sf::Sound sound;
