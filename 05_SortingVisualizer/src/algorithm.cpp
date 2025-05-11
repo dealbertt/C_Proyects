@@ -479,7 +479,7 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
 
     vector.resize(config->numberElements);
 
-    std::uniform_int_distribution<int> dist(1, config->windowHeigth - 100); // Generates 0 or 1
+    std::uniform_int_distribution<uint32_t> dist(1, config->windowHeigth - 100); // Generates 0 or 1
 
     float x = 0.0f;
 
@@ -497,10 +497,14 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
     playSound.detach();
 
     for(int i = 0; i < (int)vector.size(); i++){
-        int guess = dist(gen);
+        uint32_t guess = dist(gen);
         vector[i].value = guess;
         vector[i].rect  = {x, (float)config->windowHeigth - guess, (float)width, (float)guess};
-        vector[i].color = {255, 255, 255, 255};
+
+        uint8_t colorRed = ((guess - 1) * 255) / (config->numberElements);
+
+        vector[i].color = {colorRed, 255, 255, 255};
+        //The problem with the color comes from casting from a uint32 of guess to a uint8 of the color 
         SDL_RenderFillRect(renderer, &vector[i].rect);
 
         reDrawScreen(renderer, vector, i, lastFrameTime, *this);
@@ -570,12 +574,12 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
 
     for(int i = 0; i < size; i++){
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFF0000);
+        this->index = i;
         //SDL_UpdateWindowSurface(window);
         vector[i].color.r = 0;
         vector[i].color.g = 255;
         vector[i].color.b = 0;
         reDrawScreen(renderer,vector, i, lastFrameTime, *this);
-        this->index = i;
     }
     this->finished = true;
 
