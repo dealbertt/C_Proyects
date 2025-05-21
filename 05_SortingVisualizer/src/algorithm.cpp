@@ -27,6 +27,7 @@
 //All the class functions
 
 extern sf::SoundBuffer buffer;
+extern sf::Sound sound;
 extern Config *config;
 
 int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int member2){
@@ -56,6 +57,7 @@ int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int
     //updateValueColumn(window, renderer, vector[member2]);
     //reDrawScreen(renderer, vector, member2);
 
+    this->playSound(vector);
     return 0;
 }
 
@@ -357,8 +359,9 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
     std::thread sortThread(&Algorithm::SortThread, this, std::ref(vector), window, renderer); 
     sortThread.detach();
 
-    std::thread playSound(&Algorithm::playSound, this, std::ref(vector)); 
-    playSound.detach();
+    //std::thread playSound(&Algorithm::playSound, this, std::ref(vector)); 
+    //playSound.detach();
+
     while(running){
         //bubbleSort(vector, window, renderer);
         /*
@@ -493,17 +496,20 @@ int Algorithm :: initializeArray(SDL_Window *window, SDL_Renderer *renderer, std
 
     this->finished = false;
 
+    /*
     std::thread playSound(&Algorithm::playSound, this, std::ref(vector)); 
     playSound.detach();
+    */
+
 
     for(int i = 0; i < (int)vector.size(); i++){
         uint32_t guess = dist(gen);
         vector[i].value = guess;
         vector[i].rect  = {x, (float)config->windowHeigth - guess, (float)width, (float)guess};
 
-        uint8_t colorRed = ((guess - 1) * 255) / (config->numberElements);
+        //uint8_t colorRed = ((guess - 1) * 255) / (config->numberElements - 1);
 
-        vector[i].color = {colorRed, 255, 255, 255};
+        vector[i].color = {255, 255, 255, 255};
         //The problem with the color comes from casting from a uint32 of guess to a uint8 of the color 
         SDL_RenderFillRect(renderer, &vector[i].rect);
 
@@ -569,8 +575,10 @@ int Algorithm :: showSortedArray(std::vector<array_member> &vector, SDL_Window *
     SDL_RenderClear(renderer);
     this->finished = false;
 
+    /*
     std::thread playSound(&Algorithm::playSound, this, std::ref(vector)); 
     playSound.detach();
+    */
 
     for(int i = 0; i < size; i++){
         //SDL_FillSurfaceRect(surface, &vector[i].rect, 0xFFFF0000);
@@ -617,7 +625,6 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     */
     algoritm.mtx.lock();
-    algoritm.soundMtx.lock();
 
     for (const auto& member : vector) {
         SDL_SetRenderDrawColor(renderer, member.color.r, member.color.g, member.color.b, 255);
@@ -635,7 +642,6 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     algoritm.displayText(renderer);
 
     algoritm.mtx.unlock();
-    algoritm.soundMtx.unlock();
 
     SDL_RenderPresent(renderer);
 
@@ -646,23 +652,17 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     return deltaTime;
 }
+
 void Algorithm :: playSound(std::vector<array_member> &vector){
     float minPitch = 0.1f;
-    float maxPitch = 1.0f;
+    float maxPitch = 3.0f;
 
-    sf::Sound sound;
-    sound.setBuffer(buffer);
+    float pitch = minPitch + (static_cast<float>(this->index) / 400.0f) * (maxPitch - minPitch);
 
-    while(!this->finished){
-        soundMtx.lock();
+    sound.setPitch(pitch);
+    sound.play();
+    std::this_thread::sleep_for(std::chrono::milliseconds(config->delay));
 
-        float pitch = minPitch + (static_cast<float>(vector[this->index].value) / 400.0f) * (maxPitch - minPitch);
-        sound.setPitch(pitch);
-        sound.play();
-
-        soundMtx.unlock();
-        std::this_thread::sleep_for(std::chrono::milliseconds(150));
-    }
     return;
 }
 /*

@@ -10,6 +10,10 @@
 #include <SDL3/SDL_render.h>
 
 
+
+#include <SFML/Audio.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/System/Time.hpp>
 typedef struct{
     SDL_FRect rect;
     uint32_t value;

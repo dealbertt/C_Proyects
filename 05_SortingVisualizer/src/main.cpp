@@ -27,6 +27,7 @@ SDL_Renderer *renderer = NULL;
 
 
 
+
 std::vector<array_member> vector;
 std::vector<Algorithm *> algorithms;
 
@@ -39,6 +40,7 @@ InsertionSort *insertionSort = nullptr;
 QuickSort *quicksort = nullptr;
 
 sf::SoundBuffer buffer;
+sf::Sound sound;
 
 int algorithmStateManager(SDL_Window *window, SDL_Renderer *renderer);
 int initObjects(SDL_Window **window, SDL_Renderer **renderer);
@@ -113,7 +115,6 @@ int initObjects(SDL_Window **window, SDL_Renderer **renderer){
         return -1;
     }
     
-    sf::Sound sound;
     sound.setBuffer(buffer);
     sound.play();
     sf::sleep(sf::milliseconds(200)); // or sound.getDuration()
