@@ -27,7 +27,6 @@
 //All the class functions
 
 extern sf::SoundBuffer buffer;
-extern sf::Sound sound;
 extern Config *config;
 
 int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int member2){
@@ -37,6 +36,7 @@ int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int
     //clearValueColumn(window, renderer, vector[member2]);
     //reDrawScreen(renderer, vector, member1);
 
+    soundMtx.lock();
     aux[0] = vector[member1].value;
     aux[1] = vector[member1].rect.y;
     aux[2] = vector[member1].rect.h;
@@ -57,7 +57,7 @@ int Algorithm :: swapElements(std::vector<array_member>&vector, int member1, int
     //updateValueColumn(window, renderer, vector[member2]);
     //reDrawScreen(renderer, vector, member2);
 
-    this->playSound(vector);
+    soundMtx.unlock();
     return 0;
 }
 
@@ -65,7 +65,6 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
     for(int i = 0; i < (int)array.size(); i++){
         for(int j = 0; j < (int)array.size() - i - 1; j++){
             mtx.lock();
-            soundMtx.lock();
             if(array[j].value > array[j + 1].value){
                 /*
                 array_member aux = array[j];
@@ -77,7 +76,6 @@ void BubbleSort :: SortThread(std::vector<array_member> &array, SDL_Window *wind
             comparisons ++;
             arrayAccesses += 2;
             this->index = j;
-            soundMtx.unlock();
             mtx.unlock();
 
             std::this_thread::sleep_for(std::chrono::microseconds(config->delay));
@@ -359,8 +357,8 @@ int Algorithm :: loop(SDL_Window *window, SDL_Renderer *renderer, std::vector<ar
     std::thread sortThread(&Algorithm::SortThread, this, std::ref(vector), window, renderer); 
     sortThread.detach();
 
-    //std::thread playSound(&Algorithm::playSound, this, std::ref(vector)); 
-    //playSound.detach();
+    std::thread playSound(&Algorithm::playSound, this, std::ref(vector)); 
+    playSound.detach();
 
     while(running){
         //bubbleSort(vector, window, renderer);
@@ -625,6 +623,7 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     */
     algoritm.mtx.lock();
+    algoritm.soundMtx.lock();
 
     for (const auto& member : vector) {
         SDL_SetRenderDrawColor(renderer, member.color.r, member.color.g, member.color.b, 255);
@@ -642,6 +641,7 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     algoritm.displayText(renderer);
 
     algoritm.mtx.unlock();
+    algoritm.soundMtx.unlock();
 
     SDL_RenderPresent(renderer);
 
@@ -652,17 +652,28 @@ float reDrawScreen(SDL_Renderer *renderer, std::vector<array_member> &vector, in
     }
     return deltaTime;
 }
-
 void Algorithm :: playSound(std::vector<array_member> &vector){
     float minPitch = 0.1f;
-    float maxPitch = 3.0f;
+    float maxPitch = 2.0f;
 
-    float pitch = minPitch + (static_cast<float>(this->index) / 400.0f) * (maxPitch - minPitch);
+    sf::Sound sound;
+    sound.setBuffer(buffer);
 
-    sound.setPitch(pitch);
-    sound.play();
-    std::this_thread::sleep_for(std::chrono::milliseconds(config->delay));
+    uint16_t previousIndex = this->index;
+    while(!this->finished){
+        if(previousIndex != this->index){
 
+            soundMtx.lock();
+
+            float pitch = minPitch + (static_cast<float>(vector[this->index].value) / 400.0f) * (maxPitch - minPitch);
+            sound.setPitch(pitch);
+            sound.play();
+
+            soundMtx.unlock();
+            previousIndex = this->index;
+            std::this_thread::sleep_for(std::chrono::milliseconds(config->delay));
+        }
+    }
     return;
 }
 /*
