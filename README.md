@@ -16,4 +16,6 @@ List of Proyects:
 
 3- Arcanoid Game
     This is an implementation of an arkanoid game we did in z80 assembly (which you can find in a repo), following the same structure on how to implement graphics and logic
-    It was done using SDL, my first time using it
+    It was done using SDL, my first time using it  
+    I ended up just creating different repos for the diffent projects that i have
+
